@@ -31,7 +31,8 @@ defmodule LvsToolWeb.UserRegistrationLive do
           Oops, something went wrong! Please check the errors below.
         </.error>
 
-        <.input field={@form[:email]} type="email" label="Email" required />
+        <.input field={@form[:email]} type="email" label="E-Mail" required />
+        <.input field={@form[:name]} type="text" label="Name" required />
         <.input field={@form[:password]} type="password" label="Password" required />
         <.input
           field={@form[:role]}
@@ -40,7 +41,6 @@ defmodule LvsToolWeb.UserRegistrationLive do
           required
           options={[{"Dekanat", "Dekanat"}, {"Dozent", "Dozent"}, {"Präsidium", "Präsidium"}]}
         />
-
         <:actions>
           <.button phx-disable-with="Creating account..." class="w-full">Create an account</.button>
         </:actions>

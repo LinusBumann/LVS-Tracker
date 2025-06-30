@@ -9,6 +9,7 @@ defmodule LvsTool.Accounts.User do
     field :current_password, :string, virtual: true, redact: true
     field :confirmed_at, :utc_datetime
     field :role, :string
+    field :name, :string
 
     timestamps(type: :utc_datetime)
   end
@@ -38,8 +39,8 @@ defmodule LvsTool.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password, :role])
-    |> validate_required([:role])
+    |> cast(attrs, [:email, :password, :role, :name])
+    |> validate_required([:role, :name])
     |> validate_inclusion(:role, ["Dekanat", "Dozent", "Präsidium"])
     |> validate_email(opts)
     |> validate_password(opts)
