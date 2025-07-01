@@ -350,4 +350,30 @@ defmodule LvsTool.Accounts do
       {:error, :user, changeset, _} -> {:error, changeset}
     end
   end
+
+  @doc """
+  Gibt ein `%Ecto.Changeset{}` für die Namensänderung zurück.
+
+  ## Beispiele
+      iex> change_user_name(user)
+      %Ecto.Changeset{data: %User{}}
+  """
+  def change_user_name(user, attrs \\ %{}) do
+    User.name_changeset(user, attrs)
+  end
+
+  @doc """
+  Aktualisiert den Namen des Nutzers.
+
+  ## Beispiele
+      iex> update_user_name(user, %{name: ...})
+      {:ok, %User{}}
+      iex> update_user_name(user, %{name: ...})
+      {:error, %Ecto.Changeset{}}
+  """
+  def update_user_name(user, attrs) do
+    user
+    |> User.name_changeset(attrs)
+    |> Repo.update()
+  end
 end

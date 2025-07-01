@@ -13,6 +13,20 @@ defmodule LvsToolWeb.UserSettingsLive do
     <div class="space-y-12 divide-y">
       <div>
         <.simple_form
+          for={@name_form}
+          id="name_form"
+          phx-submit="update_name"
+          phx-change="validate_name"
+        >
+          <.input field={@name_form[:name]} type="text" label="Name" required />
+          <:actions>
+            <.button phx-disable-with="Ändere...">Name ändern</.button>
+          </:actions>
+        </.simple_form>
+      </div>
+      
+      <div>
+        <.simple_form
           for={@email_form}
           id="email_form"
           phx-submit="update_email"
@@ -33,6 +47,7 @@ defmodule LvsToolWeb.UserSettingsLive do
           </:actions>
         </.simple_form>
       </div>
+      
       <div>
         <.simple_form
           for={@password_form}
@@ -90,6 +105,7 @@ defmodule LvsToolWeb.UserSettingsLive do
     user = socket.assigns.current_user
     email_changeset = Accounts.change_user_email(user)
     password_changeset = Accounts.change_user_password(user)
+    name_changeset = Accounts.change_user_name(user)
 
     socket =
       socket
@@ -98,6 +114,7 @@ defmodule LvsToolWeb.UserSettingsLive do
       |> assign(:current_email, user.email)
       |> assign(:email_form, to_form(email_changeset))
       |> assign(:password_form, to_form(password_changeset))
+      |> assign(:name_form, to_form(name_changeset))
       |> assign(:trigger_submit, false)
 
     {:ok, socket}
@@ -162,6 +179,37 @@ defmodule LvsToolWeb.UserSettingsLive do
 
       {:error, changeset} ->
         {:noreply, assign(socket, password_form: to_form(changeset))}
+    end
+  end
+
+  def handle_event("validate_name", %{"user" => user_params}, socket) do
+    name_form =
+      socket.assigns.current_user
+      |> Accounts.change_user_name(user_params)
+      |> Map.put(:action, :validate)
+      |> to_form()
+
+    {:noreply, assign(socket, name_form: name_form)}
+  end
+
+  def handle_event("update_name", params, socket) do
+    %{"user" => user_params} = params
+    user = socket.assigns.current_user
+
+    case Accounts.update_user_name(user, user_params) do
+      {:ok, user} ->
+        name_form =
+          user
+          |> Accounts.change_user_name(user_params)
+          |> to_form()
+
+        {:noreply,
+         socket
+         |> put_flash(:info, "Name erfolgreich geändert")
+         |> assign(name_form: name_form)}
+
+      {:error, changeset} ->
+        {:noreply, assign(socket, name_form: to_form(changeset))}
     end
   end
 end
