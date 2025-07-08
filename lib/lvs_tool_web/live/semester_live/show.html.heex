@@ -1,0 +1,26 @@
+<.header>
+  Semester {@semester.id}
+  <:subtitle>This is a semester record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/semesters/#{@semester}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit semester</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name">{@semester.name}</:item>
+</.list>
+
+<.back navigate={~p"/semesters"}>Back to semesters</.back>
+
+<.modal :if={@live_action == :edit} id="semester-modal" show on_cancel={JS.patch(~p"/semesters/#{@semester}")}>
+  <.live_component
+    module={LvsToolWeb.SemesterLive.FormComponent}
+    id={@semester.id}
+    title={@page_title}
+    action={@live_action}
+    semester={@semester}
+    patch={~p"/semesters/#{@semester}"}
+  />
+</.modal>
