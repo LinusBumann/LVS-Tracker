@@ -35,11 +35,11 @@ defmodule LvsToolWeb.UserRegistrationLive do
         <.input field={@form[:name]} type="text" label="Name" required />
         <.input field={@form[:password]} type="password" label="Password" required />
         <.input
-          field={@form[:role]}
+          field={@form[:role_id]}
           type="select"
           label="Rolle"
           required
-          options={[{"Dekanat", "Dekanat"}, {"Dozent", "Dozent"}, {"Präsidium", "Präsidium"}]}
+          options={Enum.map(@roles, &{&1.name, &1.id})}
         />
         <:actions>
           <.button phx-disable-with="Creating account..." class="w-full">Create an account</.button>
@@ -51,10 +51,11 @@ defmodule LvsToolWeb.UserRegistrationLive do
 
   def mount(_params, _session, socket) do
     changeset = Accounts.change_user_registration(%User{})
+    roles = LvsTool.Repo.all(LvsTool.Accounts.Role)
 
     socket =
       socket
-      |> assign(trigger_submit: false, check_errors: false)
+      |> assign(roles: roles, trigger_submit: false, check_errors: false)
       |> assign_form(changeset)
 
     {:ok, socket, temporary_assigns: [form: nil]}
