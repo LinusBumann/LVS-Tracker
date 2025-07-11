@@ -7,7 +7,7 @@ defmodule LvsTool.Courses.Standardcoursetype do
     field :imputationfactor, :float
     field :abbreviation, :string
 
-    # has_many :courses, LvsTool.Courses.Course
+    has_many :standard_course_entries, LvsTool.Courses.StandardCourseEntry
 
     timestamps(type: :utc_datetime)
   end

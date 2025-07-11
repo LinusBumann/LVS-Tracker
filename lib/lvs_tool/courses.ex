@@ -293,4 +293,100 @@ defmodule LvsTool.Courses do
   def change_studygroup(%Studygroup{} = studygroup, attrs \\ %{}) do
     Studygroup.changeset(studygroup, attrs)
   end
+
+  alias LvsTool.Courses.StandardCourseEntry
+
+  @doc """
+  Returns the list of standard_course_entries.
+
+  ## Examples
+
+      iex> list_standard_course_entries()
+      [%StandardCourseEntry{}, ...]
+
+  """
+  def list_standard_course_entries do
+    Repo.all(StandardCourseEntry)
+  end
+
+  @doc """
+  Gets a single standard_course_entry.
+
+  Raises `Ecto.NoResultsError` if the Standard course entry does not exist.
+
+  ## Examples
+
+      iex> get_standard_course_entry!(123)
+      %StandardCourseEntry{}
+
+      iex> get_standard_course_entry!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_standard_course_entry!(id), do: Repo.get!(StandardCourseEntry, id)
+
+  @doc """
+  Creates a standard_course_entry.
+
+  ## Examples
+
+      iex> create_standard_course_entry(%{field: value})
+      {:ok, %StandardCourseEntry{}}
+
+      iex> create_standard_course_entry(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_standard_course_entry(attrs \\ %{}) do
+    %StandardCourseEntry{}
+    |> StandardCourseEntry.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a standard_course_entry.
+
+  ## Examples
+
+      iex> update_standard_course_entry(standard_course_entry, %{field: new_value})
+      {:ok, %StandardCourseEntry{}}
+
+      iex> update_standard_course_entry(standard_course_entry, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_standard_course_entry(%StandardCourseEntry{} = standard_course_entry, attrs) do
+    standard_course_entry
+    |> StandardCourseEntry.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a standard_course_entry.
+
+  ## Examples
+
+      iex> delete_standard_course_entry(standard_course_entry)
+      {:ok, %StandardCourseEntry{}}
+
+      iex> delete_standard_course_entry(standard_course_entry)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_standard_course_entry(%StandardCourseEntry{} = standard_course_entry) do
+    Repo.delete(standard_course_entry)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking standard_course_entry changes.
+
+  ## Examples
+
+      iex> change_standard_course_entry(standard_course_entry)
+      %Ecto.Changeset{data: %StandardCourseEntry{}}
+
+  """
+  def change_standard_course_entry(%StandardCourseEntry{} = standard_course_entry, attrs \\ %{}) do
+    StandardCourseEntry.changeset(standard_course_entry, attrs)
+  end
 end

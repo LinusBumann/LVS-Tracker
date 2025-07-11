@@ -57,4 +57,22 @@ defmodule LvsTool.CoursesFixtures do
 
     studygroup
   end
+
+  @doc """
+  Generate a standard_course_entry.
+  """
+  def standard_course_entry_fixture(attrs \\ %{}) do
+    {:ok, standard_course_entry} =
+      attrs
+      |> Enum.into(%{
+        kind: "some kind",
+        lvs: 120.5,
+        percent: 120.5,
+        student_count: 42,
+        sws: 120.5
+      })
+      |> LvsTool.Courses.create_standard_course_entry()
+
+    standard_course_entry
+  end
 end

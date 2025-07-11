@@ -168,4 +168,66 @@ defmodule LvsTool.CoursesTest do
       assert %Ecto.Changeset{} = Courses.change_studygroup(studygroup)
     end
   end
+
+  describe "standard_course_entries" do
+    alias LvsTool.Courses.StandardCourseEntry
+
+    import LvsTool.CoursesFixtures
+
+    @invalid_attrs %{kind: nil, sws: nil, student_count: nil, percent: nil, lvs: nil}
+
+    test "list_standard_course_entries/0 returns all standard_course_entries" do
+      standard_course_entry = standard_course_entry_fixture()
+      assert Courses.list_standard_course_entries() == [standard_course_entry]
+    end
+
+    test "get_standard_course_entry!/1 returns the standard_course_entry with given id" do
+      standard_course_entry = standard_course_entry_fixture()
+      assert Courses.get_standard_course_entry!(standard_course_entry.id) == standard_course_entry
+    end
+
+    test "create_standard_course_entry/1 with valid data creates a standard_course_entry" do
+      valid_attrs = %{kind: "some kind", sws: 120.5, student_count: 42, percent: 120.5, lvs: 120.5}
+
+      assert {:ok, %StandardCourseEntry{} = standard_course_entry} = Courses.create_standard_course_entry(valid_attrs)
+      assert standard_course_entry.kind == "some kind"
+      assert standard_course_entry.sws == 120.5
+      assert standard_course_entry.student_count == 42
+      assert standard_course_entry.percent == 120.5
+      assert standard_course_entry.lvs == 120.5
+    end
+
+    test "create_standard_course_entry/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Courses.create_standard_course_entry(@invalid_attrs)
+    end
+
+    test "update_standard_course_entry/2 with valid data updates the standard_course_entry" do
+      standard_course_entry = standard_course_entry_fixture()
+      update_attrs = %{kind: "some updated kind", sws: 456.7, student_count: 43, percent: 456.7, lvs: 456.7}
+
+      assert {:ok, %StandardCourseEntry{} = standard_course_entry} = Courses.update_standard_course_entry(standard_course_entry, update_attrs)
+      assert standard_course_entry.kind == "some updated kind"
+      assert standard_course_entry.sws == 456.7
+      assert standard_course_entry.student_count == 43
+      assert standard_course_entry.percent == 456.7
+      assert standard_course_entry.lvs == 456.7
+    end
+
+    test "update_standard_course_entry/2 with invalid data returns error changeset" do
+      standard_course_entry = standard_course_entry_fixture()
+      assert {:error, %Ecto.Changeset{}} = Courses.update_standard_course_entry(standard_course_entry, @invalid_attrs)
+      assert standard_course_entry == Courses.get_standard_course_entry!(standard_course_entry.id)
+    end
+
+    test "delete_standard_course_entry/1 deletes the standard_course_entry" do
+      standard_course_entry = standard_course_entry_fixture()
+      assert {:ok, %StandardCourseEntry{}} = Courses.delete_standard_course_entry(standard_course_entry)
+      assert_raise Ecto.NoResultsError, fn -> Courses.get_standard_course_entry!(standard_course_entry.id) end
+    end
+
+    test "change_standard_course_entry/1 returns a standard_course_entry changeset" do
+      standard_course_entry = standard_course_entry_fixture()
+      assert %Ecto.Changeset{} = Courses.change_standard_course_entry(standard_course_entry)
+    end
+  end
 end
