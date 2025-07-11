@@ -60,4 +60,58 @@ defmodule LvsTool.CoursesTest do
       assert %Ecto.Changeset{} = Courses.change_standardcoursetype(standardcoursetype)
     end
   end
+
+  describe "standardcoursenames" do
+    alias LvsTool.Courses.Standardcoursename
+
+    import LvsTool.CoursesFixtures
+
+    @invalid_attrs %{name: nil}
+
+    test "list_standardcoursenames/0 returns all standardcoursenames" do
+      standardcoursename = standardcoursename_fixture()
+      assert Courses.list_standardcoursenames() == [standardcoursename]
+    end
+
+    test "get_standardcoursename!/1 returns the standardcoursename with given id" do
+      standardcoursename = standardcoursename_fixture()
+      assert Courses.get_standardcoursename!(standardcoursename.id) == standardcoursename
+    end
+
+    test "create_standardcoursename/1 with valid data creates a standardcoursename" do
+      valid_attrs = %{name: "some name"}
+
+      assert {:ok, %Standardcoursename{} = standardcoursename} = Courses.create_standardcoursename(valid_attrs)
+      assert standardcoursename.name == "some name"
+    end
+
+    test "create_standardcoursename/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Courses.create_standardcoursename(@invalid_attrs)
+    end
+
+    test "update_standardcoursename/2 with valid data updates the standardcoursename" do
+      standardcoursename = standardcoursename_fixture()
+      update_attrs = %{name: "some updated name"}
+
+      assert {:ok, %Standardcoursename{} = standardcoursename} = Courses.update_standardcoursename(standardcoursename, update_attrs)
+      assert standardcoursename.name == "some updated name"
+    end
+
+    test "update_standardcoursename/2 with invalid data returns error changeset" do
+      standardcoursename = standardcoursename_fixture()
+      assert {:error, %Ecto.Changeset{}} = Courses.update_standardcoursename(standardcoursename, @invalid_attrs)
+      assert standardcoursename == Courses.get_standardcoursename!(standardcoursename.id)
+    end
+
+    test "delete_standardcoursename/1 deletes the standardcoursename" do
+      standardcoursename = standardcoursename_fixture()
+      assert {:ok, %Standardcoursename{}} = Courses.delete_standardcoursename(standardcoursename)
+      assert_raise Ecto.NoResultsError, fn -> Courses.get_standardcoursename!(standardcoursename.id) end
+    end
+
+    test "change_standardcoursename/1 returns a standardcoursename changeset" do
+      standardcoursename = standardcoursename_fixture()
+      assert %Ecto.Changeset{} = Courses.change_standardcoursename(standardcoursename)
+    end
+  end
 end

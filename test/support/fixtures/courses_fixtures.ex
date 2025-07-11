@@ -19,4 +19,23 @@ defmodule LvsTool.CoursesFixtures do
 
     standardcoursetype
   end
+
+  @doc """
+  Generate a unique standardcoursename name.
+  """
+  def unique_standardcoursename_name, do: "some name#{System.unique_integer([:positive])}"
+
+  @doc """
+  Generate a standardcoursename.
+  """
+  def standardcoursename_fixture(attrs \\ %{}) do
+    {:ok, standardcoursename} =
+      attrs
+      |> Enum.into(%{
+        name: unique_standardcoursename_name()
+      })
+      |> LvsTool.Courses.create_standardcoursename()
+
+    standardcoursename
+  end
 end
