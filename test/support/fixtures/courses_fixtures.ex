@@ -38,4 +38,23 @@ defmodule LvsTool.CoursesFixtures do
 
     standardcoursename
   end
+
+  @doc """
+  Generate a unique studygroup name.
+  """
+  def unique_studygroup_name, do: "some name#{System.unique_integer([:positive])}"
+
+  @doc """
+  Generate a studygroup.
+  """
+  def studygroup_fixture(attrs \\ %{}) do
+    {:ok, studygroup} =
+      attrs
+      |> Enum.into(%{
+        name: unique_studygroup_name()
+      })
+      |> LvsTool.Courses.create_studygroup()
+
+    studygroup
+  end
 end

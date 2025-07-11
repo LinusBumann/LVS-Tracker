@@ -197,4 +197,100 @@ defmodule LvsTool.Courses do
   def change_standardcoursename(%Standardcoursename{} = standardcoursename, attrs \\ %{}) do
     Standardcoursename.changeset(standardcoursename, attrs)
   end
+
+  alias LvsTool.Courses.Studygroup
+
+  @doc """
+  Returns the list of studygroups.
+
+  ## Examples
+
+      iex> list_studygroups()
+      [%Studygroup{}, ...]
+
+  """
+  def list_studygroups do
+    Repo.all(Studygroup)
+  end
+
+  @doc """
+  Gets a single studygroup.
+
+  Raises `Ecto.NoResultsError` if the Studygroup does not exist.
+
+  ## Examples
+
+      iex> get_studygroup!(123)
+      %Studygroup{}
+
+      iex> get_studygroup!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_studygroup!(id), do: Repo.get!(Studygroup, id)
+
+  @doc """
+  Creates a studygroup.
+
+  ## Examples
+
+      iex> create_studygroup(%{field: value})
+      {:ok, %Studygroup{}}
+
+      iex> create_studygroup(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_studygroup(attrs \\ %{}) do
+    %Studygroup{}
+    |> Studygroup.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a studygroup.
+
+  ## Examples
+
+      iex> update_studygroup(studygroup, %{field: new_value})
+      {:ok, %Studygroup{}}
+
+      iex> update_studygroup(studygroup, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_studygroup(%Studygroup{} = studygroup, attrs) do
+    studygroup
+    |> Studygroup.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a studygroup.
+
+  ## Examples
+
+      iex> delete_studygroup(studygroup)
+      {:ok, %Studygroup{}}
+
+      iex> delete_studygroup(studygroup)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_studygroup(%Studygroup{} = studygroup) do
+    Repo.delete(studygroup)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking studygroup changes.
+
+  ## Examples
+
+      iex> change_studygroup(studygroup)
+      %Ecto.Changeset{data: %Studygroup{}}
+
+  """
+  def change_studygroup(%Studygroup{} = studygroup, attrs \\ %{}) do
+    Studygroup.changeset(studygroup, attrs)
+  end
 end
