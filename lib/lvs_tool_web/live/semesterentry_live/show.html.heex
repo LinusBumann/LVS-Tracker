@@ -1,21 +1,41 @@
 <.header>
-  Semesterentry {@semesterentry.id}
-  <:subtitle>This is a semesterentry record from your database.</:subtitle>
+  {@semesterentry.name}
+  <:subtitle>Deine Einreichung für das Semester {@semesterentry.name}</:subtitle>
   <:actions>
     <.link patch={~p"/semesterentrys/#{@semesterentry}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Edit semesterentry</.button>
+      <.button>Semestereintrag bearbeiten</.button>
     </.link>
   </:actions>
 </.header>
 
 <.list>
   <:item title="Name">{@semesterentry.name}</:item>
-  <:item title="Status">{@semesterentry.status}</:item>
+  <:item title="Status">
+    <span class={
+    "inline-block w-56 text-center px-2 py-1 rounded-md " <>
+    case @semesterentry.status do
+      "Offen" -> "bg-gray-100 text-gray-900"
+      "Eingereicht" -> "bg-orange-100 text-orange-900"
+      "Bestätigt" -> "bg-green-100 text-green-900"
+      "Abgelehnt" -> "bg-red-100 text-red-900"
+      "An das Präsidium geschickt" -> "bg-blue-100 text-blue-900"
+      "Akzeptiert" -> "bg-green-100 text-green-900"
+      _ -> "bg-gray-100 text-gray-900"
+    end
+  }>
+      {@semesterentry.status}
+    </span>
+  </:item>
 </.list>
 
-<.back navigate={~p"/semesterentrys"}>Back to semesterentrys</.back>
+<.back navigate={~p"/semesterentrys"}>Zu deinen Semestereinträgen zurück</.back>
 
-<.modal :if={@live_action == :edit} id="semesterentry-modal" show on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}")}>
+<.modal
+  :if={@live_action == :edit}
+  id="semesterentry-modal"
+  show
+  on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}")}
+>
   <.live_component
     module={LvsToolWeb.SemesterentryLive.FormComponent}
     id={@semesterentry.id}
