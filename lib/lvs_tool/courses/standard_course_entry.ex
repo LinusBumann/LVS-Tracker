@@ -10,7 +10,9 @@ defmodule LvsTool.Courses.StandardCourseEntry do
     field :lvs, :float
 
     # Liefert auch den Anrechnungsfaktor
-    belongs_to :standardcoursetype, LvsTool.Courses.Standardcoursetype
+    many_to_many :standardcoursetypes, LvsTool.Courses.Standardcoursetype,
+      join_through: "course_entry_types"
+
     # Liefert den Kursnamen
     belongs_to :standardcoursename, LvsTool.Courses.Standardcoursename
     # Liefert die Studiengruppe
