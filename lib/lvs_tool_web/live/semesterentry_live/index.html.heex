@@ -1,0 +1,48 @@
+<.header>
+  Listing Semesterentrys
+  <:actions>
+    <.link patch={~p"/semesterentrys/new"}>
+      <.button>New Semesterentry</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="semesterentrys"
+  rows={@streams.semesterentrys}
+  row_click={fn {_id, semesterentry} -> JS.navigate(~p"/semesterentrys/#{semesterentry}") end}
+>
+  <:col :let={{_id, semesterentry}} label="Name">{semesterentry.name}</:col>
+  <:col :let={{_id, semesterentry}} label="Status">{semesterentry.status}</:col>
+  <:action :let={{_id, semesterentry}}>
+    <div class="sr-only">
+      <.link navigate={~p"/semesterentrys/#{semesterentry}"}>Show</.link>
+    </div>
+    <.link patch={~p"/semesterentrys/#{semesterentry}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, semesterentry}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: semesterentry.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="semesterentry-modal"
+  show
+  on_cancel={JS.patch(~p"/semesterentrys")}
+>
+  <.live_component
+    module={LvsToolWeb.SemesterentryLive.FormComponent}
+    user={@current_user}
+    id={@semesterentry.id || :new}
+    title={@page_title}
+    action={@live_action}
+    semesterentry={@semesterentry}
+    patch={~p"/semesterentrys"}
+  />
+</.modal>

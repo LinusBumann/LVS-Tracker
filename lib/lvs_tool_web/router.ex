@@ -68,6 +68,13 @@ defmodule LvsToolWeb.Router do
       on_mount: [{LvsToolWeb.UserAuth, :ensure_authenticated}] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
+
+      live "/semesterentrys", SemesterentryLive.Index, :index
+      live "/semesterentrys/new", SemesterentryLive.Index, :new
+      live "/semesterentrys/:id/edit", SemesterentryLive.Index, :edit
+
+      live "/semesterentrys/:id", SemesterentryLive.Show, :show
+      live "/semesterentrys/:id/show/edit", SemesterentryLive.Show, :edit
     end
   end
 

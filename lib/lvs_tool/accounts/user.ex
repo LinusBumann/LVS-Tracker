@@ -11,6 +11,7 @@ defmodule LvsTool.Accounts.User do
     field :name, :string
 
     belongs_to :role, LvsTool.Accounts.Role
+    has_many :semesterentrys, LvsTool.Semesterentrys.Semesterentry
 
     timestamps(type: :utc_datetime)
   end
