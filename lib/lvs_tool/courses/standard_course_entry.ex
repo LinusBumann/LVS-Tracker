@@ -14,7 +14,8 @@ defmodule LvsTool.Courses.StandardCourseEntry do
     # Liefert den Kursnamen
     belongs_to :standardcoursename, LvsTool.Courses.Standardcoursename
     # Liefert die Studiengruppe
-    belongs_to :studygroup, LvsTool.Courses.Studygroup
+    many_to_many :studygroups, LvsTool.Courses.Studygroup,
+      join_through: "course_entry_studygroups"
 
     timestamps(type: :utc_datetime)
   end

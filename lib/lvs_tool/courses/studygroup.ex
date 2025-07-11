@@ -5,7 +5,8 @@ defmodule LvsTool.Courses.Studygroup do
   schema "studygroups" do
     field :name, :string
 
-    has_many :standard_course_entries, LvsTool.Courses.StandardCourseEntry
+    many_to_many :standard_course_entries, LvsTool.Courses.StandardCourseEntry,
+      join_through: "course_entry_studygroups"
 
     timestamps(type: :utc_datetime)
   end
