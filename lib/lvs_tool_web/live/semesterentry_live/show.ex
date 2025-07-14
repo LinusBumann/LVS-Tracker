@@ -2,19 +2,26 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
   use LvsToolWeb, :live_view
 
   alias LvsTool.Semesterentrys
+  alias LvsTool.Courses
   alias Phoenix.LiveView.JS
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, active_tab: "standard-courses")}
+    {:ok,
+     socket
+     |> assign(:active_tab, "standard-courses")
+     |> stream(:standard_course_entries, Courses.list_standard_course_entries())}
   end
 
   @impl true
   def handle_params(%{"id" => id} = params, _, socket) do
+    semesterentry = Semesterentrys.get_semesterentry!(id)
+
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:semesterentry, Semesterentrys.get_semesterentry!(id))
+     |> assign(:semesterentry, semesterentry)
+     |> stream(:standard_course_entries, semesterentry.standard_course_entries, reset: true)
      |> assign(:course_id, params["course_id"])
      |> assign(:project_id, params["project_id"])
      |> assign(:excursion_id, params["excursion_id"])

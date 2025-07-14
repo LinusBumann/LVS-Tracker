@@ -39,7 +39,10 @@ defmodule LvsTool.Semesterentrys do
       ** (Ecto.NoResultsError)
 
   """
-  def get_semesterentry!(id), do: Repo.get!(Semesterentry, id)
+  def get_semesterentry!(id) do
+    Repo.get!(Semesterentry, id)
+    |> Repo.preload(:standard_course_entries)
+  end
 
   @doc """
   Creates a semesterentry.
