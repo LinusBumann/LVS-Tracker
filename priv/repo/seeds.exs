@@ -10,6 +10,24 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
+"""
+roles = [
+  %{name: "Professor/in (allgemein)", lvs_min: 18, lvs_max: 18, has_lvs: true},
+  %{name: "Lehrkraft für besondere Aufgaben", lvs_min: 20, lvs_max: 24, has_lvs: true},
+  %{name: "Wissenschaftliche/r Mitarbeiter/in", lvs_min: 9, lvs_max: 9, has_lvs: true},
+  %{name: "Wissenschaftl. MA (befristet, Qualauftrag)", lvs_min: 4, lvs_max: 4, has_lvs: true},
+  %{name: "Prof. bei gemeinsamer Berufung", lvs_min: 4.5, lvs_max: 4.5, has_lvs: true},
+  %{name: "Dekanat", lvs_min: nil, lvs_max: nil, has_lvs: false},
+  %{name: "Präsidium", lvs_min: nil, lvs_max: nil, has_lvs: false}
+]
+
+Enum.each(roles, fn role_attrs ->
+  LvsTool.Repo.insert!(LvsTool.Accounts.Role.changeset(%LvsTool.Accounts.Role{}, role_attrs))
+end)
+
+IO.puts("Rollen wurden erfolgreich eingefügt!")
+"""
+
 # Studygroup Beispiele für Semester 1-5
 """
 studygroups = [
@@ -103,3 +121,33 @@ end)
 
 IO.puts("Master-Standardcoursenames wurden erfolgreich eingefügt!")
 """
+
+# Standard-Kurs-Typ auswählen (z.B. "Vorlesung")
+coursetype = LvsTool.Repo.get_by!(LvsTool.Courses.Standardcoursetype, name: "Vorlesung")
+
+# Studiengruppe auswählen (z.B. "EW1")
+studygroup = LvsTool.Repo.get_by!(LvsTool.Courses.Studygroup, name: "EW1")
+
+# Standard-Kurs-Eintrag erstellen
+standard_course_entry =
+  LvsTool.Repo.insert!(%LvsTool.Courses.StandardCourseEntry{
+    kind: "Pflicht",
+    sws: 4.0,
+    student_count: 25,
+    percent: 100.0,
+    lvs: 4.0,
+    standardcoursename_id: 8,
+    semesterentry_id: 1
+  })
+
+%LvsTool.Courses.CourseEntryType{
+  standard_course_entry_id: standard_course_entry.id,
+  standardcoursetype_id: coursetype.id
+}
+|> LvsTool.Repo.insert!()
+
+%LvsTool.Courses.CourseEntryStudygroup{
+  standard_course_entry_id: standard_course_entry.id,
+  studygroup_id: studygroup.id
+}
+|> LvsTool.Repo.insert!()
