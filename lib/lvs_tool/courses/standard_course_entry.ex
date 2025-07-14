@@ -35,6 +35,7 @@ defmodule LvsTool.Courses.StandardCourseEntry do
 
     # Liefert den Kursnamen
     belongs_to :standardcoursename, LvsTool.Courses.Standardcoursename
+    belongs_to :semesterentry, LvsTool.Semesterentrys.Semesterentry
 
     # Liefert die Studiengruppe
     many_to_many :studygroups, LvsTool.Courses.Studygroup,
@@ -52,9 +53,8 @@ defmodule LvsTool.Courses.StandardCourseEntry do
       :student_count,
       :percent,
       :lvs,
-      :standardcoursetype_id,
       :standardcoursename_id,
-      :studygroup_id
+      :semesterentry_id
     ])
     |> validate_required([
       :kind,
@@ -62,9 +62,8 @@ defmodule LvsTool.Courses.StandardCourseEntry do
       :student_count,
       :percent,
       :lvs,
-      :standardcoursetype_id,
       :standardcoursename_id,
-      :studygroup_id
+      :semesterentry_id
     ])
   end
 end

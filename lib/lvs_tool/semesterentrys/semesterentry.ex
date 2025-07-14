@@ -9,7 +9,9 @@ defmodule LvsTool.Semesterentrys.Semesterentry do
 
     belongs_to :user, LvsTool.Accounts.User
 
-    # has_many :standard_course_entries, LvsTool.Courses.StandardCourseEntry
+    has_many :standard_course_entries, LvsTool.Courses.StandardCourseEntry
+
+    # TODO: Add project, excursion, thesis, reduction entries
     # has_many :project_entries, LvsTool.Semesterentrys.ProjectEntry
     # has_many :excursion_entries, LvsTool.Semesterentrys.ExcursionEntry
     # has_many :thesis_entries, LvsTool.Semesterentrys.ThesisEntry
