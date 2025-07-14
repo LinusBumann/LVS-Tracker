@@ -5,7 +5,7 @@ defmodule LvsTool.Semesterentrys.Semesterentry do
   schema "semesterentrys" do
     field :name, :string
     field :status, :string
-    field :lvs_sum, :float
+    field :lvs_sum, :float, default: 0.0
 
     belongs_to :user, LvsTool.Accounts.User
 
