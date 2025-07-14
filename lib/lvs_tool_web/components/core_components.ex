@@ -687,4 +687,65 @@ defmodule LvsToolWeb.CoreComponents do
   def translate_errors(errors, field) when is_list(errors) do
     for {^field, {msg, opts}} <- errors, do: translate_error({msg, opts})
   end
+
+  @doc """
+  Renders a vertical tab navigation component.
+
+  ## Examples
+
+      <.tabs id="semester-tabs" active_tab="standard-courses">
+        <:tab id="standard-courses" label="Standard-Kurse">
+          Content for standard courses
+        </:tab>
+        <:tab id="projects" label="Projekte">
+          Content for projects
+        </:tab>
+      </.tabs>
+  """
+  attr :id, :string, required: true
+  attr :active_tab, :string, required: true
+
+  slot :tab, required: true do
+    attr :id, :string, required: true
+    attr :label, :string, required: true
+  end
+
+  def tabs(assigns) do
+    ~H"""
+    <div class="flex h-full">
+      <!-- Tab Navigation -->
+      <div class="w-64 bg-gray-50 border-r border-gray-200">
+        <nav class="mt-5 px-2">
+          <div class="space-y-1">
+            <button
+              :for={tab <- @tab}
+              id={"#{@id}-#{tab.id}-tab"}
+              phx-click={JS.push("switch_tab", value: %{tab_id: tab.id})}
+              class={[
+                "w-full text-left px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                if(@active_tab == tab.id,
+                  do: "bg-blue-100 text-blue-900 border-r-2 border-blue-500",
+                  else: "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                )
+              ]}
+            >
+              {tab.label}
+            </button>
+          </div>
+        </nav>
+      </div>
+      
+    <!-- Tab Content -->
+      <div class="flex-1 p-6">
+        <div
+          :for={tab <- @tab}
+          id={"#{@id}-#{tab.id}-content"}
+          class={if(@active_tab == tab.id, do: "block", else: "hidden")}
+        >
+          {render_slot(tab)}
+        </div>
+      </div>
+    </div>
+    """
+  end
 end

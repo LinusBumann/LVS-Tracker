@@ -1,47 +1,206 @@
-<.header>
-  {@semesterentry.name}
-  <:subtitle>Deine Einreichung für das Semester {@semesterentry.name}</:subtitle>
-  <:actions>
-    <.link patch={~p"/semesterentrys/#{@semesterentry}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Semestereintrag bearbeiten</.button>
-    </.link>
-  </:actions>
-</.header>
+<div class="min-h-screen">
+  <.header>
+    {@semesterentry.name}
+    <:subtitle>Deine Einreichung für das Semester {@semesterentry.name}</:subtitle>
+    <:actions>
+      <.link patch={~p"/semesterentrys/#{@semesterentry}/show/edit"} phx-click={JS.push_focus()}>
+        <.button>Semestereintrag bearbeiten</.button>
+      </.link>
+    </:actions>
+  </.header>
 
-<.list>
-  <:item title="Name">{@semesterentry.name}</:item>
-  <:item title="Status">
-    <span class={
-    "inline-block w-56 text-center px-2 py-1 rounded-md " <>
-    case @semesterentry.status do
-      "Offen" -> "bg-gray-100 text-gray-900"
-      "Eingereicht" -> "bg-orange-100 text-orange-900"
-      "Bestätigt" -> "bg-green-100 text-green-900"
-      "Abgelehnt" -> "bg-red-100 text-red-900"
-      "An das Präsidium geschickt" -> "bg-blue-100 text-blue-900"
-      "Akzeptiert" -> "bg-green-100 text-green-900"
-      _ -> "bg-gray-100 text-gray-900"
-    end
-  }>
-      {@semesterentry.status}
-    </span>
-  </:item>
-</.list>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white shadow rounded-lg">
+      <!-- Status Bar -->
+      <div class="px-6 py-4 border-b border-gray-200">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-4">
+            <span class="text-sm font-medium text-gray-500">Status:</span>
+            <span class={
+              "inline-block px-3 py-1 rounded-full text-sm font-medium " <>
+              case @semesterentry.status do
+                "Offen" -> "bg-gray-100 text-gray-900"
+                "Eingereicht" -> "bg-orange-100 text-orange-900"
+                "Bestätigt" -> "bg-green-100 text-green-900"
+                "Abgelehnt" -> "bg-red-100 text-red-900"
+                "An das Präsidium geschickt" -> "bg-blue-100 text-blue-900"
+                "Akzeptiert" -> "bg-green-100 text-green-900"
+                _ -> "bg-gray-100 text-gray-900"
+              end
+            }>
+              {@semesterentry.status}
+            </span>
+          </div>
+          <div class="text-sm text-gray-500">
+            LVS Summe: <span class="font-medium">{@semesterentry.lvs_sum}</span>
+          </div>
+        </div>
+      </div>
+      
+<!-- Tab Navigation -->
+      <.tabs id="semester-tabs" active_tab={@active_tab}>
+        <:tab id="standard-courses" label="Standard-Kurse">
+          <.live_component
+            module={LvsToolWeb.SemesterentryLive.StandardCoursesComponent}
+            id="standard-courses"
+            semesterentry={@semesterentry}
+          />
+        </:tab>
+        <:tab id="projects" label="Projekte">
+          <.live_component
+            module={LvsToolWeb.SemesterentryLive.ProjectsComponent}
+            id="projects"
+            semesterentry={@semesterentry}
+          />
+        </:tab>
+        <:tab id="excursions" label="Exkursionen">
+          <.live_component
+            module={LvsToolWeb.SemesterentryLive.ExcursionsComponent}
+            id="excursions"
+            semesterentry={@semesterentry}
+          />
+        </:tab>
+        <:tab id="thesis" label="Thesis">
+          <.live_component
+            module={LvsToolWeb.SemesterentryLive.ThesisComponent}
+            id="thesis"
+            semesterentry={@semesterentry}
+          />
+        </:tab>
+        <:tab id="reductions" label="Ermäßigungen">
+          <.live_component
+            module={LvsToolWeb.SemesterentryLive.ReductionsComponent}
+            id="reductions"
+            semesterentry={@semesterentry}
+          />
+        </:tab>
+      </.tabs>
+    </div>
+  </div>
 
-<.back navigate={~p"/semesterentrys"}>Zu deinen Semestereinträgen zurück</.back>
-
-<.modal
-  :if={@live_action == :edit}
-  id="semesterentry-modal"
-  show
-  on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}")}
->
-  <.live_component
-    module={LvsToolWeb.SemesterentryLive.FormComponent}
-    id={@semesterentry.id}
-    title={@page_title}
-    action={@live_action}
-    semesterentry={@semesterentry}
-    patch={~p"/semesterentrys/#{@semesterentry}"}
-  />
-</.modal>
+  <.back navigate={~p"/semesterentrys"}>Zu deinen Semestereinträgen zurück</.back>
+  
+<!-- Semesterentry Edit Modal -->
+  <.modal
+    :if={@live_action == :edit}
+    id="semesterentry-modal"
+    show
+    on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}")}
+  >
+    <.live_component
+      module={LvsToolWeb.SemesterentryLive.FormComponent}
+      id={@semesterentry.id}
+      title={@page_title}
+      action={@live_action}
+      semesterentry={@semesterentry}
+      patch={~p"/semesterentrys/#{@semesterentry}"}
+    />
+  </.modal>
+  
+<!-- Standard Course Modals -->
+  <.modal
+    :if={@live_action in [:new_standard_course, :edit_standard_course]}
+    id="standard-course-modal"
+    show
+    on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}")}
+  >
+    <div class="text-center py-12">
+      <div class="mx-auto h-12 w-12 text-gray-400">
+        <.icon name="hero-academic-cap" class="h-12 w-12" />
+      </div>
+      <h3 class="mt-2 text-sm font-medium text-gray-900">Standard-Kurs Modal</h3>
+      <p class="mt-1 text-sm text-gray-500">
+        {if @live_action == :new_standard_course,
+          do: "Neuer Standard-Kurs",
+          else: "Standard-Kurs bearbeiten"}
+      </p>
+      <p class="mt-1 text-sm text-gray-500">
+        Funktionalität wird noch implementiert.
+      </p>
+    </div>
+  </.modal>
+  
+<!-- Project Modals -->
+  <.modal
+    :if={@live_action in [:new_project, :edit_project]}
+    id="project-modal"
+    show
+    on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}")}
+  >
+    <div class="text-center py-12">
+      <div class="mx-auto h-12 w-12 text-gray-400">
+        <.icon name="hero-light-bulb" class="h-12 w-12" />
+      </div>
+      <h3 class="mt-2 text-sm font-medium text-gray-900">Projekt Modal</h3>
+      <p class="mt-1 text-sm text-gray-500">
+        {if @live_action == :new_project, do: "Neues Projekt", else: "Projekt bearbeiten"}
+      </p>
+      <p class="mt-1 text-sm text-gray-500">
+        Funktionalität wird noch implementiert.
+      </p>
+    </div>
+  </.modal>
+  
+<!-- Excursion Modals -->
+  <.modal
+    :if={@live_action in [:new_excursion, :edit_excursion]}
+    id="excursion-modal"
+    show
+    on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}")}
+  >
+    <div class="text-center py-12">
+      <div class="mx-auto h-12 w-12 text-gray-400">
+        <.icon name="hero-map" class="h-12 w-12" />
+      </div>
+      <h3 class="mt-2 text-sm font-medium text-gray-900">Exkursion Modal</h3>
+      <p class="mt-1 text-sm text-gray-500">
+        {if @live_action == :new_excursion, do: "Neue Exkursion", else: "Exkursion bearbeiten"}
+      </p>
+      <p class="mt-1 text-sm text-gray-500">
+        Funktionalität wird noch implementiert.
+      </p>
+    </div>
+  </.modal>
+  
+<!-- Thesis Modals -->
+  <.modal
+    :if={@live_action in [:new_thesis, :edit_thesis]}
+    id="thesis-modal"
+    show
+    on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}")}
+  >
+    <div class="text-center py-12">
+      <div class="mx-auto h-12 w-12 text-gray-400">
+        <.icon name="hero-document-text" class="h-12 w-12" />
+      </div>
+      <h3 class="mt-2 text-sm font-medium text-gray-900">Thesis Modal</h3>
+      <p class="mt-1 text-sm text-gray-500">
+        {if @live_action == :new_thesis, do: "Neue Thesis", else: "Thesis bearbeiten"}
+      </p>
+      <p class="mt-1 text-sm text-gray-500">
+        Funktionalität wird noch implementiert.
+      </p>
+    </div>
+  </.modal>
+  
+<!-- Reduction Modals -->
+  <.modal
+    :if={@live_action in [:new_reduction, :edit_reduction]}
+    id="reduction-modal"
+    show
+    on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}")}
+  >
+    <div class="text-center py-12">
+      <div class="mx-auto h-12 w-12 text-gray-400">
+        <.icon name="hero-minus-circle" class="h-12 w-12" />
+      </div>
+      <h3 class="mt-2 text-sm font-medium text-gray-900">Ermäßigung Modal</h3>
+      <p class="mt-1 text-sm text-gray-500">
+        {if @live_action == :new_reduction, do: "Neue Ermäßigung", else: "Ermäßigung bearbeiten"}
+      </p>
+      <p class="mt-1 text-sm text-gray-500">
+        Funktionalität wird noch implementiert.
+      </p>
+    </div>
+  </.modal>
+</div>
