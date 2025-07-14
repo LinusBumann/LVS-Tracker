@@ -5,7 +5,7 @@ defmodule LvsTool.Semesterentrys.Semesterentry do
   schema "semesterentrys" do
     field :name, :string
     field :status, :string
-    # field :lvs, :float
+    field :lvs_sum, :float
 
     belongs_to :user, LvsTool.Accounts.User
 
@@ -21,7 +21,7 @@ defmodule LvsTool.Semesterentrys.Semesterentry do
   @doc false
   def changeset(semesterentry, attrs) do
     semesterentry
-    |> cast(attrs, [:name, :status, :user_id])
-    |> validate_required([:name, :status, :user_id])
+    |> cast(attrs, [:name, :status, :user_id, :lvs_sum])
+    |> validate_required([:name, :status, :user_id, :lvs_sum])
   end
 end
