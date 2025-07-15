@@ -24,7 +24,13 @@ defmodule LvsToolWeb.SemesterentryLive.FormComponent do
           field={@form[:status]}
           type="select"
           label="Status"
-          options={["Offen", "Eingereicht", "Abgelehnt", "An das Präsidium geschickt", "Akzeptiert"]}
+          options={[
+            "Offen",
+            "Eingereicht",
+            "Abgelehnt",
+            "An das Präsidium weitergeleitet",
+            "Akzeptiert"
+          ]}
         />
         <:actions>
           <.button phx-disable-with="Saving...">Save Semesterentry</.button>
