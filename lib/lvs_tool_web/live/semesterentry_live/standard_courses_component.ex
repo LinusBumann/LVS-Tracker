@@ -1,8 +1,6 @@
 defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
   use LvsToolWeb, :live_component
 
-  alias LvsTool.Courses
-  alias LvsTool.Repo
   alias Phoenix.LiveView.JS
 
   @impl true
@@ -25,7 +23,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
         <div class="px-4 py-5 sm:p-6">
           <div class="flow-root">
             <ul role="list" class="-my-5 divide-y divide-gray-200">
-              <li :for={course <- @standard_courses} class="py-4">
+              <li :for={course <- @semesterentry.standard_course_entries} class="py-4">
                 <div class="flex items-center space-x-4">
                   <div class="flex-1 min-w-0">
                     <p class="text-sm font-medium text-gray-900 truncate">
@@ -33,11 +31,37 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
                     </p>
                     
                     <p class="text-sm text-gray-500">
-                      {course.kind} • {course.sws} SWS • {course.student_count} Studierende • {course.percent}%
+                      <span class="font-semibold">Kurstypen:</span> {Enum.map(
+                        course.standardcoursetypes,
+                        fn type -> type.name end
+                      )}
                     </p>
                     
                     <p class="text-sm text-gray-500">
-                      LVS: {course.lvs}
+                      <span class="font-semibold">Studiengruppen:</span> {Enum.map(
+                        course.studygroups,
+                        fn group -> group.name end
+                      )}
+                    </p>
+                    
+                    <p class="text-sm text-gray-500">
+                      <span class="font-semibold">Anzahl der Studierenden:</span> {course.student_count}
+                    </p>
+                    
+                    <p class="text-sm text-gray-500">
+                      <span class="font-semibold">Prozentualer Anteil:</span> {course.percent}%
+                    </p>
+                    
+                    <p class="text-sm text-gray-500">
+                      <span class="font-semibold">Kursart:</span> {course.kind}
+                    </p>
+                    
+                    <p class="text-sm text-gray-500">
+                      <span class="font-semibold">SWS:</span> {course.sws}
+                    </p>
+                    
+                    <p class="text-sm text-gray-500">
+                      <span class="font-semibold">LVS:</span> {course.lvs}
                     </p>
                   </div>
                   
@@ -65,7 +89,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
         </div>
       </div>
       
-      <div :if={@standard_courses == []} class="text-center py-12">
+      <div :if={@semesterentry.standard_course_entries == []} class="text-center py-12">
         <div class="mx-auto h-12 w-12 text-gray-400">
           <.icon name="hero-academic-cap" class="h-12 w-12" />
         </div>
@@ -88,15 +112,9 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
 
   @impl true
   def update(assigns, socket) do
-    # Temporär alle Standard-Kurse laden, bis die semesterentry_id Spalte hinzugefügt wurde
-    standard_courses =
-      Courses.list_standard_course_entries()
-      |> Repo.preload([:standardcoursename, :standardcoursetypes, :studygroups])
-
     {:ok,
      socket
-     |> assign(assigns)
-     |> assign(:standard_courses, standard_courses)}
+     |> assign(assigns)}
   end
 
   @impl true

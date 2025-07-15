@@ -2,15 +2,13 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
   use LvsToolWeb, :live_view
 
   alias LvsTool.Semesterentrys
-  alias LvsTool.Courses
   alias Phoenix.LiveView.JS
 
   @impl true
   def mount(_params, _session, socket) do
     {:ok,
      socket
-     |> assign(:active_tab, "standard-courses")
-     |> stream(:standard_course_entries, Courses.list_standard_course_entries())}
+     |> assign(:active_tab, "standard-courses")}
   end
 
   @impl true

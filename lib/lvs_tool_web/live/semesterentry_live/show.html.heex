@@ -1,21 +1,12 @@
 <div class="min-h-screen">
-  <.header>
-    {@semesterentry.name}
-    <:subtitle>Deine Einreichung für das Semester {@semesterentry.name}</:subtitle>
-    <:actions>
-      <.link patch={~p"/semesterentrys/#{@semesterentry}/show/edit"} phx-click={JS.push_focus()}>
-        <.button>Semestereintrag bearbeiten</.button>
-      </.link>
-    </:actions>
-  </.header>
-
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
     <div class="bg-white shadow rounded-lg">
       <!-- Status Bar -->
       <div class="px-6 py-4 border-b border-gray-200">
         <div class="flex items-center justify-between">
           <div class="flex items-center space-x-4">
-            <span class="text-sm font-medium text-gray-500">Status:</span>
+            <p class="text-sm font-bold text-gray-900">{@semesterentry.name}</p>
+            <p class="text-sm font-medium text-gray-500">Status:</p>
             <span class={
               "inline-block px-3 py-1 rounded-full text-sm font-medium " <>
               case @semesterentry.status do

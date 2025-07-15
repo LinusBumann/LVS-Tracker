@@ -123,7 +123,7 @@ IO.puts("Master-Standardcoursenames wurden erfolgreich eingefügt!")
 """
 
 # Standard-Kurs-Typ auswählen (z.B. "Vorlesung")
-coursetype = LvsTool.Repo.get_by!(LvsTool.Courses.Standardcoursetype, name: "Vorlesung")
+coursetype = LvsTool.Repo.get_by!(LvsTool.Courses.Standardcoursetype, name: "Workshop")
 
 # Studiengruppe auswählen (z.B. "EW1")
 studygroup = LvsTool.Repo.get_by!(LvsTool.Courses.Studygroup, name: "EW1")
@@ -133,10 +133,10 @@ standard_course_entry =
   LvsTool.Repo.insert!(%LvsTool.Courses.StandardCourseEntry{
     kind: "Pflicht",
     sws: 4.0,
-    student_count: 25,
+    student_count: 150,
     percent: 100.0,
     lvs: 4.0,
-    standardcoursename_id: 8,
+    standardcoursename_id: 2,
     semesterentry_id: 1
   })
 
