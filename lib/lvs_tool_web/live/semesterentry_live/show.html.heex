@@ -95,20 +95,15 @@
     show
     on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}")}
   >
-    <div class="text-center py-12">
-      <div class="mx-auto h-12 w-12 text-gray-400">
-        <.icon name="hero-academic-cap" class="h-12 w-12" />
-      </div>
-      <h3 class="mt-2 text-sm font-medium text-gray-900">Standard-Kurs Modal</h3>
-      <p class="mt-1 text-sm text-gray-500">
-        {if @live_action == :new_standard_course,
-          do: "Neuer Standard-Kurs",
-          else: "Standard-Kurs bearbeiten"}
-      </p>
-      <p class="mt-1 text-sm text-gray-500">
-        Funktionalität wird noch implementiert.
-      </p>
-    </div>
+    <.live_component
+      module={LvsToolWeb.SemesterentryLive.StandardCourseFormComponent}
+      id={@standard_course_entry.id || :new}
+      title={@page_title}
+      action={@live_action}
+      standard_course_entry={@standard_course_entry}
+      standard_course_types={@standard_course_types}
+      patch={~p"/semesterentrys/#{@semesterentry}"}
+    />
   </.modal>
   
 <!-- Project Modals -->

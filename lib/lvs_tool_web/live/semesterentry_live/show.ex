@@ -2,6 +2,8 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
   use LvsToolWeb, :live_view
 
   alias LvsTool.Semesterentrys
+  alias LvsTool.Courses.StandardCourseEntry
+  alias LvsTool.Courses
   alias Phoenix.LiveView.JS
 
   @impl true
@@ -12,19 +14,39 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
   end
 
   @impl true
-  def handle_params(%{"id" => id} = params, _, socket) do
+  def handle_params(params, _, socket) do
+    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  end
+
+  defp apply_action(socket, :show, %{"id" => id}) do
     semesterentry = Semesterentrys.get_semesterentry!(id)
 
-    {:noreply,
-     socket
-     |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:semesterentry, semesterentry)
-     |> stream(:standard_course_entries, semesterentry.standard_course_entries, reset: true)
-     |> assign(:course_id, params["course_id"])
-     |> assign(:project_id, params["project_id"])
-     |> assign(:excursion_id, params["excursion_id"])
-     |> assign(:thesis_id, params["thesis_id"])
-     |> assign(:reduction_id, params["reduction_id"])}
+    socket
+    |> assign(:page_title, "Show Semesterentry")
+    |> stream(:standard_course_entries, semesterentry.standard_course_entries, reset: true)
+    |> assign(:semesterentry, semesterentry)
+  end
+
+  defp apply_action(socket, :edit, %{"id" => id}) do
+    socket
+    |> assign(:page_title, "Edit Semesterentry")
+    |> assign(:semesterentry, Semesterentrys.get_semesterentry!(id))
+  end
+
+  defp apply_action(socket, :new_standard_course, %{"id" => id}) do
+    standard_course_types = Courses.list_standardcoursetypes()
+
+    socket
+    |> assign(:page_title, "New Standard Course")
+    |> assign(:semesterentry, Semesterentrys.get_semesterentry!(id))
+    |> assign(:standard_course_entry, %StandardCourseEntry{})
+    |> assign(:standard_course_types, standard_course_types)
+  end
+
+  defp apply_action(socket, :edit_standard_course, %{"id" => id}) do
+    socket
+    |> assign(:page_title, "Edit Standard Course")
+    |> assign(:semesterentry, Semesterentrys.get_semesterentry!(id))
   end
 
   @impl true
@@ -32,10 +54,7 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
     {:noreply, assign(socket, active_tab: tab_id)}
   end
 
-  defp page_title(:show), do: "Show Semesterentry"
-  defp page_title(:edit), do: "Edit Semesterentry"
-  defp page_title(:new_standard_course), do: "Neuer Standard-Kurs"
-  defp page_title(:edit_standard_course), do: "Standard-Kurs bearbeiten"
+  """
   defp page_title(:new_project), do: "Neues Projekt"
   defp page_title(:edit_project), do: "Projekt bearbeiten"
   defp page_title(:new_excursion), do: "Neue Exkursion"
@@ -44,4 +63,5 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
   defp page_title(:edit_thesis), do: "Thesis bearbeiten"
   defp page_title(:new_reduction), do: "Neue Ermäßigung"
   defp page_title(:edit_reduction), do: "Ermäßigung bearbeiten"
+  """
 end

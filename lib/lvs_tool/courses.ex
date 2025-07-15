@@ -328,7 +328,10 @@ defmodule LvsTool.Courses do
       ** (Ecto.NoResultsError)
 
   """
-  def get_standard_course_entry!(id), do: Repo.get!(StandardCourseEntry, id)
+  def get_standard_course_entry!(id) do
+    Repo.get!(StandardCourseEntry, id)
+    |> Repo.preload([:standardcoursename, :standardcoursetypes, :studygroups])
+  end
 
   @doc """
   Creates a standard_course_entry.

@@ -65,5 +65,22 @@ defmodule LvsTool.Courses.StandardCourseEntry do
       :standardcoursename_id,
       :semesterentry_id
     ])
+    |> put_assoc(:standardcoursetypes, parse_standardcoursetypes(attrs))
+  end
+
+  defp parse_standardcoursetypes(attrs) do
+    case attrs do
+      %{"standardcoursetype_ids" => ids} when is_list(ids) ->
+        ids
+        |> Enum.reject(&(&1 == "" || is_nil(&1)))
+        |> Enum.map(&String.to_integer/1)
+        |> Enum.map(&LvsTool.Repo.get!(LvsTool.Courses.Standardcoursetype, &1))
+
+      %{"standardcoursetype_ids" => ids} when is_binary(ids) ->
+        [LvsTool.Repo.get!(LvsTool.Courses.Standardcoursetype, String.to_integer(ids))]
+
+      _ ->
+        []
+    end
   end
 end
