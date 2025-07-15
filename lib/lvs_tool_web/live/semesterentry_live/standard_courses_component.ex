@@ -19,7 +19,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
         </.link>
       </div>
       
-      <div class="bg-white shadow rounded-lg">
+      <div :if={@semesterentry.standard_course_entries != []} class="bg-white shadow rounded-lg">
         <div class="px-4 py-5 sm:p-6">
           <div class="flow-root">
             <ul role="list" class="-my-5 divide-y divide-gray-200">
@@ -99,12 +99,6 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
         <p class="mt-1 text-sm text-gray-500">
           Fügen Sie Ihren ersten Standard-Kurs hinzu.
         </p>
-        
-        <div class="mt-6">
-          <.link patch={~p"/semesterentrys/#{@semesterentry.id}/standard-courses/new"}>
-            <.button>Standard-Kurs hinzufügen</.button>
-          </.link>
-        </div>
       </div>
     </div>
     """
