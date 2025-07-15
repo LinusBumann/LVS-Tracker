@@ -309,6 +309,11 @@ defmodule LvsTool.Courses do
     Repo.all(StandardCourseEntry)
   end
 
+  def list_standard_course_entries_by_semesterentry(semesterentry_id) do
+    Repo.all(from sce in StandardCourseEntry, where: sce.semesterentry_id == ^semesterentry_id)
+    |> Repo.preload([:standardcoursename, :standardcoursetype, :studygroups])
+  end
+
   @doc """
   Gets a single standard_course_entry.
 

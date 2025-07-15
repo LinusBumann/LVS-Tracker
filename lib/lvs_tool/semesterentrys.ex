@@ -41,7 +41,13 @@ defmodule LvsTool.Semesterentrys do
   """
   def get_semesterentry!(id) do
     Repo.get!(Semesterentry, id)
-    |> Repo.preload(:standard_course_entries)
+    |> Repo.preload(
+      standard_course_entries: [
+        :standardcoursename,
+        :standardcoursetypes,
+        :studygroups
+      ]
+    )
   end
 
   @doc """
