@@ -22,6 +22,13 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
         phx-submit="save"
       >
         <.input
+          field={@form[:standardcoursename_id]}
+          type="select"
+          label="Kursname"
+          options={Enum.map(@standard_course_names, &{&1.name, &1.id})}
+          required
+        />
+        <.input
           field={@form[:standardcoursetype_ids]}
           type="select"
           label="Kurstypen"
@@ -32,11 +39,12 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
           field={@form[:kind]}
           type="select"
           label="Art"
-          options={["Standard", "Projekt", "Exkursion", "Thesis"]}
-        /> <.input field={@form[:sws]} type="number" label="SWS" />
-        <.input field={@form[:student_count]} type="number" label="Teilnehmerzahl" />
-        <.input field={@form[:percent]} type="number" label="Prozent" />
-        <.input field={@form[:lvs]} type="number" label="LVS" />
+          options={["Pflicht", "Wahlpflicht", "Wahl"]}
+          required
+        /> <.input field={@form[:sws]} type="number" label="SWS" required />
+        <.input field={@form[:student_count]} type="number" label="Teilnehmerzahl" required />
+        <.input field={@form[:percent]} type="number" label="Anteil an der Veranstaltung" required />
+        <.input field={@form[:lvs]} type="number" label="LVS" required />
       </.simple_form>
     </div>
     """

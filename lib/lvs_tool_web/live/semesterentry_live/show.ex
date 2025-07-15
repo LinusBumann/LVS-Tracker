@@ -35,12 +35,14 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
 
   defp apply_action(socket, :new_standard_course, %{"id" => id}) do
     standard_course_types = Courses.list_standardcoursetypes()
+    standard_course_names = Courses.list_standardcoursenames()
 
     socket
     |> assign(:page_title, "New Standard Course")
     |> assign(:semesterentry, Semesterentrys.get_semesterentry!(id))
     |> assign(:standard_course_entry, %StandardCourseEntry{})
     |> assign(:standard_course_types, standard_course_types)
+    |> assign(:standard_course_names, standard_course_names)
   end
 
   defp apply_action(socket, :edit_standard_course, %{"id" => id}) do
