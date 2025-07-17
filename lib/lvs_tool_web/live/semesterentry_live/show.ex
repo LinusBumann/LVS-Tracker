@@ -45,8 +45,6 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
     |> assign(:standard_course_types, standard_course_types)
     |> assign(:standard_course_names, standard_course_names)
     |> assign(:studygroups, studygroups)
-    |> assign(:selected_standardcoursetypes, [])
-    |> assign(:selected_studygroup, [])
   end
 
   defp apply_action(socket, :edit_standard_course, %{"id" => id, "course_id" => course_id}) do
@@ -56,11 +54,6 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
     standard_course_names = Courses.list_standardcoursenames()
     studygroups = Courses.list_studygroups()
 
-    selected_standardcoursetypes =
-      Enum.map(standard_course_entry.standardcoursetypes, & &1.id)
-
-    selected_studygroup = Enum.map(standard_course_entry.studygroups, & &1.id)
-
     socket
     |> assign(:page_title, "Edit Standard Course")
     |> assign(:semesterentry, semesterentry)
@@ -68,8 +61,6 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
     |> assign(:standard_course_types, standard_course_types)
     |> assign(:standard_course_names, standard_course_names)
     |> assign(:studygroups, studygroups)
-    |> assign(:selected_standardcoursetypes, selected_standardcoursetypes)
-    |> assign(:selected_studygroup, selected_studygroup)
   end
 
   @impl true

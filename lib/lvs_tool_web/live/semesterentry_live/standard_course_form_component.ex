@@ -33,7 +33,6 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
           type="select"
           label="Kurstypen"
           options={Enum.map(@standard_course_types, &{&1.name, &1.id})}
-          value={@selected_standardcoursetypes}
           required
         />
         <.input
@@ -41,7 +40,6 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
           type="select"
           label="Studiengruppen"
           options={Enum.map(@studygroups, &{&1.name, &1.id})}
-          value={@selected_studygroup}
           required
         />
         <.input
@@ -50,14 +48,14 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
           label="Art"
           options={["Pflicht", "Wahlpflicht", "Wahl"]}
           required
-        /> <.input field={@form[:sws]} type="number" label="SWS" required />
-        <.input field={@form[:student_count]} type="number" label="Teilnehmerzahl" required />
+        /> <.input field={@form[:student_count]} type="number" label="Teilnehmerzahl" required />
+        <.input field={@form[:sws]} type="number" label="SWS" required />
         <.input
           field={@form[:percent]}
           type="number"
           label="Anteil an der Veranstaltung (in %)"
           required
-        /> <.input field={@form[:lvs]} type="number" label="LVS" required />
+        /> <.input field={@form[:lvs]} type="number" disabled label="LVS" required />
         <:actions>
           <.button phx-disable-with="Saving...">Semestereintrag speichern</.button>
         </:actions>
@@ -68,27 +66,44 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
 
   @impl true
   def update(%{standard_course_entry: standard_course_entry} = assigns, socket) do
+    attrs =
+      case standard_course_entry.id do
+        nil ->
+          %{}
+
+        _ ->
+          %{
+            "standardcoursetype_ids" =>
+              Enum.map(standard_course_entry.standardcoursetypes, & &1.id),
+            "studygroup_ids" => Enum.map(standard_course_entry.studygroups, & &1.id)
+          }
+      end
+
     {:ok,
      socket
      |> assign(assigns)
      |> assign_new(:form, fn ->
-       to_form(Courses.change_standard_course_entry(standard_course_entry))
+       to_form(Courses.change_standard_course_entry(standard_course_entry, attrs))
      end)}
   end
 
   @impl true
   def handle_event("validate", %{"standard_course_entry" => standard_course_entry_params}, socket) do
+    params_with_lvs = add_lvs_to_params(standard_course_entry_params)
+
     changeset =
       Courses.change_standard_course_entry(
         socket.assigns.standard_course_entry,
-        standard_course_entry_params
+        params_with_lvs
       )
 
     {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
   end
 
   def handle_event("save", %{"standard_course_entry" => standard_course_entry_params}, socket) do
-    save_standard_course_entry(socket, socket.assigns.action, standard_course_entry_params)
+    params_with_lvs = add_lvs_to_params(standard_course_entry_params)
+
+    save_standard_course_entry(socket, socket.assigns.action, params_with_lvs)
   end
 
   defp save_standard_course_entry(socket, :edit_standard_course, standard_course_entry_params) do
@@ -130,4 +145,20 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
+
+  defp add_lvs_to_params(standard_course_entry_params) do
+    if standard_course_entry_params["percent"] != "" &&
+         standard_course_entry_params["sws"] != "" do
+      lvs =
+        Courses.calculate_lvs(
+          standard_course_entry_params["sws"],
+          standard_course_entry_params["percent"],
+          standard_course_entry_params["standardcoursetype_ids"]
+        )
+
+      Map.put(standard_course_entry_params, "lvs", lvs)
+    else
+      standard_course_entry_params
+    end
+  end
 end

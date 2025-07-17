@@ -76,7 +76,14 @@ defmodule LvsTool.Courses.StandardCourseEntry do
       %{"standardcoursetype_ids" => ids} when is_list(ids) ->
         ids
         |> Enum.reject(&(&1 == "" || is_nil(&1)))
-        |> Enum.map(&String.to_integer/1)
+        |> Enum.map(fn id ->
+          case id do
+            id when is_binary(id) -> String.to_integer(id)
+            id when is_integer(id) -> id
+            _ -> nil
+          end
+        end)
+        |> Enum.reject(&is_nil/1)
         |> Enum.map(&LvsTool.Repo.get!(LvsTool.Courses.Standardcoursetype, &1))
 
       %{"standardcoursetype_ids" => ids} when is_binary(ids) ->
@@ -92,7 +99,14 @@ defmodule LvsTool.Courses.StandardCourseEntry do
       %{"studygroup_ids" => ids} when is_list(ids) ->
         ids
         |> Enum.reject(&(&1 == "" || is_nil(&1)))
-        |> Enum.map(&String.to_integer/1)
+        |> Enum.map(fn id ->
+          case id do
+            id when is_binary(id) -> String.to_integer(id)
+            id when is_integer(id) -> id
+            _ -> nil
+          end
+        end)
+        |> Enum.reject(&is_nil/1)
         |> Enum.map(&LvsTool.Repo.get!(LvsTool.Courses.Studygroup, &1))
 
       %{"studygroup_ids" => ids} when is_binary(ids) ->
