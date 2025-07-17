@@ -1,6 +1,8 @@
 defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
   use LvsToolWeb, :live_component
 
+  alias LvsTool.Courses
+
   alias Phoenix.LiveView.JS
 
   @impl true
@@ -19,11 +21,11 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
         </.link>
       </div>
       
-      <div :if={@semesterentry.standard_course_entries != []} class="bg-white shadow rounded-lg">
+      <div :if={@standard_course_entries != []} class="bg-white shadow rounded-lg">
         <div class="px-4 py-5 sm:p-6">
           <div class="flow-root">
             <ul role="list" class="-my-5 divide-y divide-gray-200">
-              <li :for={course <- @semesterentry.standard_course_entries} class="py-4">
+              <li :for={{id, course} <- @standard_course_entries} id={id} class="py-4">
                 <div class="flex items-center space-x-4">
                   <div class="flex-1 min-w-0">
                     <p class="text-sm font-medium text-gray-900 truncate">
@@ -77,6 +79,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
                     <.button
                       phx-click={JS.push("delete_standard_course", value: %{id: course.id})}
                       phx-target={@myself}
+                      data-confirm="Sind Sie sicher, dass Sie diesen Standard-Kurs löschen möchten?"
                       class="text-red-600 hover:text-red-900"
                     >
                       <.icon name="hero-trash" class="h-4 w-4" />
@@ -89,7 +92,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
         </div>
       </div>
       
-      <div :if={@semesterentry.standard_course_entries == []} class="text-center py-12">
+      <div :if={@standard_course_entries == []} class="text-center py-12">
         <div class="mx-auto h-12 w-12 text-gray-400">
           <.icon name="hero-academic-cap" class="h-12 w-12" />
         </div>
@@ -112,8 +115,19 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
   end
 
   @impl true
-  def handle_event("delete_standard_course", %{"id" => _id}, socket) do
-    # TODO: Implement delete standard course
-    {:noreply, socket}
+  def handle_event("delete_standard_course", %{"id" => id}, socket) do
+    standard_course_entry = Courses.get_standard_course_entry!(id)
+
+    case Courses.delete_standard_course_entry(standard_course_entry) do
+      {:ok, _} ->
+        notify_parent({:deleted_standard_course, standard_course_entry})
+
+        {:noreply, socket |> put_flash(:info, "Standard-Kurs gelöscht")}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, form: to_form(changeset))}
+    end
   end
+
+  defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
 end
