@@ -33,6 +33,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
           type="select"
           label="Kurstypen"
           options={Enum.map(@standard_course_types, &{&1.name, &1.id})}
+          value={@selected_standardcoursetypes}
           required
         />
         <.input
@@ -40,6 +41,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
           type="select"
           label="Studiengruppen"
           options={Enum.map(@studygroups, &{&1.name, &1.id})}
+          value={@selected_studygroup}
           required
         />
         <.input
