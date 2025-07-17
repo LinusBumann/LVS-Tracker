@@ -45,6 +45,9 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
         <.input field={@form[:student_count]} type="number" label="Teilnehmerzahl" required />
         <.input field={@form[:percent]} type="number" label="Anteil an der Veranstaltung" required />
         <.input field={@form[:lvs]} type="number" label="LVS" required />
+        <:actions>
+          <.button phx-disable-with="Saving...">Semestereintrag speichern</.button>
+        </:actions>
       </.simple_form>
     </div>
     """
