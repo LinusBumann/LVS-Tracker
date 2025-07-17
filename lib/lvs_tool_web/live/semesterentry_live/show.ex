@@ -36,6 +36,7 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
   defp apply_action(socket, :new_standard_course, %{"id" => id}) do
     standard_course_types = Courses.list_standardcoursetypes()
     standard_course_names = Courses.list_standardcoursenames()
+    studygroups = Courses.list_studygroups()
 
     socket
     |> assign(:page_title, "New Standard Course")
@@ -43,12 +44,42 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
     |> assign(:standard_course_entry, %StandardCourseEntry{})
     |> assign(:standard_course_types, standard_course_types)
     |> assign(:standard_course_names, standard_course_names)
+    |> assign(:studygroups, studygroups)
   end
 
-  defp apply_action(socket, :edit_standard_course, %{"id" => id}) do
+  defp apply_action(socket, :edit_standard_course, %{"id" => id, "course_id" => course_id}) do
+    semesterentry = Semesterentrys.get_semesterentry!(id)
+    standard_course_entry = Courses.get_standard_course_entry!(course_id)
+    standard_course_types = Courses.list_standardcoursetypes()
+    standard_course_names = Courses.list_standardcoursenames()
+    studygroups = Courses.list_studygroups()
+
+    IO.inspect(standard_course_entry)
+
     socket
     |> assign(:page_title, "Edit Standard Course")
-    |> assign(:semesterentry, Semesterentrys.get_semesterentry!(id))
+    |> assign(:semesterentry, semesterentry)
+    |> assign(:standard_course_entry, standard_course_entry)
+    |> assign(:standard_course_types, standard_course_types)
+    |> assign(:standard_course_names, standard_course_names)
+    |> assign(:studygroups, studygroups)
+  end
+
+  @impl true
+  def handle_info(
+        {LvsToolWeb.SemesterentryLive.StandardCourseFormComponent,
+         {:saved, standard_course_entry}},
+        socket
+      ) do
+    {:noreply, stream_insert(socket, :standard_course_entries, standard_course_entry)}
+  end
+
+  @impl true
+  def handle_event("delete_standard_course", %{"id" => id}, socket) do
+    standard_course_entry = Courses.get_standard_course_entry!(id)
+    {:ok, _} = Courses.delete_standard_course_entry(standard_course_entry)
+
+    {:noreply, stream_delete(socket, :standard_course_entries, standard_course_entry)}
   end
 
   @impl true

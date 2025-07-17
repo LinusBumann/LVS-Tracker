@@ -36,6 +36,13 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
           required
         />
         <.input
+          field={@form[:studygroup_ids]}
+          type="select"
+          label="Studiengruppen"
+          options={Enum.map(@studygroups, &{&1.name, &1.id})}
+          required
+        />
+        <.input
           field={@form[:kind]}
           type="select"
           label="Art"
@@ -43,8 +50,12 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
           required
         /> <.input field={@form[:sws]} type="number" label="SWS" required />
         <.input field={@form[:student_count]} type="number" label="Teilnehmerzahl" required />
-        <.input field={@form[:percent]} type="number" label="Anteil an der Veranstaltung" required />
-        <.input field={@form[:lvs]} type="number" label="LVS" required />
+        <.input
+          field={@form[:percent]}
+          type="number"
+          label="Anteil an der Veranstaltung (in %)"
+          required
+        /> <.input field={@form[:lvs]} type="number" label="LVS" required />
         <:actions>
           <.button phx-disable-with="Saving...">Semestereintrag speichern</.button>
         </:actions>
@@ -78,7 +89,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
     save_standard_course_entry(socket, socket.assigns.action, standard_course_entry_params)
   end
 
-  defp save_standard_course_entry(socket, :edit, standard_course_entry_params) do
+  defp save_standard_course_entry(socket, :edit_standard_course, standard_course_entry_params) do
     case Courses.update_standard_course_entry(
            socket.assigns.standard_course_entry,
            standard_course_entry_params
@@ -96,7 +107,12 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
     end
   end
 
-  defp save_standard_course_entry(socket, :new, standard_course_entry_params) do
+  defp save_standard_course_entry(socket, :new_standard_course, standard_course_entry_params) do
+    standard_course_entry_params =
+      Map.put(standard_course_entry_params, "semesterentry_id", socket.assigns.semesterentry.id)
+
+    IO.inspect(standard_course_entry_params)
+
     case Courses.create_standard_course_entry(standard_course_entry_params) do
       {:ok, standard_course_entry} ->
         notify_parent({:saved, standard_course_entry})

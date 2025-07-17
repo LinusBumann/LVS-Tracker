@@ -100,9 +100,11 @@
       id={@standard_course_entry.id || :new}
       title={@page_title}
       action={@live_action}
+      semesterentry={@semesterentry}
       standard_course_entry={@standard_course_entry}
       standard_course_types={@standard_course_types}
       standard_course_names={@standard_course_names}
+      studygroups={@studygroups}
       patch={~p"/semesterentrys/#{@semesterentry}"}
     />
   </.modal>
