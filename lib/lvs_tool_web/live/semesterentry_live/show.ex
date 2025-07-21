@@ -42,6 +42,15 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
   end
 
   @impl true
+  def handle_info(
+        {LvsToolWeb.SemesterentryLive.StandardCoursesComponent,
+         {:deleted_standard_course, updated_semesterentry}},
+        socket
+      ) do
+    {:noreply, assign(socket, :semesterentry, updated_semesterentry)}
+  end
+
+  @impl true
   def handle_event("switch_tab", %{"tab_id" => tab_id}, socket) do
     {:noreply, assign(socket, active_tab: tab_id)}
   end

@@ -3,7 +3,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
 
   alias LvsTool.Courses
   alias LvsTool.Courses.StandardCourseEntry
-
+  alias LvsTool.Semesterentrys
   alias Phoenix.LiveView.JS
 
   @impl true
@@ -22,10 +22,15 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
         </.link>
       </div>
       
-      <div :if={@streams.standard_course_entries != []} class="bg-white shadow rounded-lg">
+      <div :if={Enum.count(@streams.standard_course_entries) > 0} class="bg-white shadow rounded-lg">
         <div class="px-4 py-5 sm:p-6">
           <div class="flow-root">
-            <ul role="list" class="-my-5 divide-y divide-gray-200">
+            <ul
+              role="list"
+              phx-update="stream"
+              id="standard-course-entries-list"
+              class="-my-5 divide-y divide-gray-200"
+            >
               <li :for={{id, course} <- @streams.standard_course_entries} id={id} class="py-4">
                 <div class="flex items-center space-x-4">
                   <div class="flex-1 min-w-0">
@@ -78,7 +83,9 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
                     </.link>
                     
                     <.button
-                      phx-click={JS.push("delete_standard_course", value: %{id: course.id})}
+                      phx-click={
+                        JS.push("delete_standard_course", target: @myself, value: %{id: course.id})
+                      }
                       phx-target={@myself}
                       data-confirm="Sind Sie sicher, dass Sie diesen Standard-Kurs löschen möchten?"
                       class="text-red-600 hover:text-red-900"
@@ -93,7 +100,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
         </div>
       </div>
       
-      <div :if={@streams.standard_course_entries == []} class="text-center py-12">
+      <div :if={Enum.count(@streams.standard_course_entries) == 0} class="text-center py-12">
         <div class="mx-auto h-12 w-12 text-gray-400">
           <.icon name="hero-academic-cap" class="h-12 w-12" />
         </div>
@@ -157,7 +164,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
       |> assign(:standard_course_names, standard_course_names)
       |> assign(:studygroups, studygroups)
       |> assign(:standard_course_entry, standard_course_entry)
-      |> stream(:standard_course_entries, standard_course_entries, reset: true)
+      |> stream(:standard_course_entries, standard_course_entries)
 
     {:ok, socket}
   end
@@ -168,9 +175,22 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
 
     case Courses.delete_standard_course_entry(standard_course_entry) do
       {:ok, _} ->
-        notify_parent({:deleted_standard_course, standard_course_entry})
+        new_lvs_sum = socket.assigns.semesterentry.lvs_sum - standard_course_entry.lvs
 
-        {:noreply, socket |> put_flash(:info, "Standard-Kurs gelöscht")}
+        Semesterentrys.update_semesterentry(socket.assigns.semesterentry, %{
+          lvs_sum: new_lvs_sum
+        })
+
+        updated_semesterentry = Map.put(socket.assigns.semesterentry, :lvs_sum, new_lvs_sum)
+
+        notify_parent({:deleted_standard_course, updated_semesterentry})
+
+        {:noreply,
+         socket
+         |> assign(:semesterentry, updated_semesterentry)
+         |> put_flash(:info, "Standard-Kurs gelöscht")
+         |> stream_delete(:standard_course_entries, %{id: standard_course_entry.id})
+         |> IO.inspect(label: "SOCKET IN DELETE_STANDARD_COURSE")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}

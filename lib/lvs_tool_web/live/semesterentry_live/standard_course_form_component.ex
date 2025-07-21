@@ -2,6 +2,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
   use LvsToolWeb, :live_component
 
   alias LvsTool.Courses
+  alias LvsTool.Semesterentrys
 
   @impl true
   def render(assigns) do
@@ -111,7 +112,9 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
            standard_course_entry_params
          ) do
       {:ok, standard_course_entry} ->
-        notify_parent({:saved, standard_course_entry})
+        Semesterentrys.update_semesterentry(socket.assigns.semesterentry, %{
+          lvs_sum: socket.assigns.semesterentry.lvs_sum + standard_course_entry.lvs
+        })
 
         {:noreply,
          socket
@@ -127,11 +130,11 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
     standard_course_entry_params =
       Map.put(standard_course_entry_params, "semesterentry_id", socket.assigns.semesterentry.id)
 
-    IO.inspect(standard_course_entry_params)
-
     case Courses.create_standard_course_entry(standard_course_entry_params) do
       {:ok, standard_course_entry} ->
-        notify_parent({:saved, standard_course_entry})
+        Semesterentrys.update_semesterentry(socket.assigns.semesterentry, %{
+          lvs_sum: socket.assigns.semesterentry.lvs_sum + standard_course_entry.lvs
+        })
 
         {:noreply,
          socket
@@ -142,8 +145,6 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
         {:noreply, assign(socket, form: to_form(changeset))}
     end
   end
-
-  defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
 
   defp add_lvs_to_params(standard_course_entry_params) do
     if standard_course_entry_params["percent"] != "" &&
