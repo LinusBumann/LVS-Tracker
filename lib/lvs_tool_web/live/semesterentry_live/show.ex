@@ -43,24 +43,6 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
 
   @impl true
   def handle_event("switch_tab", %{"tab_id" => tab_id}, socket) do
-    socket =
-      case tab_id do
-        "standard-courses" ->
-          semesterentry = socket.assigns.semesterentry
-
-          stream(socket, :standard_course_entries, semesterentry.standard_course_entries,
-            reset: true
-          )
-
-        "projekte" ->
-          # stream(socket, :projects, ...)
-          socket
-
-        # weitere Tabs...
-        _ ->
-          socket
-      end
-
     {:noreply, assign(socket, active_tab: tab_id)}
   end
 end
