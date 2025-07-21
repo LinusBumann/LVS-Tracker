@@ -8,7 +8,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
     ~H"""
     <div>
       <.header>
-        {@title}
+        {@page_title}
         <:subtitle>
           Verwenden Sie dieses Formular, um einen Standard-Kurs zu erstellen oder zu bearbeiten.
         </:subtitle>
@@ -102,8 +102,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
 
   def handle_event("save", %{"standard_course_entry" => standard_course_entry_params}, socket) do
     params_with_lvs = add_lvs_to_params(standard_course_entry_params)
-
-    save_standard_course_entry(socket, socket.assigns.action, params_with_lvs)
+    save_standard_course_entry(socket, socket.assigns.live_action, params_with_lvs)
   end
 
   defp save_standard_course_entry(socket, :edit_standard_course, standard_course_entry_params) do

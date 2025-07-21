@@ -2,6 +2,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
   use LvsToolWeb, :live_component
 
   alias LvsTool.Courses
+  alias LvsTool.Courses.StandardCourseEntry
 
   alias Phoenix.LiveView.JS
 
@@ -21,11 +22,11 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
         </.link>
       </div>
       
-      <div :if={@standard_course_entries != []} class="bg-white shadow rounded-lg">
+      <div :if={@streams.standard_course_entries != []} class="bg-white shadow rounded-lg">
         <div class="px-4 py-5 sm:p-6">
           <div class="flow-root">
             <ul role="list" class="-my-5 divide-y divide-gray-200">
-              <li :for={{id, course} <- @standard_course_entries} id={id} class="py-4">
+              <li :for={{id, course} <- @streams.standard_course_entries} id={id} class="py-4">
                 <div class="flex items-center space-x-4">
                   <div class="flex-1 min-w-0">
                     <p class="text-sm font-medium text-gray-900 truncate">
@@ -92,7 +93,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
         </div>
       </div>
       
-      <div :if={@standard_course_entries == []} class="text-center py-12">
+      <div :if={@streams.standard_course_entries == []} class="text-center py-12">
         <div class="mx-auto h-12 w-12 text-gray-400">
           <.icon name="hero-academic-cap" class="h-12 w-12" />
         </div>
@@ -103,15 +104,62 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
           Fügen Sie Ihren ersten Standard-Kurs hinzu.
         </p>
       </div>
+      
+      <.modal
+        :if={@live_action in [:new_standard_course, :edit_standard_course]}
+        id="standard-course-modal"
+        show
+        on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}")}
+      >
+        <.live_component
+          module={LvsToolWeb.SemesterentryLive.StandardCourseFormComponent}
+          id={@standard_course_entry.id || :new}
+          page_title={@page_title}
+          standard_course_entry={@standard_course_entry}
+          standard_course_types={@standard_course_types}
+          standard_course_names={@standard_course_names}
+          studygroups={@studygroups}
+          live_action={@live_action}
+          semesterentry={@semesterentry}
+          patch={~p"/semesterentrys/#{@semesterentry}"}
+        />
+      </.modal>
     </div>
     """
   end
 
   @impl true
   def update(assigns, socket) do
-    {:ok,
-     socket
-     |> assign(assigns)}
+    standard_course_entries =
+      Courses.list_standard_course_entries_by_semesterentry(assigns.semesterentry.id)
+
+    # Hier die weiteren Daten laden:
+    standard_course_types = Courses.list_standardcoursetypes()
+    standard_course_names = Courses.list_standardcoursenames()
+    studygroups = Courses.list_studygroups()
+
+    standard_course_entry =
+      case assigns.live_action do
+        :edit_standard_course ->
+          Courses.get_standard_course_entry!(assigns.course_id)
+
+        :new_standard_course ->
+          %StandardCourseEntry{}
+
+        _ ->
+          nil
+      end
+
+    socket =
+      socket
+      |> assign(assigns)
+      |> assign(:standard_course_types, standard_course_types)
+      |> assign(:standard_course_names, standard_course_names)
+      |> assign(:studygroups, studygroups)
+      |> assign(:standard_course_entry, standard_course_entry)
+      |> stream(:standard_course_entries, standard_course_entries, reset: true)
+
+    {:ok, socket}
   end
 
   @impl true
