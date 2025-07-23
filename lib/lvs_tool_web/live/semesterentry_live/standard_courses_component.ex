@@ -1,9 +1,6 @@
 defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
   use LvsToolWeb, :live_component
 
-  alias LvsTool.Courses
-  alias LvsTool.Courses.StandardCourseEntry
-  alias LvsTool.Semesterentrys
   alias Phoenix.LiveView.JS
 
   @impl true
@@ -22,7 +19,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
         </.link>
       </div>
       
-      <div :if={Enum.count(@streams.standard_course_entries) > 0} class="bg-white shadow rounded-lg">
+      <div :if={Enum.count(@standard_course_entries) > 0} class="bg-white shadow rounded-lg">
         <div class="px-4 py-5 sm:p-6">
           <div class="flow-root">
             <ul
@@ -31,7 +28,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
               id="standard-course-entries-list"
               class="-my-5 divide-y divide-gray-200"
             >
-              <li :for={{id, course} <- @streams.standard_course_entries} id={id} class="py-4">
+              <li :for={{dom_id, course} <- @standard_course_entries} id={dom_id} class="py-4">
                 <div class="flex items-center space-x-4">
                   <div class="flex-1 min-w-0">
                     <p class="text-sm font-medium text-gray-900 truncate">
@@ -100,7 +97,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
         </div>
       </div>
       
-      <div :if={Enum.count(@streams.standard_course_entries) == 0} class="text-center py-12">
+      <div :if={Enum.count(@standard_course_entries) == 0} class="text-center py-12">
         <div class="mx-auto h-12 w-12 text-gray-400">
           <.icon name="hero-academic-cap" class="h-12 w-12" />
         </div>
@@ -111,90 +108,23 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
           Fügen Sie Ihren ersten Standard-Kurs hinzu.
         </p>
       </div>
-      
-      <.modal
-        :if={@live_action in [:new_standard_course, :edit_standard_course]}
-        id="standard-course-modal"
-        show
-        on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}")}
-      >
-        <.live_component
-          module={LvsToolWeb.SemesterentryLive.StandardCourseFormComponent}
-          id={@standard_course_entry.id || :new}
-          page_title={@page_title}
-          standard_course_entry={@standard_course_entry}
-          standard_course_types={@standard_course_types}
-          standard_course_names={@standard_course_names}
-          studygroups={@studygroups}
-          live_action={@live_action}
-          semesterentry={@semesterentry}
-          patch={~p"/semesterentrys/#{@semesterentry}"}
-        />
-      </.modal>
     </div>
     """
   end
 
   @impl true
   def update(assigns, socket) do
-    standard_course_entries =
-      Courses.list_standard_course_entries_by_semesterentry(assigns.semesterentry.id)
+    IO.inspect(assigns, label: "ASSIGN IN UPDATE")
 
-    # Hier die weiteren Daten laden:
-    standard_course_types = Courses.list_standardcoursetypes()
-    standard_course_names = Courses.list_standardcoursenames()
-    studygroups = Courses.list_studygroups()
-
-    standard_course_entry =
-      case assigns.live_action do
-        :edit_standard_course ->
-          Courses.get_standard_course_entry!(assigns.course_id)
-
-        :new_standard_course ->
-          %StandardCourseEntry{}
-
-        _ ->
-          nil
-      end
-
-    socket =
-      socket
-      |> assign(assigns)
-      |> assign(:standard_course_types, standard_course_types)
-      |> assign(:standard_course_names, standard_course_names)
-      |> assign(:studygroups, studygroups)
-      |> assign(:standard_course_entry, standard_course_entry)
-      |> stream(:standard_course_entries, standard_course_entries)
-
-    {:ok, socket}
+    {:ok,
+     socket
+     |> assign(assigns)}
   end
 
   @impl true
   def handle_event("delete_standard_course", %{"id" => id}, socket) do
-    standard_course_entry = Courses.get_standard_course_entry!(id)
-
-    case Courses.delete_standard_course_entry(standard_course_entry) do
-      {:ok, _} ->
-        new_lvs_sum = socket.assigns.semesterentry.lvs_sum - standard_course_entry.lvs
-
-        Semesterentrys.update_semesterentry(socket.assigns.semesterentry, %{
-          lvs_sum: new_lvs_sum
-        })
-
-        updated_semesterentry = Map.put(socket.assigns.semesterentry, :lvs_sum, new_lvs_sum)
-
-        notify_parent({:deleted_standard_course, updated_semesterentry})
-
-        {:noreply,
-         socket
-         |> assign(:semesterentry, updated_semesterentry)
-         |> put_flash(:info, "Standard-Kurs gelöscht")
-         |> stream_delete(:standard_course_entries, %{id: standard_course_entry.id})
-         |> IO.inspect(label: "SOCKET IN DELETE_STANDARD_COURSE")}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign(socket, form: to_form(changeset))}
-    end
+    notify_parent({:deleted_standard_course, id})
+    {:noreply, socket}
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})

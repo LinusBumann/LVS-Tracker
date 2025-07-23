@@ -37,7 +37,7 @@
             semesterentry={@semesterentry}
             live_action={@live_action}
             page_title={@page_title}
-            {if assigns[:course_id], do: [course_id: @course_id], else: []}
+            standard_course_entries={@streams.standard_course_entries}
           />
         </:tab>
         <:tab id="projects" label="Projekte">
@@ -90,6 +90,27 @@
       id={@semesterentry.id}
       title={@page_title}
       action={@live_action}
+      semesterentry={@semesterentry}
+      patch={~p"/semesterentrys/#{@semesterentry}"}
+    />
+  </.modal>
+  
+<!-- Standard Course Modals -->
+  <.modal
+    :if={@live_action in [:new_standard_course, :edit_standard_course]}
+    id="standard-course-modal"
+    show
+    on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}")}
+  >
+    <.live_component
+      module={LvsToolWeb.SemesterentryLive.StandardCourseFormComponent}
+      id={@standard_course_entry.id || :new}
+      page_title={@page_title}
+      standard_course_entry={@standard_course_entry}
+      standard_course_types={@standard_course_types}
+      standard_course_names={@standard_course_names}
+      studygroups={@studygroups}
+      live_action={@live_action}
       semesterentry={@semesterentry}
       patch={~p"/semesterentrys/#{@semesterentry}"}
     />
