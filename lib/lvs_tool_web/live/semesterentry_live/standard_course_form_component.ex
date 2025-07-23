@@ -133,9 +133,10 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
 
     case Courses.create_standard_course_entry(standard_course_entry_params) do
       {:ok, standard_course_entry} ->
-        Semesterentrys.update_semesterentry(socket.assigns.semesterentry, %{
-          lvs_sum: socket.assigns.semesterentry.lvs_sum + standard_course_entry.lvs
-        })
+        Semesterentrys.update_semesterentry_lvs(
+          socket.assigns.semesterentry,
+          standard_course_entry.lvs
+        )
 
         {:noreply,
          socket
