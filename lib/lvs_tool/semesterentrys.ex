@@ -86,8 +86,9 @@ defmodule LvsTool.Semesterentrys do
     |> Repo.update()
   end
 
-  def calculate_lvs_update(current_lvs_sum, old_lvs, new_lvs) do
-    current_lvs_sum + new_lvs - old_lvs
+  def update_semesterentry_lvs(%Semesterentry{} = semesterentry, lvs_delta) do
+    from(s in Semesterentry, where: s.id == ^semesterentry.id)
+    |> Repo.update_all(inc: [lvs_sum: lvs_delta])
   end
 
   @doc """

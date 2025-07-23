@@ -114,16 +114,8 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
            standard_course_entry_params
          ) do
       {:ok, standard_course_entry} ->
-        updated_lvs_sum =
-          Semesterentrys.calculate_lvs_update(
-            socket.assigns.semesterentry.lvs_sum,
-            old_lvs,
-            standard_course_entry.lvs
-          )
-
-        Semesterentrys.update_semesterentry(socket.assigns.semesterentry, %{
-          lvs_sum: updated_lvs_sum
-        })
+        updated_lvs_sum = standard_course_entry.lvs - old_lvs
+        Semesterentrys.update_semesterentry_lvs(socket.assigns.semesterentry, updated_lvs_sum)
 
         {:noreply,
          socket
