@@ -114,8 +114,6 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
 
   @impl true
   def update(assigns, socket) do
-    IO.inspect(assigns, label: "ASSIGN IN UPDATE")
-
     {:ok,
      socket
      |> assign(assigns)}

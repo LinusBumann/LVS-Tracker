@@ -86,6 +86,10 @@ defmodule LvsTool.Semesterentrys do
     |> Repo.update()
   end
 
+  def calculate_lvs_update(current_lvs_sum, old_lvs, new_lvs) do
+    current_lvs_sum + new_lvs - old_lvs
+  end
+
   @doc """
   Deletes a semesterentry.
 
