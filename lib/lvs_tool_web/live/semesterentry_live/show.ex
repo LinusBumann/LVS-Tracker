@@ -78,8 +78,8 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
     |> assign(:semesterentry, semesterentry)
   end
 
-  defp apply_action(socket, :edit_thesis, %{"id" => id, "thesis_id" => thesis_id}) do
-  end
+  # defp apply_action(socket, :edit_thesis, %{"id" => id, "thesis_id" => thesis_id}) do
+  # end
 
   @impl true
   def handle_info(
