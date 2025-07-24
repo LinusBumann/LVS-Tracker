@@ -101,4 +101,100 @@ defmodule LvsTool.Theses do
   def change_thesis_type(%ThesisType{} = thesis_type, attrs \\ %{}) do
     ThesisType.changeset(thesis_type, attrs)
   end
+
+  alias LvsTool.Theses.ThesisEntry
+
+  @doc """
+  Returns the list of theses_entries.
+
+  ## Examples
+
+      iex> list_theses_entries()
+      [%ThesisEntry{}, ...]
+
+  """
+  def list_theses_entries do
+    Repo.all(ThesisEntry)
+  end
+
+  @doc """
+  Gets a single thesis_entry.
+
+  Raises `Ecto.NoResultsError` if the Thesis entry does not exist.
+
+  ## Examples
+
+      iex> get_thesis_entry!(123)
+      %ThesisEntry{}
+
+      iex> get_thesis_entry!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_thesis_entry!(id), do: Repo.get!(ThesisEntry, id)
+
+  @doc """
+  Creates a thesis_entry.
+
+  ## Examples
+
+      iex> create_thesis_entry(%{field: value})
+      {:ok, %ThesisEntry{}}
+
+      iex> create_thesis_entry(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_thesis_entry(attrs \\ %{}) do
+    %ThesisEntry{}
+    |> ThesisEntry.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a thesis_entry.
+
+  ## Examples
+
+      iex> update_thesis_entry(thesis_entry, %{field: new_value})
+      {:ok, %ThesisEntry{}}
+
+      iex> update_thesis_entry(thesis_entry, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_thesis_entry(%ThesisEntry{} = thesis_entry, attrs) do
+    thesis_entry
+    |> ThesisEntry.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a thesis_entry.
+
+  ## Examples
+
+      iex> delete_thesis_entry(thesis_entry)
+      {:ok, %ThesisEntry{}}
+
+      iex> delete_thesis_entry(thesis_entry)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_thesis_entry(%ThesisEntry{} = thesis_entry) do
+    Repo.delete(thesis_entry)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking thesis_entry changes.
+
+  ## Examples
+
+      iex> change_thesis_entry(thesis_entry)
+      %Ecto.Changeset{data: %ThesisEntry{}}
+
+  """
+  def change_thesis_entry(%ThesisEntry{} = thesis_entry, attrs \\ %{}) do
+    ThesisEntry.changeset(thesis_entry, attrs)
+  end
 end
