@@ -85,6 +85,10 @@ defmodule LvsToolWeb.Router do
            SemesterentryLive.Show,
            :edit_standard_course
 
+      # Thesis Modals
+      live "/semesterentrys/:id/thesis/new", SemesterentryLive.Show, :new_thesis
+      live "/semesterentrys/:id/thesis/:thesis_id/edit", SemesterentryLive.Show, :edit_thesis
+
       # Projekte Modals
       live "/semesterentrys/:id/projects/new", SemesterentryLive.Show, :new_project
       live "/semesterentrys/:id/projects/:project_id/edit", SemesterentryLive.Show, :edit_project
@@ -95,10 +99,6 @@ defmodule LvsToolWeb.Router do
       live "/semesterentrys/:id/excursions/:excursion_id/edit",
            SemesterentryLive.Show,
            :edit_excursion
-
-      # Thesis Modals
-      live "/semesterentrys/:id/thesis/new", SemesterentryLive.Show, :new_thesis
-      live "/semesterentrys/:id/thesis/:thesis_id/edit", SemesterentryLive.Show, :edit_thesis
 
       # Ermäßigungen Modals
       live "/semesterentrys/:id/reductions/new", SemesterentryLive.Show, :new_reduction

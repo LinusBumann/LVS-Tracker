@@ -40,6 +40,14 @@
             standard_course_entries={@streams.standard_course_entries}
           />
         </:tab>
+        <:tab id="thesis" label="Thesis">
+          <.live_component
+            module={LvsToolWeb.SemesterentryLive.ThesisComponent}
+            id="thesis"
+            semesterentry={@semesterentry}
+            live_action={@live_action}
+          />
+        </:tab>
         <:tab id="projects" label="Projekte">
           <.live_component
             module={LvsToolWeb.SemesterentryLive.ProjectsComponent}
@@ -52,14 +60,6 @@
           <.live_component
             module={LvsToolWeb.SemesterentryLive.ExcursionsComponent}
             id="excursions"
-            semesterentry={@semesterentry}
-            live_action={@live_action}
-          />
-        </:tab>
-        <:tab id="thesis" label="Thesis">
-          <.live_component
-            module={LvsToolWeb.SemesterentryLive.ThesisComponent}
-            id="thesis"
             semesterentry={@semesterentry}
             live_action={@live_action}
           />

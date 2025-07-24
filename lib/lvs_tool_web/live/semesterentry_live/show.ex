@@ -70,6 +70,17 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
     |> assign(:studygroups, studygroups)
   end
 
+  defp apply_action(socket, :new_thesis, %{"id" => id}) do
+    semesterentry = Semesterentrys.get_semesterentry!(id)
+
+    socket
+    |> assign(:page_title, "New Thesis")
+    |> assign(:semesterentry, semesterentry)
+  end
+
+  defp apply_action(socket, :edit_thesis, %{"id" => id, "thesis_id" => thesis_id}) do
+  end
+
   @impl true
   def handle_info(
         {LvsToolWeb.SemesterentryLive.StandardCoursesComponent, {:deleted_standard_course, id}},
