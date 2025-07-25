@@ -41,10 +41,10 @@ defmodule LvsTool.Theses.ThesisEntry do
           end
         end)
         |> Enum.reject(&is_nil/1)
-        |> Enum.map(&LvsTool.Repo.get!(LvsTool.Courses.Standardcoursetype, &1))
+        |> Enum.map(&LvsTool.Repo.get!(LvsTool.Theses.ThesisType, &1))
 
       %{"thesistype_ids" => ids} when is_binary(ids) ->
-        [LvsTool.Repo.get!(LvsTool.Courses.Standardcoursetype, String.to_integer(ids))]
+        [LvsTool.Repo.get!(LvsTool.Theses.ThesisType, String.to_integer(ids))]
 
       _ ->
         []

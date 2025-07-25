@@ -46,6 +46,8 @@
             id="thesis"
             semesterentry={@semesterentry}
             live_action={@live_action}
+            page_title={@page_title}
+            thesis_entries={@streams.thesis_entries}
           />
         </:tab>
         <:tab id="projects" label="Projekte">
@@ -116,6 +118,26 @@
     />
   </.modal>
   
+<!-- Thesis Modals -->
+  <.modal
+    :if={@live_action in [:new_thesis, :edit_thesis]}
+    id="thesis-modal"
+    show
+    on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}")}
+  >
+    <.live_component
+      module={LvsToolWeb.SemesterentryLive.ThesisFormComponent}
+      id={@thesis_entry.id || :new}
+      page_title={@page_title}
+      thesis_entry={@thesis_entry}
+      thesis_types={@thesis_types}
+      studygroups={@studygroups}
+      live_action={@live_action}
+      semesterentry={@semesterentry}
+      patch={~p"/semesterentrys/#{@semesterentry}"}
+    />
+  </.modal>
+  
 <!-- Project Modals -->
   <.modal
     :if={@live_action in [:new_project, :edit_project]}
@@ -151,27 +173,6 @@
       <h3 class="mt-2 text-sm font-medium text-gray-900">Exkursion Modal</h3>
       <p class="mt-1 text-sm text-gray-500">
         {if @live_action == :new_excursion, do: "Neue Exkursion", else: "Exkursion bearbeiten"}
-      </p>
-      <p class="mt-1 text-sm text-gray-500">
-        Funktionalität wird noch implementiert.
-      </p>
-    </div>
-  </.modal>
-  
-<!-- Thesis Modals -->
-  <.modal
-    :if={@live_action in [:new_thesis, :edit_thesis]}
-    id="thesis-modal"
-    show
-    on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}")}
-  >
-    <div class="text-center py-12">
-      <div class="mx-auto h-12 w-12 text-gray-400">
-        <.icon name="hero-document-text" class="h-12 w-12" />
-      </div>
-      <h3 class="mt-2 text-sm font-medium text-gray-900">Thesis Modal</h3>
-      <p class="mt-1 text-sm text-gray-500">
-        {if @live_action == :new_thesis, do: "Neue Thesis", else: "Thesis bearbeiten"}
       </p>
       <p class="mt-1 text-sm text-gray-500">
         Funktionalität wird noch implementiert.

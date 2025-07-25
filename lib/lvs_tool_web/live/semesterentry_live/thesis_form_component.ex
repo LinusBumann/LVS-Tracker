@@ -1,0 +1,143 @@
+defmodule LvsToolWeb.SemesterentryLive.ThesisFormComponent do
+  use LvsToolWeb, :live_component
+
+  alias LvsTool.Theses
+  alias LvsTool.Semesterentrys
+
+  @impl true
+  def render(assigns) do
+    ~H"""
+    <div>
+      <.header>
+        {@page_title}
+        <:subtitle>
+          Verwenden Sie dieses Formular, um eine Thesis zu erstellen oder zu bearbeiten.
+        </:subtitle>
+      </.header>
+      
+      <.simple_form
+        for={@form}
+        id="thesis-form"
+        phx-target={@myself}
+        phx-change="validate"
+        phx-submit="save"
+      >
+        <.input
+          field={@form[:thesistype_ids]}
+          type="select"
+          label="Thesistypen"
+          options={Enum.map(@thesis_types, &{&1.name, &1.id})}
+          required
+        />
+        <.input
+          field={@form[:studygroup_ids]}
+          type="select"
+          label="Studiengruppen"
+          options={Enum.map(@studygroups, &{&1.name, &1.id})}
+          required
+        />
+        <.input field={@form[:percent]} type="number" label="Anteil an der Thesis (in %)" required />
+        <.input field={@form[:lvs]} type="number" disabled label="LVS" step="0.1" required />
+        <:actions>
+          <.button phx-disable-with="Saving...">Semestereintrag speichern</.button>
+        </:actions>
+      </.simple_form>
+    </div>
+    """
+  end
+
+  @impl true
+  def update(%{thesis_entry: thesis_entry} = assigns, socket) do
+    attrs =
+      case thesis_entry.id do
+        nil ->
+          %{}
+
+        _ ->
+          %{
+            "thesistype_ids" => Enum.map(thesis_entry.thesistypes, & &1.id),
+            "studygroup_ids" => Enum.map(thesis_entry.studygroups, & &1.id)
+          }
+      end
+
+    {:ok,
+     socket
+     |> assign(assigns)
+     |> assign_new(:form, fn -> to_form(Theses.change_thesis_entry(thesis_entry, attrs)) end)}
+  end
+
+  @impl true
+  def handle_event("validate", %{"thesis_entry" => thesis_entry_params}, socket) do
+    params_with_lvs = add_lvs_to_params(thesis_entry_params)
+
+    changeset =
+      Theses.change_thesis_entry(
+        socket.assigns.thesis_entry,
+        params_with_lvs
+      )
+
+    {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
+  end
+
+  def handle_event("save", %{"thesis_entry" => thesis_entry_params}, socket) do
+    params_with_lvs = add_lvs_to_params(thesis_entry_params)
+    save_thesis_entry(socket, socket.assigns.live_action, params_with_lvs)
+  end
+
+  defp save_thesis_entry(socket, :edit_thesis, thesis_entry_params) do
+    old_lvs = socket.assigns.thesis_entry.lvs
+
+    case Theses.update_thesis_entry(
+           socket.assigns.thesis_entry,
+           thesis_entry_params
+         ) do
+      {:ok, thesis_entry} ->
+        updated_lvs_sum = thesis_entry.lvs - old_lvs
+        Semesterentrys.update_semesterentry_lvs(socket.assigns.semesterentry, updated_lvs_sum)
+
+        {:noreply,
+         socket
+         |> put_flash(:info, "Thesis aktualisiert")
+         |> push_patch(to: socket.assigns.patch)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, form: to_form(changeset))}
+    end
+  end
+
+  defp save_thesis_entry(socket, :new_thesis, thesis_entry_params) do
+    thesis_entry_params =
+      Map.put(thesis_entry_params, "semesterentry_id", socket.assigns.semesterentry.id)
+
+    case Theses.create_thesis_entry(thesis_entry_params) do
+      {:ok, thesis_entry} ->
+        Semesterentrys.update_semesterentry_lvs(
+          socket.assigns.semesterentry,
+          thesis_entry.lvs
+        )
+
+        {:noreply,
+         socket
+         |> put_flash(:info, "Thesis erstellt")
+         |> push_patch(to: socket.assigns.patch)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, form: to_form(changeset))}
+    end
+  end
+
+  defp add_lvs_to_params(thesis_entry_params) do
+    if thesis_entry_params["percent"] != "" &&
+         thesis_entry_params["sws"] != "" do
+      lvs =
+        Theses.calculate_thesis_lvs(
+          thesis_entry_params["sws"],
+          thesis_entry_params["percent"]
+        )
+
+      Map.put(thesis_entry_params, "lvs", lvs)
+    else
+      thesis_entry_params
+    end
+  end
+end

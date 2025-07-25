@@ -115,6 +115,12 @@ defmodule LvsTool.Theses do
   """
   def list_theses_entries do
     Repo.all(ThesisEntry)
+    |> Repo.preload([:thesistypes, :studygroups])
+  end
+
+  def list_theses_entries_by_semesterentry(semesterentry_id) do
+    Repo.all(from te in ThesisEntry, where: te.semesterentry_id == ^semesterentry_id)
+    |> Repo.preload([:thesistypes, :studygroups])
   end
 
   @doc """
@@ -131,7 +137,18 @@ defmodule LvsTool.Theses do
       ** (Ecto.NoResultsError)
 
   """
-  def get_thesis_entry!(id), do: Repo.get!(ThesisEntry, id)
+  def get_thesis_entry!(id) do
+    Repo.get!(ThesisEntry, id)
+    |> Repo.preload([:thesistypes, :studygroups])
+  end
+
+  # TODO: Falsche Berechnung FIXEN
+  def calculate_thesis_lvs(sws, percent) do
+    {sws_int, _} = Integer.parse(sws)
+    {percent_int, _} = Integer.parse(percent)
+
+    sws_int * percent_int / 100
+  end
 
   @doc """
   Creates a thesis_entry.

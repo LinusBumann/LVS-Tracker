@@ -5,12 +5,16 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
   alias Phoenix.LiveView.JS
   alias LvsTool.Courses
   alias LvsTool.Courses.StandardCourseEntry
+  alias LvsTool.Theses
+  alias LvsTool.Theses.ThesisEntry
 
   @impl true
   def mount(_params, _session, socket) do
     {:ok,
      socket
-     |> assign(:active_tab, "standard-courses")}
+     |> assign(:active_tab, "standard-courses")
+     |> stream(:standard_course_entries, [], reset: true)
+     |> stream(:thesis_entries, [], reset: true)}
   end
 
   @impl true
@@ -24,10 +28,13 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
     standard_course_entries =
       Courses.list_standard_course_entries_by_semesterentry(semesterentry.id)
 
+    thesis_entries = Theses.list_theses_entries_by_semesterentry(semesterentry.id)
+
     socket
     |> assign(:page_title, "Show Semesterentry")
     |> assign(:semesterentry, semesterentry)
     |> stream(:standard_course_entries, standard_course_entries, reset: true)
+    |> stream(:thesis_entries, thesis_entries, reset: true)
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
@@ -72,14 +79,31 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
 
   defp apply_action(socket, :new_thesis, %{"id" => id}) do
     semesterentry = Semesterentrys.get_semesterentry!(id)
+    thesis_types = Theses.list_thesis_types()
+    studygroups = Courses.list_studygroups()
 
     socket
-    |> assign(:page_title, "New Thesis")
+    |> assign(:page_title, "Neue Thesis")
     |> assign(:semesterentry, semesterentry)
+    |> assign(:thesis_types, thesis_types)
+    |> assign(:studygroups, studygroups)
+    |> assign(:thesis_entry, %ThesisEntry{})
   end
 
-  # defp apply_action(socket, :edit_thesis, %{"id" => id, "thesis_id" => thesis_id}) do
-  # end
+  defp apply_action(socket, :edit_thesis, %{"id" => id, "thesis_id" => thesis_id}) do
+    thesis_entry = Theses.get_thesis_entry!(thesis_id)
+    semesterentry = Semesterentrys.get_semesterentry!(id)
+
+    thesis_types = Theses.list_thesis_types()
+    studygroups = Courses.list_studygroups()
+
+    socket
+    |> assign(:page_title, "Bearbeiten Thesis")
+    |> assign(:thesis_entry, thesis_entry)
+    |> assign(:semesterentry, semesterentry)
+    |> assign(:thesis_types, thesis_types)
+    |> assign(:studygroups, studygroups)
+  end
 
   @impl true
   def handle_info(
@@ -119,6 +143,13 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
 
           socket
           |> stream(:standard_course_entries, standard_course_entries, reset: true)
+
+        "thesis" ->
+          thesis_entries =
+            Theses.list_theses_entries_by_semesterentry(socket.assigns.semesterentry.id)
+
+          socket
+          |> stream(:thesis_entries, thesis_entries, reset: true)
 
         _ ->
           socket
