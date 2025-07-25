@@ -122,6 +122,7 @@ end)
 IO.puts("Master-Standardcoursenames wurden erfolgreich eingefügt!")
 """
 
+"""
 # Standard-Kurs-Typ auswählen (z.B. "Vorlesung")
 coursetype = LvsTool.Repo.get_by!(LvsTool.Courses.Standardcoursetype, name: "Workshop")
 
@@ -151,3 +152,21 @@ standard_course_entry =
   studygroup_id: studygroup.id
 }
 |> LvsTool.Repo.insert!()
+"""
+
+"""
+thesis_types = [
+  %{name: "Bachelorthesis (Erstbetreuung)", imputationfactor: 0.3},
+  %{name: "Bachelorthesis (Zweitbetreuung)", imputationfactor: 0.15},
+  %{name: "Masterthesis (Erstbetreuung)", imputationfactor: 0.4},
+  %{name: "Masterthesis (Zweitbetreuung)", imputationfactor: 0.2}
+]
+
+Enum.each(thesis_types, fn attrs ->
+  %LvsTool.Theses.ThesisType{}
+  |> LvsTool.Theses.ThesisType.changeset(attrs)
+  |> LvsTool.Repo.insert!()
+end)
+
+IO.puts("Thesis Types wurden erfolgreich eingefügt!")
+"""
