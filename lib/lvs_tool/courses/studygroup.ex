@@ -6,7 +6,12 @@ defmodule LvsTool.Courses.Studygroup do
     field :name, :string
 
     many_to_many :standard_course_entries, LvsTool.Courses.StandardCourseEntry,
-      join_through: "course_entry_studygroups"
+      join_through: "course_entry_studygroups",
+      on_replace: :delete
+
+    many_to_many :theses_entries, LvsTool.Theses.ThesisEntry,
+      join_through: "thesis_entry_studygroups",
+      on_replace: :delete
 
     timestamps(type: :utc_datetime)
   end

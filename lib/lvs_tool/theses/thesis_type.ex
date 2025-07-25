@@ -6,6 +6,10 @@ defmodule LvsTool.Theses.ThesisType do
     field :name, :string
     field :imputationfactor, :float
 
+    many_to_many :theses_entries, LvsTool.Theses.ThesisEntry,
+      join_through: "thesis_entry_types",
+      on_replace: :delete
+
     timestamps(type: :utc_datetime)
   end
 
