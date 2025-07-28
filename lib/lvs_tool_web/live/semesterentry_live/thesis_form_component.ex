@@ -23,9 +23,9 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisFormComponent do
         phx-submit="save"
       >
         <.input
-          field={@form[:thesistype_ids]}
+          field={@form[:thesis_type_id]}
           type="select"
-          label="Thesistypen"
+          label="Thesistyp"
           options={Enum.map(@thesis_types, &{&1.name, &1.id})}
           required
         />
@@ -55,7 +55,7 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisFormComponent do
 
         _ ->
           %{
-            "thesistype_ids" => Enum.map(thesis_entry.thesistypes, & &1.id),
+            "thesis_type_id" => thesis_entry.thesis_type_id,
             "studygroup_ids" => Enum.map(thesis_entry.studygroups, & &1.id)
           }
       end
@@ -127,12 +127,11 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisFormComponent do
   end
 
   defp add_lvs_to_params(thesis_entry_params) do
-    if thesis_entry_params["percent"] != "" &&
-         thesis_entry_params["sws"] != "" do
+    if thesis_entry_params["percent"] != "" do
       lvs =
         Theses.calculate_thesis_lvs(
-          thesis_entry_params["sws"],
-          thesis_entry_params["percent"]
+          thesis_entry_params["percent"],
+          thesis_entry_params["thesis_type_id"]
         )
 
       Map.put(thesis_entry_params, "lvs", lvs)

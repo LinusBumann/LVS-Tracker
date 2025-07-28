@@ -115,12 +115,12 @@ defmodule LvsTool.Theses do
   """
   def list_theses_entries do
     Repo.all(ThesisEntry)
-    |> Repo.preload([:thesistypes, :studygroups])
+    |> Repo.preload([:thesis_type, :studygroups])
   end
 
   def list_theses_entries_by_semesterentry(semesterentry_id) do
     Repo.all(from te in ThesisEntry, where: te.semesterentry_id == ^semesterentry_id)
-    |> Repo.preload([:thesistypes, :studygroups])
+    |> Repo.preload([:thesis_type, :studygroups])
   end
 
   @doc """
@@ -139,15 +139,20 @@ defmodule LvsTool.Theses do
   """
   def get_thesis_entry!(id) do
     Repo.get!(ThesisEntry, id)
-    |> Repo.preload([:thesistypes, :studygroups])
+    |> Repo.preload([:thesis_type, :studygroups])
   end
 
-  # TODO: Falsche Berechnung FIXEN
-  def calculate_thesis_lvs(sws, percent) do
-    {sws_int, _} = Integer.parse(sws)
-    {percent_int, _} = Integer.parse(percent)
+  def calculate_thesis_lvs(percent, thesis_type_id) do
+    if thesis_type_id && thesis_type_id != "" do
+      thesis_type_id =
+        if is_binary(thesis_type_id), do: String.to_integer(thesis_type_id), else: thesis_type_id
 
-    sws_int * percent_int / 100
+      imputationfactor = get_thesis_type!(thesis_type_id).imputationfactor
+      {percent_int, _} = Integer.parse(percent)
+      percent_int * imputationfactor / 100
+    else
+      0.0
+    end
   end
 
   @doc """

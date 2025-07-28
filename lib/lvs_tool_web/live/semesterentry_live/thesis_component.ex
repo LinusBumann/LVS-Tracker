@@ -44,7 +44,7 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisComponent do
                 <div class="flex items-center space-x-4">
                   <div class="flex-1 min-w-0">
                     <p class="text-sm font-medium text-gray-900 truncate">
-                      {thesis.thesistype.name}
+                      {thesis.thesis_type.name}
                     </p>
                     
                     <p class="text-sm text-gray-500">
@@ -56,10 +56,6 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisComponent do
                     
                     <p class="text-sm text-gray-500">
                       <span class="font-semibold">Prozentualer Anteil:</span> {thesis.percent}%
-                    </p>
-                    
-                    <p class="text-sm text-gray-500">
-                      <span class="font-semibold">SWS:</span> {thesis.sws}
                     </p>
                     
                     <p class="text-sm text-gray-500">
