@@ -107,15 +107,13 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
   end
 
   defp save_standard_course_entry(socket, :edit_standard_course, standard_course_entry_params) do
-    old_lvs = socket.assigns.standard_course_entry.lvs
-
     case Courses.update_standard_course_entry(
            socket.assigns.standard_course_entry,
            standard_course_entry_params
          ) do
-      {:ok, standard_course_entry} ->
-        updated_lvs_sum = standard_course_entry.lvs - old_lvs
-        Semesterentrys.update_semesterentry_lvs(socket.assigns.semesterentry, updated_lvs_sum)
+      {:ok, _standard_course_entry} ->
+        # LVS-Summe neu berechnen
+        Semesterentrys.recalculate_lvs_sum(socket.assigns.semesterentry)
 
         {:noreply,
          socket
@@ -132,11 +130,9 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
       Map.put(standard_course_entry_params, "semesterentry_id", socket.assigns.semesterentry.id)
 
     case Courses.create_standard_course_entry(standard_course_entry_params) do
-      {:ok, standard_course_entry} ->
-        Semesterentrys.update_semesterentry_lvs(
-          socket.assigns.semesterentry,
-          standard_course_entry.lvs
-        )
+      {:ok, _standard_course_entry} ->
+        # LVS-Summe neu berechnen
+        Semesterentrys.recalculate_lvs_sum(socket.assigns.semesterentry)
 
         {:noreply,
          socket

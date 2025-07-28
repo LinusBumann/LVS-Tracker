@@ -114,9 +114,8 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
 
     case Courses.delete_standard_course_entry(standard_course_entry) do
       {:ok, _} ->
-        new_lvs_sum = socket.assigns.semesterentry.lvs_sum - standard_course_entry.lvs
-        Semesterentrys.update_semesterentry(socket.assigns.semesterentry, %{lvs_sum: new_lvs_sum})
-        updated_semesterentry = Map.put(socket.assigns.semesterentry, :lvs_sum, new_lvs_sum)
+        # LVS-Summe neu berechnen
+        updated_semesterentry = Semesterentrys.recalculate_lvs_sum(socket.assigns.semesterentry)
 
         standard_course_entries =
           Courses.list_standard_course_entries_by_semesterentry(socket.assigns.semesterentry.id)
@@ -126,6 +125,31 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
          |> assign(:semesterentry, updated_semesterentry)
          |> put_flash(:info, "Standard-Kurs gelöscht")
          |> stream(:standard_course_entries, standard_course_entries, reset: true)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, form: to_form(changeset))}
+    end
+  end
+
+  def handle_info(
+        {LvsToolWeb.SemesterentryLive.ThesisComponent, {:deleted_thesis, id}},
+        socket
+      ) do
+    thesis_entry = Theses.get_thesis_entry!(id)
+
+    case Theses.delete_thesis_entry(thesis_entry) do
+      {:ok, _} ->
+        # LVS-Summe neu berechnen
+        updated_semesterentry = Semesterentrys.recalculate_lvs_sum(socket.assigns.semesterentry)
+
+        thesis_entries =
+          Theses.list_theses_entries_by_semesterentry(socket.assigns.semesterentry.id)
+
+        {:noreply,
+         socket
+         |> assign(:semesterentry, updated_semesterentry)
+         |> put_flash(:info, "Thesis gelöscht")
+         |> stream(:thesis_entries, thesis_entries, reset: true)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}

@@ -86,15 +86,13 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisFormComponent do
   end
 
   defp save_thesis_entry(socket, :edit_thesis, thesis_entry_params) do
-    old_lvs = socket.assigns.thesis_entry.lvs
-
     case Theses.update_thesis_entry(
            socket.assigns.thesis_entry,
            thesis_entry_params
          ) do
-      {:ok, thesis_entry} ->
-        updated_lvs_sum = thesis_entry.lvs - old_lvs
-        Semesterentrys.update_semesterentry_lvs(socket.assigns.semesterentry, updated_lvs_sum)
+      {:ok, _thesis_entry} ->
+        # LVS-Summe neu berechnen
+        Semesterentrys.recalculate_lvs_sum(socket.assigns.semesterentry)
 
         {:noreply,
          socket
@@ -111,11 +109,9 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisFormComponent do
       Map.put(thesis_entry_params, "semesterentry_id", socket.assigns.semesterentry.id)
 
     case Theses.create_thesis_entry(thesis_entry_params) do
-      {:ok, thesis_entry} ->
-        Semesterentrys.update_semesterentry_lvs(
-          socket.assigns.semesterentry,
-          thesis_entry.lvs
-        )
+      {:ok, _thesis_entry} ->
+        # LVS-Summe neu berechnen
+        Semesterentrys.recalculate_lvs_sum(socket.assigns.semesterentry)
 
         {:noreply,
          socket
