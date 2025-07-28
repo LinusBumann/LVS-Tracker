@@ -44,7 +44,11 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisComponent do
                 <div class="flex items-center space-x-4">
                   <div class="flex-1 min-w-0">
                     <p class="text-sm font-medium text-gray-900 truncate">
-                      {thesis.thesis_type.name}
+                      {thesis.thesis_title}
+                    </p>
+                    
+                    <p class="text-sm font-medium text-gray-500 truncate">
+                      Thesistyp: {thesis.thesis_type.name}
                     </p>
                     
                     <p class="text-sm text-gray-500">

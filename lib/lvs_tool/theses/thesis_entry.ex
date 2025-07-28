@@ -5,6 +5,7 @@ defmodule LvsTool.Theses.ThesisEntry do
   schema "theses_entries" do
     field :percent, :float
     field :lvs, :float
+    field :thesis_title, :string
 
     belongs_to :semesterentry, LvsTool.Semesterentrys.Semesterentry
     belongs_to :thesis_type, LvsTool.Theses.ThesisType
@@ -19,8 +20,8 @@ defmodule LvsTool.Theses.ThesisEntry do
   @doc false
   def changeset(thesis_entry, attrs) do
     thesis_entry
-    |> cast(attrs, [:percent, :lvs, :semesterentry_id, :thesis_type_id])
-    |> validate_required([:percent, :lvs, :semesterentry_id, :thesis_type_id])
+    |> cast(attrs, [:percent, :lvs, :semesterentry_id, :thesis_type_id, :thesis_title])
+    |> validate_required([:percent, :lvs, :semesterentry_id, :thesis_type_id, :thesis_title])
     |> put_assoc(:studygroups, parse_studygroups(attrs))
   end
 

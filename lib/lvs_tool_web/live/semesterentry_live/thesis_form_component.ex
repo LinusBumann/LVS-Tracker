@@ -22,6 +22,7 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisFormComponent do
         phx-change="validate"
         phx-submit="save"
       >
+        <.input field={@form[:thesis_title]} type="text" label="Thesistitel" required />
         <.input
           field={@form[:thesis_type_id]}
           type="select"
