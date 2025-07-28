@@ -123,6 +123,11 @@ defmodule LvsTool.Theses do
     |> Repo.preload([:thesis_type, :studygroups])
   end
 
+  def get_thesis_count(semesterentry_id) do
+    Repo.all(from te in ThesisEntry, where: te.semesterentry_id == ^semesterentry_id)
+    |> length()
+  end
+
   @doc """
   Gets a single thesis_entry.
 

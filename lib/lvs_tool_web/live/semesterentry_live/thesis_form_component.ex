@@ -110,7 +110,6 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisFormComponent do
 
     case Theses.create_thesis_entry(thesis_entry_params) do
       {:ok, _thesis_entry} ->
-        # LVS-Summe neu berechnen
         Semesterentrys.recalculate_lvs_sum(socket.assigns.semesterentry)
 
         {:noreply,

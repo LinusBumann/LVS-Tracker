@@ -7,6 +7,7 @@ defmodule LvsTool.Semesterentrys do
   alias LvsTool.Repo
 
   alias LvsTool.Semesterentrys.Semesterentry
+  alias LvsTool.Theses
 
   @doc """
   Returns the list of semesterentrys.
@@ -101,12 +102,18 @@ defmodule LvsTool.Semesterentrys do
       |> Repo.one()
 
     # Summe aller Thesis LVS
+    thesis_count = Theses.get_thesis_count(semesterentry.id)
+
     thesis_lvs_sum =
-      from(te in LvsTool.Theses.ThesisEntry,
-        where: te.semesterentry_id == ^semesterentry.id,
-        select: coalesce(sum(te.lvs), 0.0)
-      )
-      |> Repo.one()
+      if thesis_count >= 6 do
+        from(te in LvsTool.Theses.ThesisEntry,
+          where: te.semesterentry_id == ^semesterentry.id,
+          select: coalesce(sum(te.lvs), 0.0)
+        )
+        |> Repo.one()
+      else
+        0.0
+      end
 
     # Gesamtsumme berechnen und auf 2 Nachkommastellen runden
     total_lvs = Float.round(standard_course_lvs_sum + thesis_lvs_sum, 2)
