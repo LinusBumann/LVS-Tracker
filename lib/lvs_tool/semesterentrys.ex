@@ -92,8 +92,16 @@ defmodule LvsTool.Semesterentrys do
     |> Repo.update_all(inc: [lvs_sum: lvs_delta])
   end
 
+  def update_theses_count(%Semesterentry{} = semesterentry) do
+    thesis_count = Theses.get_thesis_count(semesterentry.id)
+
+    from(s in Semesterentry, where: s.id == ^semesterentry.id)
+    |> Repo.update_all(set: [theses_count: thesis_count])
+
+    get_semesterentry!(semesterentry.id)
+  end
+
   def recalculate_lvs_sum(%Semesterentry{} = semesterentry) do
-    # Summe aller Standard-Kurs LVS
     standard_course_lvs_sum =
       from(sce in LvsTool.Courses.StandardCourseEntry,
         where: sce.semesterentry_id == ^semesterentry.id,

@@ -110,7 +110,9 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisFormComponent do
 
     case Theses.create_thesis_entry(thesis_entry_params) do
       {:ok, _thesis_entry} ->
-        Semesterentrys.recalculate_lvs_sum(socket.assigns.semesterentry)
+        socket.assigns.semesterentry
+        |> Semesterentrys.recalculate_lvs_sum()
+        |> Semesterentrys.update_theses_count()
 
         {:noreply,
          socket

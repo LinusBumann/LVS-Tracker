@@ -140,7 +140,10 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
     case Theses.delete_thesis_entry(thesis_entry) do
       {:ok, _} ->
         # LVS-Summe neu berechnen
-        updated_semesterentry = Semesterentrys.recalculate_lvs_sum(socket.assigns.semesterentry)
+        updated_semesterentry =
+          socket.assigns.semesterentry
+          |> Semesterentrys.recalculate_lvs_sum()
+          |> Semesterentrys.update_theses_count()
 
         thesis_entries =
           Theses.list_theses_entries_by_semesterentry(socket.assigns.semesterentry.id)
