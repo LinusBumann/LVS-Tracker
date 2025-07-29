@@ -7,13 +7,19 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
   alias LvsTool.Courses.StandardCourseEntry
   alias LvsTool.Theses
   alias LvsTool.Theses.ThesisEntry
+  alias LvsTool.Accounts
 
   @impl true
   def mount(_params, _session, socket) do
     {:ok,
      socket
      |> stream(:standard_course_entries, [], reset: true)
-     |> stream(:thesis_entries, [], reset: true)}
+     |> stream(:thesis_entries, [], reset: true)
+     |> assign(
+       :user_lvs_requirements,
+       Accounts.get_user_lvs_requirements(socket.assigns.current_user)
+     )
+     |> IO.inspect()}
   end
 
   @impl true
