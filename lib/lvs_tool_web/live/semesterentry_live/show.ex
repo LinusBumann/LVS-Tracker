@@ -114,7 +114,6 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
 
     case Courses.delete_standard_course_entry(standard_course_entry) do
       {:ok, _} ->
-        # LVS-Summe neu berechnen
         updated_semesterentry = Semesterentrys.recalculate_lvs_sum(socket.assigns.semesterentry)
 
         standard_course_entries =
@@ -139,7 +138,6 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
 
     case Theses.delete_thesis_entry(thesis_entry) do
       {:ok, _} ->
-        # LVS-Summe neu berechnen
         updated_semesterentry =
           socket.assigns.semesterentry
           |> Semesterentrys.recalculate_lvs_sum()
@@ -164,7 +162,6 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
     socket =
       case tab_id do
         "standard-courses" ->
-          # Lade Standard-Kurs Daten neu, wenn zu diesem Tab gewechselt wird
           standard_course_entries =
             Courses.list_standard_course_entries_by_semesterentry(socket.assigns.semesterentry.id)
 
