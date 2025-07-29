@@ -734,7 +734,7 @@ defmodule LvsToolWeb.CoreComponents do
         <div
           :for={tab <- @tab}
           id={"#{@id}-#{tab.id}-content"}
-          class={if(@live_action in tab.live_actions, do: "block", else: "hidden")}
+          class={if(@live_action in tab.live_actions, do: "visible", else: "hidden")}
         >
           {render_slot(tab)}
         </div>
