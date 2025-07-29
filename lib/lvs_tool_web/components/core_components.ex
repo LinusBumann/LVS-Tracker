@@ -689,25 +689,19 @@ defmodule LvsToolWeb.CoreComponents do
   end
 
   @doc """
-  Renders a vertical tab navigation component.
-
-  ## Examples
-
-      <.tabs id="semester-tabs" active_tab="standard-courses">
-        <:tab id="standard-courses" label="Standard-Kurse">
-          Content for standard courses
-        </:tab>
-        <:tab id="projects" label="Projekte">
-          Content for projects
-        </:tab>
-      </.tabs>
+  Renders a vertical tab navigation component with URL-based navigation.
+  Uses live_action to determine active state, including modal states.
   """
   attr :id, :string, required: true
-  attr :active_tab, :string, required: true
+  attr :live_action, :atom, required: true
+  attr :base_path, :string, required: true
 
   slot :tab, required: true do
     attr :id, :string, required: true
     attr :label, :string, required: true
+    attr :path, :string, required: true
+    # Liste aller live_actions für diesen Tab
+    attr :live_actions, :list, required: true
   end
 
   def tabs(assigns) do
@@ -717,20 +711,20 @@ defmodule LvsToolWeb.CoreComponents do
       <div class="w-64 bg-gray-50 border-r border-gray-200">
         <nav class="mt-5 px-2">
           <div class="space-y-1">
-            <button
+            <.link
               :for={tab <- @tab}
               id={"#{@id}-#{tab.id}-tab"}
-              phx-click={JS.push("switch_tab", value: %{tab_id: tab.id})}
+              patch={"#{@base_path}#{tab.path}"}
               class={[
-                "w-full text-left px-3 py-2 text-sm font-medium rounded-md transition-colors",
-                if(@active_tab == tab.id,
+                "block w-full text-left px-3 py-2 text-sm font-medium rounded-md transition-colors no-underline",
+                if(@live_action in tab.live_actions,
                   do: "bg-blue-100 text-blue-900 border-r-2 border-blue-500",
                   else: "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                 )
               ]}
             >
               {tab.label}
-            </button>
+            </.link>
           </div>
         </nav>
       </div>
@@ -740,7 +734,7 @@ defmodule LvsToolWeb.CoreComponents do
         <div
           :for={tab <- @tab}
           id={"#{@id}-#{tab.id}-content"}
-          class={if(@active_tab == tab.id, do: "block", else: "hidden")}
+          class={if(@live_action in tab.live_actions, do: "block", else: "hidden")}
         >
           {render_slot(tab)}
         </div>

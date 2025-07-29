@@ -10,7 +10,11 @@
 <.table
   id="semesterentrys"
   rows={@streams.semesterentrys}
-  row_click={fn {_id, semesterentry} -> JS.navigate(~p"/semesterentrys/#{semesterentry}") end}
+  row_click={
+    fn {_id, semesterentry} ->
+      JS.navigate(~p"/semesterentrys/#{semesterentry}/standard-courses")
+    end
+  }
 >
   <:col :let={{_id, semesterentry}} label="Name">{semesterentry.name}</:col>
   <:col :let={{_id, semesterentry}} label="Status">

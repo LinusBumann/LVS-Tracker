@@ -40,8 +40,22 @@
       </div>
       
 <!-- Tab Navigation -->
-      <.tabs id="semester-tabs" active_tab={@active_tab}>
-        <:tab id="standard-courses" label="Standard-Kurse">
+      <.tabs
+        id="semester-tabs"
+        live_action={@live_action}
+        base_path={~p"/semesterentrys/#{@semesterentry.id}"}
+      >
+        <:tab
+          id="standard-courses"
+          label="Standard-Kurse"
+          path="/standard-courses"
+          live_actions={[
+            :show,
+            :show_standard_courses,
+            :new_standard_course,
+            :edit_standard_course
+          ]}
+        >
           <.live_component
             module={LvsToolWeb.SemesterentryLive.StandardCoursesComponent}
             id="standard-courses"
@@ -51,7 +65,12 @@
             standard_course_entries={@streams.standard_course_entries}
           />
         </:tab>
-        <:tab id="thesis" label="Thesis">
+        <:tab
+          id="thesis"
+          label="Thesis"
+          path="/thesis"
+          live_actions={[:show_thesis, :new_thesis, :edit_thesis]}
+        >
           <.live_component
             module={LvsToolWeb.SemesterentryLive.ThesisComponent}
             id="thesis"
@@ -61,7 +80,12 @@
             thesis_entries={@streams.thesis_entries}
           />
         </:tab>
-        <:tab id="projects" label="Projekte">
+        <:tab
+          id="projects"
+          label="Projekte"
+          path="/projects"
+          live_actions={[:show_projects, :new_project, :edit_project]}
+        >
           <.live_component
             module={LvsToolWeb.SemesterentryLive.ProjectsComponent}
             id="projects"
@@ -69,7 +93,12 @@
             live_action={@live_action}
           />
         </:tab>
-        <:tab id="excursions" label="Exkursionen">
+        <:tab
+          id="excursions"
+          label="Exkursionen"
+          path="/excursions"
+          live_actions={[:show_excursions, :new_excursion, :edit_excursion]}
+        >
           <.live_component
             module={LvsToolWeb.SemesterentryLive.ExcursionsComponent}
             id="excursions"
@@ -77,7 +106,12 @@
             live_action={@live_action}
           />
         </:tab>
-        <:tab id="reductions" label="Ermäßigungen">
+        <:tab
+          id="reductions"
+          label="Ermäßigungen"
+          path="/reductions"
+          live_actions={[:show_reductions, :new_reduction, :edit_reduction]}
+        >
           <.live_component
             module={LvsToolWeb.SemesterentryLive.ReductionsComponent}
             id="reductions"
@@ -113,7 +147,7 @@
     :if={@live_action in [:new_standard_course, :edit_standard_course]}
     id="standard-course-modal"
     show
-    on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}")}
+    on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}/standard-courses")}
   >
     <.live_component
       module={LvsToolWeb.SemesterentryLive.StandardCourseFormComponent}
@@ -125,7 +159,7 @@
       studygroups={@studygroups}
       live_action={@live_action}
       semesterentry={@semesterentry}
-      patch={~p"/semesterentrys/#{@semesterentry}"}
+      patch={~p"/semesterentrys/#{@semesterentry}/standard-courses"}
     />
   </.modal>
   
@@ -134,7 +168,7 @@
     :if={@live_action in [:new_thesis, :edit_thesis]}
     id="thesis-modal"
     show
-    on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}")}
+    on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}/thesis")}
   >
     <.live_component
       module={LvsToolWeb.SemesterentryLive.ThesisFormComponent}
@@ -145,7 +179,7 @@
       studygroups={@studygroups}
       live_action={@live_action}
       semesterentry={@semesterentry}
-      patch={~p"/semesterentrys/#{@semesterentry}"}
+      patch={~p"/semesterentrys/#{@semesterentry}/thesis"}
     />
   </.modal>
   

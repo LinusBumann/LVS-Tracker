@@ -76,6 +76,13 @@ defmodule LvsToolWeb.Router do
       live "/semesterentrys/:id", SemesterentryLive.Show, :show
       live "/semesterentrys/:id/show/edit", SemesterentryLive.Show, :edit
 
+      # Tab-spezifische Routen
+      live "/semesterentrys/:id/standard-courses", SemesterentryLive.Show, :show_standard_courses
+      live "/semesterentrys/:id/thesis", SemesterentryLive.Show, :show_thesis
+      live "/semesterentrys/:id/projects", SemesterentryLive.Show, :show_projects
+      live "/semesterentrys/:id/excursions", SemesterentryLive.Show, :show_excursions
+      live "/semesterentrys/:id/reductions", SemesterentryLive.Show, :show_reductions
+
       # Standard-Kurse Modals
       live "/semesterentrys/:id/standard-courses/new",
            SemesterentryLive.Show,
