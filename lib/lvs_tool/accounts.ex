@@ -67,17 +67,16 @@ defmodule LvsTool.Accounts do
   def get_user_lvs_requirements(%User{} = user) do
     user = Repo.preload(user, :role)
 
-    lvs_requirements =
-      cond do
-        user.role.has_lvs and user.role.lvs_min == user.role.lvs_max ->
-          user.role.lvs_min
+    cond do
+      user.role.has_lvs and user.role.lvs_min == user.role.lvs_max ->
+        user.role.lvs_min
 
-        user.role.has_lvs and user.role.lvs_min != user.role.lvs_max ->
-          "#{user.role.lvs_min} - #{user.role.lvs_max}"
+      user.role.has_lvs and user.role.lvs_min != user.role.lvs_max ->
+        "#{user.role.lvs_min} - #{user.role.lvs_max}"
 
-        !user.role.has_lvs ->
-          0
-      end
+      !user.role.has_lvs ->
+        0
+    end
   end
 
   ## User registration
