@@ -6,7 +6,7 @@ defmodule LvsTool.Reductions do
   import Ecto.Query, warn: false
   alias LvsTool.Repo
 
-  alias LvsTool.Reductions.Reduction
+  alias LvsTool.Reductions.ReductionType
 
   @doc """
   Returns the list of reduction_types.
@@ -18,7 +18,7 @@ defmodule LvsTool.Reductions do
 
   """
   def list_reduction_types do
-    Repo.all(Reduction)
+    Repo.all(ReductionType)
   end
 
   @doc """
@@ -35,7 +35,7 @@ defmodule LvsTool.Reductions do
       ** (Ecto.NoResultsError)
 
   """
-  def get_reduction!(id), do: Repo.get!(Reduction, id)
+  def get_reduction!(id), do: Repo.get!(ReductionType, id)
 
   @doc """
   Creates a reduction.
@@ -50,8 +50,8 @@ defmodule LvsTool.Reductions do
 
   """
   def create_reduction(attrs \\ %{}) do
-    %Reduction{}
-    |> Reduction.changeset(attrs)
+    %ReductionType{}
+    |> ReductionType.changeset(attrs)
     |> Repo.insert()
   end
 
@@ -67,9 +67,9 @@ defmodule LvsTool.Reductions do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_reduction(%Reduction{} = reduction, attrs) do
-    reduction
-    |> Reduction.changeset(attrs)
+  def update_reduction(%ReductionType{} = reduction_type, attrs) do
+    reduction_type
+    |> ReductionType.changeset(attrs)
     |> Repo.update()
   end
 
@@ -85,8 +85,8 @@ defmodule LvsTool.Reductions do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_reduction(%Reduction{} = reduction) do
-    Repo.delete(reduction)
+  def delete_reduction(%ReductionType{} = reduction_type) do
+    Repo.delete(reduction_type)
   end
 
   @doc """
@@ -98,7 +98,7 @@ defmodule LvsTool.Reductions do
       %Ecto.Changeset{data: %Reduction{}}
 
   """
-  def change_reduction(%Reduction{} = reduction, attrs \\ %{}) do
-    Reduction.changeset(reduction, attrs)
+  def change_reduction(%ReductionType{} = reduction_type, attrs \\ %{}) do
+    ReductionType.changeset(reduction_type, attrs)
   end
 end

@@ -1,4 +1,4 @@
-defmodule LvsTool.Reductions.Reduction do
+defmodule LvsTool.Reductions.ReductionType do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -14,6 +14,6 @@ defmodule LvsTool.Reductions.Reduction do
   def changeset(reduction, attrs) do
     reduction
     |> cast(attrs, [:reduction_reason, :reduction_lvs, :description])
-    |> validate_required([:reduction_reason, :reduction_lvs])
+    |> validate_required([:reduction_reason])
   end
 end
