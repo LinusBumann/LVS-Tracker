@@ -171,6 +171,7 @@ end)
 IO.puts("Thesis Types wurden erfolgreich eingefügt!")
 """
 
+"""
 reduction_types = [
   %{reduction_reason: "Vizepräsident", description: "bis zu 12 LVS"},
   %{reduction_reason: "Prüfungsausschuss-Vorsitzende*r", reduction_lvs: 4},
@@ -230,3 +231,4 @@ Enum.each(reduction_types, fn attrs ->
 end)
 
 IO.puts("Reduction Types wurden erfolgreich eingefügt!")
+"""
