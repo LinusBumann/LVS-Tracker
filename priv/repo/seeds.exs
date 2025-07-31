@@ -170,3 +170,36 @@ end)
 
 IO.puts("Thesis Types wurden erfolgreich eingefügt!")
 """
+
+reduction_types = [
+  %{name: "Vizepräsident"},
+  %{name: "Prüfungsausschuss-Vorsitzende*r", reduction_lvs: 4},
+  %{name: "Berufungsausschuss Vorsitzende*r", reduction_lvs: 2},
+  %{name: "Stundenplaner*in", reduction_lvs: 2},
+  %{name: "Vorsitz Senatsausschüsse", reduction_lvs: 1},
+  %{name: "Vorsitz Senat", reduction_lvs: 2},
+  %{name: "Dekan*in", reduction_lvs: 9},
+  %{name: "Prodekan*in", reduction_lvs: 2},
+  %{name: "Beauftragte für Studium und Lehre", reduction_lvs: 3},
+  %{name: "Stundenplaner*in", reduction_lvs: 2},
+  %{name: "Studiengangsverantwortliche"},
+  %{name: "Studiengangsverantwortliche für Reakkreditierung", reduction_lvs: 3},
+  %{name: "Semesterverantwortliche", reduction_lvs: 3},
+  %{name: "Gleichstellungsbeauftragte (inklusive Stellvertretung)", reduction_lvs: 1},
+  %{name: "Sonderfunktionen"},
+  %{name: "Forschung & Entwicklung, sowie Wissens- und Technologietransfer", reduction_lvs: 0},
+  %{name: "Promotionsbetreuung", reduction_lvs: 0},
+  %{name: "Aufgaben im öffentlichen Interesse außerhalb der Hochschule", reduction_lvs: 0},
+  %{name: "Schwerbehinderte Lehrpersonen"},
+  %{name: "Internationalisierung:
+Erstellung eines Lehrangebots in z.B. englischer Sprache für Module,
+die im Curriculum nur einsprachig vorgesehen sind."}
+]
+
+Enum.each(reduction_types, fn attrs ->
+  %LvsTool.Reductions.ReductionType{}
+  |> LvsTool.Reductions.ReductionType.changeset(attrs)
+  |> LvsTool.Repo.insert!()
+end)
+
+IO.puts("Reduction Types wurden erfolgreich eingefügt!")
