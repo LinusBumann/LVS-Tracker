@@ -15,12 +15,21 @@
         GitHub
       </a>
       
-      <a
-        href="https://hexdocs.pm/phoenix/overview.html"
+      <.link
+        :if={@live_action not in [:info_index]}
         class="rounded-lg bg-zinc-100 px-2 py-1 hover:bg-zinc-200/80"
+        navigate={~p"/infos"}
       >
         Allgemeine Infos <span aria-hidden="true">&rarr;</span>
-      </a>
+      </.link>
+      
+      <.link
+        :if={@live_action in [:info_index]}
+        class="rounded-lg bg-zinc-100 px-2 py-1 hover:bg-zinc-200/80"
+        navigate={~p"/semesterentrys"}
+      >
+        Semesterübersicht <span aria-hidden="true">&rarr;</span>
+      </.link>
     </div>
   </div>
 </header>
