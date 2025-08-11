@@ -106,10 +106,8 @@ defmodule LvsTool.Reductions do
   Returns the list of reduction_entries for a specific semesterentry.
   """
   def list_reduction_entries_by_semesterentry(semesterentry_id) do
-    ReductionEntry
-    |> where([r], r.semesterentry_id == ^semesterentry_id)
-    |> preload(:reduction_type)
-    |> Repo.all()
+    Repo.all(from re in ReductionEntry, where: re.semesterentry_id == ^semesterentry_id)
+    |> Repo.preload([:reduction_type])
   end
 
   @doc """
@@ -147,5 +145,19 @@ defmodule LvsTool.Reductions do
   """
   def change_reduction_entry(%ReductionEntry{} = reduction_entry, attrs \\ %{}) do
     ReductionEntry.changeset(reduction_entry, attrs)
+  end
+
+  def calculate_reduction_lvs(reduction_type_id) do
+    if reduction_type_id && reduction_type_id != "" do
+      reduction_type_id =
+        if is_binary(reduction_type_id),
+          do: String.to_integer(reduction_type_id),
+          else: reduction_type_id
+
+      reduction_type = get_reduction!(reduction_type_id).reduction_lvs
+      reduction_type
+    else
+      0.0
+    end
   end
 end
