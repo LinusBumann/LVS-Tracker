@@ -16,6 +16,7 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
      socket
      |> stream(:standard_course_entries, [], reset: true)
      |> stream(:thesis_entries, [], reset: true)
+     |> stream(:reduction_entries, [], reset: true)
      |> assign(
        :user_lvs_requirements,
        Accounts.get_user_lvs_requirements(socket.assigns.current_user)
@@ -86,29 +87,39 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
   defp apply_action(socket, :show_reductions, %{"id" => id}) do
     semesterentry = Semesterentrys.get_semesterentry!(id)
 
+    reduction_entries = Reductions.list_reduction_entries_by_semesterentry(semesterentry.id)
+
     socket
     |> assign(:page_title, "Ermäßigungen")
     |> assign(:semesterentry, semesterentry)
+    |> stream(:reduction_entries, reduction_entries, reset: true)
   end
 
   defp apply_action(socket, :new_reduction, %{"id" => id}) do
     semesterentry = Semesterentrys.get_semesterentry!(id)
     reduction_types = Reductions.list_reduction_types()
+    reduction_entries = Reductions.list_reduction_entries_by_semesterentry(semesterentry.id)
 
     socket
     |> assign(:page_title, "Neue Ermäßigung")
     |> assign(:semesterentry, semesterentry)
     |> assign(:reduction_types, reduction_types)
+    |> assign(:reduction_entry, %Reductions.ReductionEntry{})
+    |> stream(:reduction_entries, reduction_entries, reset: true)
   end
 
   defp apply_action(socket, :edit_reduction, %{"id" => id, "reduction_id" => reduction_id}) do
-    reduction_type = Reductions.get_reduction!(reduction_id)
+    reduction_entry = Reductions.get_reduction_entry!(reduction_id)
     semesterentry = Semesterentrys.get_semesterentry!(id)
+    reduction_types = Reductions.list_reduction_types()
+    reduction_entries = Reductions.list_reduction_entries_by_semesterentry(semesterentry.id)
 
     socket
     |> assign(:page_title, "Bearbeiten Ermäßigung")
-    |> assign(:reduction_type, reduction_type)
+    |> assign(:reduction_entry, reduction_entry)
     |> assign(:semesterentry, semesterentry)
+    |> assign(:reduction_types, reduction_types)
+    |> stream(:reduction_entries, reduction_entries, reset: true)
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
@@ -238,6 +249,30 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
          |> assign(:semesterentry, updated_semesterentry)
          |> put_flash(:info, "Thesis gelöscht")
          |> stream(:thesis_entries, thesis_entries, reset: true)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, form: to_form(changeset))}
+    end
+  end
+
+  def handle_info(
+        {LvsToolWeb.SemesterentryLive.ReductionsComponent, {:deleted_reduction, id}},
+        socket
+      ) do
+    reduction_entry = Reductions.get_reduction_entry!(id)
+
+    case Reductions.delete_reduction_entry(reduction_entry) do
+      {:ok, _} ->
+        updated_semesterentry = Semesterentrys.recalculate_lvs_sum(socket.assigns.semesterentry)
+
+        reduction_entries =
+          Reductions.list_reduction_entries_by_semesterentry(socket.assigns.semesterentry.id)
+
+        {:noreply,
+         socket
+         |> assign(:semesterentry, updated_semesterentry)
+         |> put_flash(:info, "Ermäßigung gelöscht")
+         |> stream(:reduction_entries, reduction_entries, reset: true)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}

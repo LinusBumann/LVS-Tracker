@@ -117,6 +117,7 @@
             id="reductions"
             semesterentry={@semesterentry}
             live_action={@live_action}
+            reduction_entries={@streams.reduction_entries}
           />
         </:tab>
       </.tabs>
@@ -192,8 +193,9 @@
   >
     <.live_component
       module={LvsToolWeb.SemesterentryLive.ReductionsFormComponent}
-      id={@reduction_type.id || :new}
+      id={@reduction_entry.id || :new}
       page_title={@page_title}
+      reduction_entry={@reduction_entry}
       reduction_types={@reduction_types}
       live_action={@live_action}
       semesterentry={@semesterentry}

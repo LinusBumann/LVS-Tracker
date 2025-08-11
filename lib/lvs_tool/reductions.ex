@@ -6,7 +6,7 @@ defmodule LvsTool.Reductions do
   import Ecto.Query, warn: false
   alias LvsTool.Repo
 
-  alias LvsTool.Reductions.ReductionType
+  alias LvsTool.Reductions.{ReductionType, ReductionEntry}
 
   @doc """
   Returns the list of reduction_types.
@@ -102,48 +102,23 @@ defmodule LvsTool.Reductions do
     ReductionType.changeset(reduction_type, attrs)
   end
 
-  alias LvsTool.Reductions.ReductionEntry
-
   @doc """
-  Returns the list of reduction_entrie.
-
-  ## Examples
-
-      iex> list_reduction_entrie()
-      [%ReductionEntry{}, ...]
-
+  Returns the list of reduction_entries for a specific semesterentry.
   """
-  def list_reduction_entrie do
-    Repo.all(ReductionEntry)
+  def list_reduction_entries_by_semesterentry(semesterentry_id) do
+    ReductionEntry
+    |> where([r], r.semesterentry_id == ^semesterentry_id)
+    |> preload(:reduction_type)
+    |> Repo.all()
   end
 
   @doc """
   Gets a single reduction_entry.
-
-  Raises `Ecto.NoResultsError` if the Reduction entry does not exist.
-
-  ## Examples
-
-      iex> get_reduction_entry!(123)
-      %ReductionEntry{}
-
-      iex> get_reduction_entry!(456)
-      ** (Ecto.NoResultsError)
-
   """
   def get_reduction_entry!(id), do: Repo.get!(ReductionEntry, id)
 
   @doc """
   Creates a reduction_entry.
-
-  ## Examples
-
-      iex> create_reduction_entry(%{field: value})
-      {:ok, %ReductionEntry{}}
-
-      iex> create_reduction_entry(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
   """
   def create_reduction_entry(attrs \\ %{}) do
     %ReductionEntry{}
@@ -153,15 +128,6 @@ defmodule LvsTool.Reductions do
 
   @doc """
   Updates a reduction_entry.
-
-  ## Examples
-
-      iex> update_reduction_entry(reduction_entry, %{field: new_value})
-      {:ok, %ReductionEntry{}}
-
-      iex> update_reduction_entry(reduction_entry, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
   """
   def update_reduction_entry(%ReductionEntry{} = reduction_entry, attrs) do
     reduction_entry
@@ -171,15 +137,6 @@ defmodule LvsTool.Reductions do
 
   @doc """
   Deletes a reduction_entry.
-
-  ## Examples
-
-      iex> delete_reduction_entry(reduction_entry)
-      {:ok, %ReductionEntry{}}
-
-      iex> delete_reduction_entry(reduction_entry)
-      {:error, %Ecto.Changeset{}}
-
   """
   def delete_reduction_entry(%ReductionEntry{} = reduction_entry) do
     Repo.delete(reduction_entry)
@@ -187,12 +144,6 @@ defmodule LvsTool.Reductions do
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking reduction_entry changes.
-
-  ## Examples
-
-      iex> change_reduction_entry(reduction_entry)
-      %Ecto.Changeset{data: %ReductionEntry{}}
-
   """
   def change_reduction_entry(%ReductionEntry{} = reduction_entry, attrs \\ %{}) do
     ReductionEntry.changeset(reduction_entry, attrs)
