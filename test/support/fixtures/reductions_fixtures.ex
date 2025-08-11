@@ -18,4 +18,18 @@ defmodule LvsTool.ReductionsFixtures do
 
     reduction_type
   end
+
+  @doc """
+  Generate a reduction_entry.
+  """
+  def reduction_entry_fixture(attrs \\ %{}) do
+    {:ok, reduction_entry} =
+      attrs
+      |> Enum.into(%{
+        lvs: 120.5
+      })
+      |> LvsTool.Reductions.create_reduction_entry()
+
+    reduction_entry
+  end
 end

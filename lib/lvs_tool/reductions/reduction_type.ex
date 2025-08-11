@@ -7,6 +7,8 @@ defmodule LvsTool.Reductions.ReductionType do
     field :reduction_lvs, :float
     field :description, :string
 
+    has_many :reduction_entries, LvsTool.Reductions.ReductionEntry
+
     timestamps(type: :utc_datetime)
   end
 
