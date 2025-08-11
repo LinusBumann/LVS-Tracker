@@ -8,6 +8,7 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
   alias LvsTool.Theses
   alias LvsTool.Theses.ThesisEntry
   alias LvsTool.Accounts
+  alias LvsTool.Reductions
 
   @impl true
   def mount(_params, _session, socket) do
@@ -87,6 +88,26 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
 
     socket
     |> assign(:page_title, "Ermäßigungen")
+    |> assign(:semesterentry, semesterentry)
+  end
+
+  defp apply_action(socket, :new_reduction, %{"id" => id}) do
+    semesterentry = Semesterentrys.get_semesterentry!(id)
+    reduction_types = Reductions.list_reduction_types()
+
+    socket
+    |> assign(:page_title, "Neue Ermäßigung")
+    |> assign(:semesterentry, semesterentry)
+    |> assign(:reduction_types, reduction_types)
+  end
+
+  defp apply_action(socket, :edit_reduction, %{"id" => id, "reduction_id" => reduction_id}) do
+    reduction_type = Reductions.get_reduction!(reduction_id)
+    semesterentry = Semesterentrys.get_semesterentry!(id)
+
+    socket
+    |> assign(:page_title, "Bearbeiten Ermäßigung")
+    |> assign(:reduction_type, reduction_type)
     |> assign(:semesterentry, semesterentry)
   end
 

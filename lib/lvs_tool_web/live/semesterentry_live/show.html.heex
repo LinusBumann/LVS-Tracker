@@ -24,7 +24,7 @@
           </div>
           <div class="text-sm flex items-center space-x-4">
             <span class="font-medium px-2 py-1 rounded-md bg-gray-100">
-                LVS Summe: {@semesterentry.lvs_sum} von {@user_lvs_requirements}
+              LVS Summe: {@semesterentry.lvs_sum} von {@user_lvs_requirements}
             </span>
             <span class={"font-medium px-2 py-1 rounded-md " <>
             if @semesterentry.theses_count >= 6 do
@@ -183,6 +183,24 @@
     />
   </.modal>
   
+<!-- Reduction Modals -->
+  <.modal
+    :if={@live_action in [:new_reduction, :edit_reduction]}
+    id="reduction-modal"
+    show
+    on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}/reductions")}
+  >
+    <.live_component
+      module={LvsToolWeb.SemesterentryLive.ReductionsFormComponent}
+      id={@reduction_type.id || :new}
+      page_title={@page_title}
+      reduction_types={@reduction_types}
+      live_action={@live_action}
+      semesterentry={@semesterentry}
+      patch={~p"/semesterentrys/#{@semesterentry}/reductions"}
+    />
+  </.modal>
+  
 <!-- Project Modals -->
   <.modal
     :if={@live_action in [:new_project, :edit_project]}
@@ -218,27 +236,6 @@
       <h3 class="mt-2 text-sm font-medium text-gray-900">Exkursion Modal</h3>
       <p class="mt-1 text-sm text-gray-500">
         {if @live_action == :new_excursion, do: "Neue Exkursion", else: "Exkursion bearbeiten"}
-      </p>
-      <p class="mt-1 text-sm text-gray-500">
-        Funktionalität wird noch implementiert.
-      </p>
-    </div>
-  </.modal>
-  
-<!-- Reduction Modals -->
-  <.modal
-    :if={@live_action in [:new_reduction, :edit_reduction]}
-    id="reduction-modal"
-    show
-    on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}")}
-  >
-    <div class="text-center py-12">
-      <div class="mx-auto h-12 w-12 text-gray-400">
-        <.icon name="hero-minus-circle" class="h-12 w-12" />
-      </div>
-      <h3 class="mt-2 text-sm font-medium text-gray-900">Ermäßigung Modal</h3>
-      <p class="mt-1 text-sm text-gray-500">
-        {if @live_action == :new_reduction, do: "Neue Ermäßigung", else: "Ermäßigung bearbeiten"}
       </p>
       <p class="mt-1 text-sm text-gray-500">
         Funktionalität wird noch implementiert.
