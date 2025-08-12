@@ -18,9 +18,14 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
      |> stream(:thesis_entries, [], reset: true)
      |> stream(:reduction_entries, [], reset: true)
      |> assign(
+       :calculated_user_lvs_requirements,
+       Accounts.get_user_lvs_requirements_with_reduction_calculation(socket.assigns.current_user)
+     )
+     |> assign(
        :user_lvs_requirements,
        Accounts.get_user_lvs_requirements(socket.assigns.current_user)
      )
+     |> assign(:user_role, Accounts.get_user_role(socket.assigns.current_user))
      |> IO.inspect()}
   end
 
@@ -271,11 +276,29 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
         {:noreply,
          socket
          |> assign(:semesterentry, updated_semesterentry)
+         |> assign(
+           :calculated_user_lvs_requirements,
+           Accounts.get_user_lvs_requirements_with_reduction_calculation(
+             socket.assigns.current_user
+           )
+         )
          |> put_flash(:info, "Ermäßigung gelöscht")
          |> stream(:reduction_entries, reduction_entries, reset: true)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}
     end
+  end
+
+  def handle_info(
+        {LvsToolWeb.SemesterentryLive.ReductionsFormComponent, :reduction_updated},
+        socket
+      ) do
+    {:noreply,
+     socket
+     |> assign(
+       :calculated_user_lvs_requirements,
+       Accounts.get_user_lvs_requirements_with_reduction_calculation(socket.assigns.current_user)
+     )}
   end
 end

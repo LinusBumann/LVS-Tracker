@@ -7,7 +7,8 @@ defmodule LvsTool.Accounts do
   alias LvsTool.Repo
 
   alias LvsTool.Accounts.{User, UserToken, UserNotifier}
-
+  alias LvsTool.Semesterentrys
+  alias LvsTool.Reductions
   ## Database getters
 
   @doc """
@@ -62,6 +63,32 @@ defmodule LvsTool.Accounts do
     User
     |> Repo.get!(id)
     |> Repo.preload(:role)
+  end
+
+  def get_user_role(%User{} = user) do
+    user
+    |> Repo.preload(:role)
+    |> Map.get(:role)
+  end
+
+  def get_user_lvs_requirements_with_reduction_calculation(%User{} = user) do
+    user = Repo.preload(user, :role)
+
+    semesterentry = Semesterentrys.get_semesterentry!(user.id)
+
+    reduction_lvs_sum =
+      Reductions.get_reduction_sum_by_semesterentry(semesterentry.id)
+
+    cond do
+      user.role.has_lvs and user.role.lvs_min == user.role.lvs_max ->
+        user.role.lvs_min - reduction_lvs_sum
+
+      user.role.has_lvs and user.role.lvs_min != user.role.lvs_max ->
+        "#{user.role.lvs_min - reduction_lvs_sum} - #{user.role.lvs_max - reduction_lvs_sum}"
+
+      !user.role.has_lvs ->
+        0
+    end
   end
 
   def get_user_lvs_requirements(%User{} = user) do

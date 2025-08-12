@@ -123,16 +123,8 @@ defmodule LvsTool.Semesterentrys do
         0.0
       end
 
-    # Summe aller Reduktion LVS
-    reduction_lvs_sum =
-      from(re in LvsTool.Reductions.ReductionEntry,
-        where: re.semesterentry_id == ^semesterentry.id,
-        select: coalesce(sum(re.lvs), 0.0)
-      )
-      |> Repo.one()
-
     # Gesamtsumme berechnen (Standard-Kurse + Theses - Reduktionen) und auf 2 Nachkommastellen runden
-    total_lvs = Float.round(standard_course_lvs_sum + thesis_lvs_sum - reduction_lvs_sum, 2)
+    total_lvs = Float.round(standard_course_lvs_sum + thesis_lvs_sum, 2)
 
     # Update der LVS-Summe
     from(s in Semesterentry, where: s.id == ^semesterentry.id)

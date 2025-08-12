@@ -84,6 +84,9 @@ defmodule LvsToolWeb.SemesterentryLive.ReductionsFormComponent do
         # LVS-Summe neu berechnen
         Semesterentrys.recalculate_lvs_sum(socket.assigns.semesterentry)
 
+        # Parent über Änderung informieren
+        send(self(), {__MODULE__, :reduction_updated})
+
         {:noreply,
          socket
          |> put_flash(:info, "Ermäßigung erfolgreich aktualisiert")
@@ -102,6 +105,9 @@ defmodule LvsToolWeb.SemesterentryLive.ReductionsFormComponent do
       {:ok, _reduction_entry} ->
         socket.assigns.semesterentry
         |> Semesterentrys.recalculate_lvs_sum()
+
+        # Parent über Änderung informieren
+        send(self(), {__MODULE__, :reduction_updated})
 
         {:noreply,
          socket

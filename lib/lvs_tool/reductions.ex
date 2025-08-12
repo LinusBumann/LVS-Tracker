@@ -110,6 +110,11 @@ defmodule LvsTool.Reductions do
     |> Repo.preload([:reduction_type])
   end
 
+  def get_reduction_sum_by_semesterentry(semesterentry_id) do
+    list_reduction_entries_by_semesterentry(semesterentry_id)
+    |> Enum.reduce(0, fn re, acc -> acc + re.lvs end)
+  end
+
   @doc """
   Gets a single reduction_entry.
   """
