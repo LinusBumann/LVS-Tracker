@@ -66,6 +66,8 @@ defmodule LvsToolWeb.Router do
 
     live_session :require_authenticated_user,
       on_mount: [{LvsToolWeb.UserAuth, :ensure_authenticated}] do
+      live "/infos", InfoLive.InfoIndex, :info_index
+
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
 
@@ -76,6 +78,13 @@ defmodule LvsToolWeb.Router do
       live "/semesterentrys/:id", SemesterentryLive.Show, :show
       live "/semesterentrys/:id/show/edit", SemesterentryLive.Show, :edit
 
+      # Tab-spezifische Routen
+      live "/semesterentrys/:id/standard-courses", SemesterentryLive.Show, :show_standard_courses
+      live "/semesterentrys/:id/thesis", SemesterentryLive.Show, :show_thesis
+      live "/semesterentrys/:id/projects", SemesterentryLive.Show, :show_projects
+      live "/semesterentrys/:id/excursions", SemesterentryLive.Show, :show_excursions
+      live "/semesterentrys/:id/reductions", SemesterentryLive.Show, :show_reductions
+
       # Standard-Kurse Modals
       live "/semesterentrys/:id/standard-courses/new",
            SemesterentryLive.Show,
@@ -84,6 +93,10 @@ defmodule LvsToolWeb.Router do
       live "/semesterentrys/:id/standard-courses/:course_id/edit",
            SemesterentryLive.Show,
            :edit_standard_course
+
+      # Thesis Modals
+      live "/semesterentrys/:id/thesis/new", SemesterentryLive.Show, :new_thesis
+      live "/semesterentrys/:id/thesis/:thesis_id/edit", SemesterentryLive.Show, :edit_thesis
 
       # Projekte Modals
       live "/semesterentrys/:id/projects/new", SemesterentryLive.Show, :new_project
@@ -95,10 +108,6 @@ defmodule LvsToolWeb.Router do
       live "/semesterentrys/:id/excursions/:excursion_id/edit",
            SemesterentryLive.Show,
            :edit_excursion
-
-      # Thesis Modals
-      live "/semesterentrys/:id/thesis/new", SemesterentryLive.Show, :new_thesis
-      live "/semesterentrys/:id/thesis/:thesis_id/edit", SemesterentryLive.Show, :edit_thesis
 
       # Ermäßigungen Modals
       live "/semesterentrys/:id/reductions/new", SemesterentryLive.Show, :new_reduction

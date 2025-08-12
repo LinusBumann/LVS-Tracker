@@ -7,7 +7,5 @@ defmodule LvsTool.Courses.CourseEntryType do
   schema "course_entry_types" do
     field :standard_course_entry_id, :id
     field :standardcoursetype_id, :id
-
-    timestamps()
   end
 end

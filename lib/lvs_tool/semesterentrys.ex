@@ -7,6 +7,7 @@ defmodule LvsTool.Semesterentrys do
   alias LvsTool.Repo
 
   alias LvsTool.Semesterentrys.Semesterentry
+  alias LvsTool.Theses
 
   @doc """
   Returns the list of semesterentrys.
@@ -50,6 +51,12 @@ defmodule LvsTool.Semesterentrys do
     )
   end
 
+  def get_lvs_for_semesterentry(semesterentry_id) do
+    from(s in Semesterentry, where: s.id == ^semesterentry_id)
+    |> Repo.one()
+    |> Map.get(:lvs_sum)
+  end
+
   @doc """
   Creates a semesterentry.
 
@@ -84,6 +91,61 @@ defmodule LvsTool.Semesterentrys do
     semesterentry
     |> Semesterentry.changeset(attrs)
     |> Repo.update()
+  end
+
+  def update_semesterentry_lvs(%Semesterentry{} = semesterentry, lvs_delta) do
+    from(s in Semesterentry, where: s.id == ^semesterentry.id)
+    |> Repo.update_all(inc: [lvs_sum: lvs_delta])
+  end
+
+  def update_theses_count(%Semesterentry{} = semesterentry) do
+    thesis_count = Theses.get_thesis_count(semesterentry.id)
+
+    from(s in Semesterentry, where: s.id == ^semesterentry.id)
+    |> Repo.update_all(set: [theses_count: thesis_count])
+
+    get_semesterentry!(semesterentry.id)
+  end
+
+  def calculate_lvs_sum_for_all_semesterentries_by_user(user_id) do
+    semesterentries = list_semesterentrys_by_user(user_id)
+
+    semesterentries
+    |> Enum.map(fn semesterentry -> semesterentry.lvs_sum end)
+    |> Enum.sum()
+  end
+
+  def recalculate_lvs_sum(%Semesterentry{} = semesterentry) do
+    standard_course_lvs_sum =
+      from(sce in LvsTool.Courses.StandardCourseEntry,
+        where: sce.semesterentry_id == ^semesterentry.id,
+        select: coalesce(sum(sce.lvs), 0.0)
+      )
+      |> Repo.one()
+
+    # Summe aller Thesis LVS
+    thesis_count = Theses.get_thesis_count(semesterentry.id)
+
+    thesis_lvs_sum =
+      if thesis_count >= 6 do
+        from(te in LvsTool.Theses.ThesisEntry,
+          where: te.semesterentry_id == ^semesterentry.id,
+          select: coalesce(sum(te.lvs), 0.0)
+        )
+        |> Repo.one()
+      else
+        0.0
+      end
+
+    # Gesamtsumme berechnen (Standard-Kurse + Theses - Reduktionen) und auf 2 Nachkommastellen runden
+    total_lvs = Float.round(standard_course_lvs_sum + thesis_lvs_sum, 2)
+
+    # Update der LVS-Summe
+    from(s in Semesterentry, where: s.id == ^semesterentry.id)
+    |> Repo.update_all(set: [lvs_sum: total_lvs])
+
+    # Aktualisierte semesterentry zurückgeben
+    get_semesterentry!(semesterentry.id)
   end
 
   @doc """

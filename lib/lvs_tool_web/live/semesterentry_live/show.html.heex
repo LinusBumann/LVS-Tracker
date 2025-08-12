@@ -22,47 +22,115 @@
               {@semesterentry.status}
             </span>
           </div>
-          <div class="text-sm text-gray-500">
-            LVS Summe: <span class="font-medium">{@semesterentry.lvs_sum}</span>
+          <div class="text-sm flex items-center space-x-4">
+            <span class={"font-medium px-2 py-1 rounded-md " <>
+              case @semesterentry.lvs_sum do
+                lvs when lvs > @calculated_user_lvs_requirements -> "bg-red-100 text-red-900"
+                lvs when lvs < 0 -> "bg-red-100 text-red-900"
+                lvs when lvs === @calculated_user_lvs_requirements -> "bg-green-100 text-green-900"
+                _ -> "bg-orange-100 text-orange-900"
+              end
+              }>
+              LVS Summe: {@semesterentry.lvs_sum} von {@calculated_user_lvs_requirements}
+
+              <span class="text-xs">
+                ({@user_role.name} hat regulär {if @user_role.has_lvs,
+                  do: @user_lvs_requirements,
+                  else: "keine"} LVS)
+              </span>
+            </span>
+            <span class={"font-medium px-2 py-1 rounded-md " <>
+            if @semesterentry.theses_count >= 6 do
+              "bg-green-100 text-green-900"
+            else
+              "bg-red-100 text-red-900"
+            end
+            }>
+              Thesisanzahl: {@semesterentry.theses_count}
+            </span>
           </div>
         </div>
       </div>
       
 <!-- Tab Navigation -->
-      <.tabs id="semester-tabs" active_tab={@active_tab}>
-        <:tab id="standard-courses" label="Standard-Kurse">
+      <.tabs
+        id="semester-tabs"
+        live_action={@live_action}
+        base_path={~p"/semesterentrys/#{@semesterentry.id}"}
+      >
+        <:tab
+          id="standard-courses"
+          label="Standard-Kurse"
+          path="/standard-courses"
+          live_actions={[
+            :show,
+            :show_standard_courses,
+            :new_standard_course,
+            :edit_standard_course
+          ]}
+        >
           <.live_component
             module={LvsToolWeb.SemesterentryLive.StandardCoursesComponent}
             id="standard-courses"
             semesterentry={@semesterentry}
+            live_action={@live_action}
+            page_title={@page_title}
+            standard_course_entries={@streams.standard_course_entries}
           />
         </:tab>
-        <:tab id="projects" label="Projekte">
-          <.live_component
-            module={LvsToolWeb.SemesterentryLive.ProjectsComponent}
-            id="projects"
-            semesterentry={@semesterentry}
-          />
-        </:tab>
-        <:tab id="excursions" label="Exkursionen">
-          <.live_component
-            module={LvsToolWeb.SemesterentryLive.ExcursionsComponent}
-            id="excursions"
-            semesterentry={@semesterentry}
-          />
-        </:tab>
-        <:tab id="thesis" label="Thesis">
+        <:tab
+          id="thesis"
+          label="Thesis"
+          path="/thesis"
+          live_actions={[:show_thesis, :new_thesis, :edit_thesis]}
+        >
           <.live_component
             module={LvsToolWeb.SemesterentryLive.ThesisComponent}
             id="thesis"
             semesterentry={@semesterentry}
+            live_action={@live_action}
+            page_title={@page_title}
+            thesis_entries={@streams.thesis_entries}
           />
         </:tab>
-        <:tab id="reductions" label="Ermäßigungen">
+        <:tab
+          id="projects"
+          label="Projekte"
+          path="/projects"
+          live_actions={[:show_projects, :new_project, :edit_project]}
+        >
+          <.live_component
+            module={LvsToolWeb.SemesterentryLive.ProjectsComponent}
+            id="projects"
+            semesterentry={@semesterentry}
+            live_action={@live_action}
+          />
+        </:tab>
+        <:tab
+          id="excursions"
+          label="Exkursionen"
+          path="/excursions"
+          live_actions={[:show_excursions, :new_excursion, :edit_excursion]}
+        >
+          <.live_component
+            module={LvsToolWeb.SemesterentryLive.ExcursionsComponent}
+            id="excursions"
+            semesterentry={@semesterentry}
+            live_action={@live_action}
+          />
+        </:tab>
+        <:tab
+          id="reductions"
+          label="Ermäßigungen"
+          path="/reductions"
+          live_actions={[:show_reductions, :new_reduction, :edit_reduction]}
+        >
           <.live_component
             module={LvsToolWeb.SemesterentryLive.ReductionsComponent}
             id="reductions"
             semesterentry={@semesterentry}
+            live_action={@live_action}
+            reduction_entries={@streams.reduction_entries}
           />
         </:tab>
       </.tabs>
@@ -93,22 +161,59 @@
     :if={@live_action in [:new_standard_course, :edit_standard_course]}
     id="standard-course-modal"
     show
-    on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}")}
+    on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}/standard-courses")}
   >
-    <div class="text-center py-12">
-      <div class="mx-auto h-12 w-12 text-gray-400">
-        <.icon name="hero-academic-cap" class="h-12 w-12" />
-      </div>
-      <h3 class="mt-2 text-sm font-medium text-gray-900">Standard-Kurs Modal</h3>
-      <p class="mt-1 text-sm text-gray-500">
-        {if @live_action == :new_standard_course,
-          do: "Neuer Standard-Kurs",
-          else: "Standard-Kurs bearbeiten"}
-      </p>
-      <p class="mt-1 text-sm text-gray-500">
-        Funktionalität wird noch implementiert.
-      </p>
-    </div>
+    <.live_component
+      module={LvsToolWeb.SemesterentryLive.StandardCourseFormComponent}
+      id={@standard_course_entry.id || :new}
+      page_title={@page_title}
+      standard_course_entry={@standard_course_entry}
+      standard_course_types={@standard_course_types}
+      standard_course_names={@standard_course_names}
+      studygroups={@studygroups}
+      live_action={@live_action}
+      semesterentry={@semesterentry}
+      patch={~p"/semesterentrys/#{@semesterentry}/standard-courses"}
+    />
+  </.modal>
+  
+<!-- Thesis Modals -->
+  <.modal
+    :if={@live_action in [:new_thesis, :edit_thesis]}
+    id="thesis-modal"
+    show
+    on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}/thesis")}
+  >
+    <.live_component
+      module={LvsToolWeb.SemesterentryLive.ThesisFormComponent}
+      id={@thesis_entry.id || :new}
+      page_title={@page_title}
+      thesis_entry={@thesis_entry}
+      thesis_types={@thesis_types}
+      studygroups={@studygroups}
+      live_action={@live_action}
+      semesterentry={@semesterentry}
+      patch={~p"/semesterentrys/#{@semesterentry}/thesis"}
+    />
+  </.modal>
+  
+<!-- Reduction Modals -->
+  <.modal
+    :if={@live_action in [:new_reduction, :edit_reduction]}
+    id="reduction-modal"
+    show
+    on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}/reductions")}
+  >
+    <.live_component
+      module={LvsToolWeb.SemesterentryLive.ReductionsFormComponent}
+      id={@reduction_entry.id || :new}
+      page_title={@page_title}
+      reduction_entry={@reduction_entry}
+      reduction_types={@reduction_types}
+      live_action={@live_action}
+      semesterentry={@semesterentry}
+      patch={~p"/semesterentrys/#{@semesterentry}/reductions"}
+    />
   </.modal>
   
 <!-- Project Modals -->
@@ -146,48 +251,6 @@
       <h3 class="mt-2 text-sm font-medium text-gray-900">Exkursion Modal</h3>
       <p class="mt-1 text-sm text-gray-500">
         {if @live_action == :new_excursion, do: "Neue Exkursion", else: "Exkursion bearbeiten"}
-      </p>
-      <p class="mt-1 text-sm text-gray-500">
-        Funktionalität wird noch implementiert.
-      </p>
-    </div>
-  </.modal>
-  
-<!-- Thesis Modals -->
-  <.modal
-    :if={@live_action in [:new_thesis, :edit_thesis]}
-    id="thesis-modal"
-    show
-    on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}")}
-  >
-    <div class="text-center py-12">
-      <div class="mx-auto h-12 w-12 text-gray-400">
-        <.icon name="hero-document-text" class="h-12 w-12" />
-      </div>
-      <h3 class="mt-2 text-sm font-medium text-gray-900">Thesis Modal</h3>
-      <p class="mt-1 text-sm text-gray-500">
-        {if @live_action == :new_thesis, do: "Neue Thesis", else: "Thesis bearbeiten"}
-      </p>
-      <p class="mt-1 text-sm text-gray-500">
-        Funktionalität wird noch implementiert.
-      </p>
-    </div>
-  </.modal>
-  
-<!-- Reduction Modals -->
-  <.modal
-    :if={@live_action in [:new_reduction, :edit_reduction]}
-    id="reduction-modal"
-    show
-    on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}")}
-  >
-    <div class="text-center py-12">
-      <div class="mx-auto h-12 w-12 text-gray-400">
-        <.icon name="hero-minus-circle" class="h-12 w-12" />
-      </div>
-      <h3 class="mt-2 text-sm font-medium text-gray-900">Ermäßigung Modal</h3>
-      <p class="mt-1 text-sm text-gray-500">
-        {if @live_action == :new_reduction, do: "Neue Ermäßigung", else: "Ermäßigung bearbeiten"}
       </p>
       <p class="mt-1 text-sm text-gray-500">
         Funktionalität wird noch implementiert.

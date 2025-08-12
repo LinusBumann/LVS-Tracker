@@ -307,11 +307,12 @@ defmodule LvsTool.Courses do
   """
   def list_standard_course_entries do
     Repo.all(StandardCourseEntry)
+    |> Repo.preload([:standardcoursename, :standardcoursetypes, :studygroups])
   end
 
   def list_standard_course_entries_by_semesterentry(semesterentry_id) do
     Repo.all(from sce in StandardCourseEntry, where: sce.semesterentry_id == ^semesterentry_id)
-    |> Repo.preload([:standardcoursename, :standardcoursetype, :studygroups])
+    |> Repo.preload([:standardcoursename, :standardcoursetypes, :studygroups])
   end
 
   @doc """
@@ -328,7 +329,24 @@ defmodule LvsTool.Courses do
       ** (Ecto.NoResultsError)
 
   """
-  def get_standard_course_entry!(id), do: Repo.get!(StandardCourseEntry, id)
+  def get_standard_course_entry!(id) do
+    Repo.get!(StandardCourseEntry, id)
+    |> Repo.preload([:standardcoursename, :standardcoursetypes, :studygroups])
+  end
+
+  def calculate_lvs(sws, percent, standardcoursetype_ids) do
+    {sws_int, _} = Integer.parse(sws)
+    {percent_int, _} = Integer.parse(percent)
+    {standardcoursetype_ids_int, _} = Integer.parse(standardcoursetype_ids)
+
+    case standardcoursetype_ids_int do
+      6 ->
+        sws_int * percent_int / 100 * 0.5
+
+      _ ->
+        sws_int * percent_int / 100
+    end
+  end
 
   @doc """
   Creates a standard_course_entry.

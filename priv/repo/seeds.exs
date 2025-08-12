@@ -122,6 +122,7 @@ end)
 IO.puts("Master-Standardcoursenames wurden erfolgreich eingefügt!")
 """
 
+"""
 # Standard-Kurs-Typ auswählen (z.B. "Vorlesung")
 coursetype = LvsTool.Repo.get_by!(LvsTool.Courses.Standardcoursetype, name: "Workshop")
 
@@ -151,3 +152,83 @@ standard_course_entry =
   studygroup_id: studygroup.id
 }
 |> LvsTool.Repo.insert!()
+"""
+
+"""
+thesis_types = [
+  %{name: "Bachelorthesis (Erstbetreuung)", imputationfactor: 0.3},
+  %{name: "Bachelorthesis (Zweitbetreuung)", imputationfactor: 0.15},
+  %{name: "Masterthesis (Erstbetreuung)", imputationfactor: 0.4},
+  %{name: "Masterthesis (Zweitbetreuung)", imputationfactor: 0.2}
+]
+
+Enum.each(thesis_types, fn attrs ->
+  %LvsTool.Theses.ThesisType{}
+  |> LvsTool.Theses.ThesisType.changeset(attrs)
+  |> LvsTool.Repo.insert!()
+end)
+
+IO.puts("Thesis Types wurden erfolgreich eingefügt!")
+"""
+
+"""
+reduction_types = [
+  %{reduction_reason: "Vizepräsident", description: "bis zu 12 LVS"},
+  %{reduction_reason: "Prüfungsausschuss-Vorsitzende*r", reduction_lvs: 4},
+  %{reduction_reason: "Berufungsausschuss Vorsitzende*r", reduction_lvs: 2},
+  %{reduction_reason: "Stundenplaner*in", reduction_lvs: 2},
+  %{reduction_reason: "Vorsitz Senatsausschüsse", reduction_lvs: 1},
+  %{reduction_reason: "Vorsitz Senat", reduction_lvs: 2},
+  %{reduction_reason: "Dekan*in", reduction_lvs: 9},
+  %{reduction_reason: "Prodekan*in", reduction_lvs: 2},
+  %{reduction_reason: "Beauftragte für Studium und Lehre", reduction_lvs: 3},
+  %{reduction_reason: "Studiengangsverantwortliche", description: "Bis zu 2 LVS"},
+  %{
+    reduction_reason: "Studiengangsverantwortliche für Reakkreditierung",
+    reduction_lvs: 2,
+    description: "Einmalig 2 LVS"
+  },
+  %{
+    reduction_reason: "Semesterverantwortliche",
+    reduction_lvs: 1,
+    description: "Nur in den beiden Semestern
+nach (Re-)Akkreditierung"
+  },
+  %{
+    reduction_reason: "Gleichstellungsbeauftragte",
+    reduction_lvs: 1,
+    description: "Inklusive Stellvertretung"
+  },
+  %{reduction_reason: "Sonderfunktionen", description: "bis zu 2 LVS"},
+  %{
+    reduction_reason: "Forschung & Entwicklung, sowie Wissens- und Technologietransfer",
+    description:
+      "Siehe „Leitlinien der Hochschule Flensburg zur Förderung anwendungs-orientierter Forschung & Entwicklung und des Technologietransfers“"
+  },
+  %{
+    reduction_reason: "Promotionsbetreuung",
+    description:
+      "Siehe „Leitlinien der Hochschule Flensburg zur Förderung anwendungs-orientierter Forschung & Entwicklung und des Technologietransfers“"
+  },
+  %{
+    reduction_reason: "Aufgaben im öffentlichen Interesse außerhalb der Hochschule",
+    description: "Ermäßigung oder Freistellung"
+  },
+  %{reduction_reason: "Schwerbehinderte Lehrpersonen", description: "12-25 %, je nach Grad der
+Behinderung "},
+  %{
+    reduction_reason: "Internationalisierung",
+    description:
+      "Einmalig bis zu 2 LVS. Erstellung eines Lehrangebots in z.B. englischer Sprache für Module,
+die im Curriculum nur einsprachig vorgesehen sind. (Die Zustimmung des Dekanats dazu muss vorliegen.)"
+  }
+]
+
+Enum.each(reduction_types, fn attrs ->
+  LvsTool.Repo.insert!(
+    LvsTool.Reductions.ReductionType.changeset(%LvsTool.Reductions.ReductionType{}, attrs)
+  )
+end)
+
+IO.puts("Reduction Types wurden erfolgreich eingefügt!")
+"""
