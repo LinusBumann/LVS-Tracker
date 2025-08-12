@@ -91,6 +91,32 @@ defmodule LvsTool.Accounts do
     end
   end
 
+  def get_user_lvs_requirements_with_reduction_calculation_for_all_semesterentries(%User{} = user) do
+    user = Repo.preload(user, :role)
+
+    semesterentries = Semesterentrys.list_semesterentrys_by_user(user.id)
+    user_lvs_requirements = get_user_lvs_requirements(user)
+
+    requirements_sum_of_all_semesterentries =
+      semesterentries
+      |> Enum.map(fn semesterentry ->
+        user_lvs_requirements -
+          Reductions.get_reduction_sum_by_semesterentry(semesterentry.id)
+      end)
+      |> Enum.sum()
+
+    cond do
+      user.role.has_lvs and user.role.lvs_min == user.role.lvs_max ->
+        requirements_sum_of_all_semesterentries
+
+      user.role.has_lvs and user.role.lvs_min != user.role.lvs_max ->
+        "#{user.role.lvs_min - requirements_sum_of_all_semesterentries} - #{user.role.lvs_max - requirements_sum_of_all_semesterentries}"
+
+      !user.role.has_lvs ->
+        0
+    end
+  end
+
   def get_user_lvs_requirements(%User{} = user) do
     user = Repo.preload(user, :role)
 

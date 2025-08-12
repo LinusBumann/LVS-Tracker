@@ -59,6 +59,8 @@
 <p class="text-gray-900 font-medium bg-gray-100 p-2 rounded-md w-fit">
   LVS Summe aller Semester: {Semesterentrys.calculate_lvs_sum_for_all_semesterentries_by_user(
     @current_user.id
+  )} von {Accounts.get_user_lvs_requirements_with_reduction_calculation_for_all_semesterentries(
+    @current_user
   )}
 </p>
 
