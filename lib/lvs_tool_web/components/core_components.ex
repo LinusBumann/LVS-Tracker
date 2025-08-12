@@ -742,4 +742,46 @@ defmodule LvsToolWeb.CoreComponents do
     </div>
     """
   end
+
+  @doc """
+  Renders an accordion component.
+  """
+  attr :id, :string, required: true
+  attr :title, :string, required: true
+  attr :subtitle, :string, default: nil
+  slot :inner_block, required: true
+
+  def accordion(assigns) do
+    ~H"""
+    <div class="bg-white rounded-lg border border-gray-200 overflow-auto shadow-md">
+      <input type="checkbox" id={@id} class="peer hidden" />
+      <label
+        for={@id}
+        class="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-100 transition-colors peer-checked:bg-gray-200"
+      >
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900">{@title}</h3>
+          
+          <p :if={@subtitle} class="text-base text-gray-600 mt-1">{@subtitle}</p>
+        </div>
+        
+        <svg
+          class="w-5 h-5 text-gray-500 transform transition-transform duration-300 peer-checked:rotate-180"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+          </path>
+        </svg>
+      </label>
+      
+      <div class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out peer-checked:max-h-screen">
+        <div class="p-4 pt-0 text-gray-900">
+          {render_slot(@inner_block)}
+        </div>
+      </div>
+    </div>
+    """
+  end
 end
