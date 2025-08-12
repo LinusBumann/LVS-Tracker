@@ -33,6 +33,12 @@
       {semesterentry.status}
     </span>
   </:col>
+  <:col :let={{_id, semesterentry}} label="LVS Summe">
+    {Semesterentrys.get_lvs_for_semesterentry(semesterentry.id)} von {Accounts.get_user_lvs_requirements_with_reduction_calculation(
+      @current_user,
+      semesterentry.id
+    )}
+  </:col>
 
   <:action :let={{_id, semesterentry}}>
     <div class="sr-only">
@@ -49,6 +55,12 @@
     </.link>
   </:action>
 </.table>
+
+<p class="text-gray-900 font-medium bg-gray-100 p-2 rounded-md w-fit">
+  LVS Summe aller Semester: {Semesterentrys.calculate_lvs_sum_for_all_semesterentries_by_user(
+    @current_user.id
+  )}
+</p>
 
 <.modal
   :if={@live_action in [:new, :edit]}

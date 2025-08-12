@@ -71,10 +71,10 @@ defmodule LvsTool.Accounts do
     |> Map.get(:role)
   end
 
-  def get_user_lvs_requirements_with_reduction_calculation(%User{} = user) do
+  def get_user_lvs_requirements_with_reduction_calculation(%User{} = user, semesterentry_id) do
     user = Repo.preload(user, :role)
 
-    semesterentry = Semesterentrys.get_semesterentry!(user.id)
+    semesterentry = Semesterentrys.get_semesterentry!(semesterentry_id)
 
     reduction_lvs_sum =
       Reductions.get_reduction_sum_by_semesterentry(semesterentry.id)

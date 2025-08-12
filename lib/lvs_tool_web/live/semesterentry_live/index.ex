@@ -3,7 +3,7 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
 
   alias LvsTool.Semesterentrys
   alias LvsTool.Semesterentrys.Semesterentry
-
+  alias LvsTool.Accounts
   @impl true
   def mount(_params, _session, socket) do
     {:ok,

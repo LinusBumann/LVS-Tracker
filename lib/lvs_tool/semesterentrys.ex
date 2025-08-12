@@ -51,6 +51,12 @@ defmodule LvsTool.Semesterentrys do
     )
   end
 
+  def get_lvs_for_semesterentry(semesterentry_id) do
+    from(s in Semesterentry, where: s.id == ^semesterentry_id)
+    |> Repo.one()
+    |> Map.get(:lvs_sum)
+  end
+
   @doc """
   Creates a semesterentry.
 
@@ -99,6 +105,14 @@ defmodule LvsTool.Semesterentrys do
     |> Repo.update_all(set: [theses_count: thesis_count])
 
     get_semesterentry!(semesterentry.id)
+  end
+
+  def calculate_lvs_sum_for_all_semesterentries_by_user(user_id) do
+    semesterentries = list_semesterentrys_by_user(user_id)
+
+    semesterentries
+    |> Enum.map(fn semesterentry -> semesterentry.lvs_sum end)
+    |> Enum.sum()
   end
 
   def recalculate_lvs_sum(%Semesterentry{} = semesterentry) do

@@ -11,7 +11,7 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
   alias LvsTool.Reductions
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(params, _session, socket) do
     {:ok,
      socket
      |> stream(:standard_course_entries, [], reset: true)
@@ -19,7 +19,10 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
      |> stream(:reduction_entries, [], reset: true)
      |> assign(
        :calculated_user_lvs_requirements,
-       Accounts.get_user_lvs_requirements_with_reduction_calculation(socket.assigns.current_user)
+       Accounts.get_user_lvs_requirements_with_reduction_calculation(
+         socket.assigns.current_user,
+         params["id"]
+       )
      )
      |> assign(
        :user_lvs_requirements,
@@ -279,7 +282,8 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
          |> assign(
            :calculated_user_lvs_requirements,
            Accounts.get_user_lvs_requirements_with_reduction_calculation(
-             socket.assigns.current_user
+             socket.assigns.current_user,
+             socket.assigns.semesterentry.id
            )
          )
          |> put_flash(:info, "Ermäßigung gelöscht")
@@ -298,7 +302,10 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
      socket
      |> assign(
        :calculated_user_lvs_requirements,
-       Accounts.get_user_lvs_requirements_with_reduction_calculation(socket.assigns.current_user)
+       Accounts.get_user_lvs_requirements_with_reduction_calculation(
+         socket.assigns.current_user,
+         socket.assigns.semesterentry.id
+       )
      )}
   end
 end
