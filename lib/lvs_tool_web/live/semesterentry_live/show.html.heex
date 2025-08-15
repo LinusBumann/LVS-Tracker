@@ -33,10 +33,13 @@
               }>
               LVS Summe: {@semesterentry.lvs_sum} von {@calculated_user_lvs_requirements}
 
-              <span class="text-xs">
-                ({@user_role.name} hat regulär {if @user_role.has_lvs,
-                  do: @user_lvs_requirements,
-                  else: "keine"} LVS)
+              <span :if={@user_role.id in [1, 2, 3, 4, 5]} class="text-xs">
+                ({@user_role.name} hat regulär {@user_lvs_requirements} LVS)
+              </span>
+              
+<!-- Neue Anzeige für Dekanat und Präsidium -->
+              <span :if={@user_role.id in [6, 7] and @semesterentry_owner} class="text-xs">
+                ({@semesterentry_owner.name} - {@semesterentry_owner.role.name} hat regulär {@user_lvs_requirements} LVS)
               </span>
             </span>
             <span class={"font-medium px-2 py-1 rounded-md " <>
@@ -76,6 +79,7 @@
             live_action={@live_action}
             page_title={@page_title}
             standard_course_entries={@streams.standard_course_entries}
+            user_role={@user_role}
           />
         </:tab>
         <:tab
@@ -91,6 +95,7 @@
             live_action={@live_action}
             page_title={@page_title}
             thesis_entries={@streams.thesis_entries}
+            user_role={@user_role}
           />
         </:tab>
         <:tab
@@ -131,13 +136,47 @@
             semesterentry={@semesterentry}
             live_action={@live_action}
             reduction_entries={@streams.reduction_entries}
+            user_role={@user_role}
           />
         </:tab>
       </.tabs>
     </div>
   </div>
 
-  <.back navigate={~p"/semesterentrys"}>Zu deinen Semestereinträgen zurück</.back>
+  <div class="flex justify-between items-center">
+    <.back navigate={~p"/semesterentrys"}>Zu deinen Semestereinträgen zurück</.back>
+    
+<!-- Status Action Buttons -->
+    <div class="flex gap-3">
+      <!-- Sekundärer Button (Ablehnen) -->
+      <% {secondary_action, secondary_text, secondary_class} =
+        get_secondary_action_for_role_and_status(@user_role, @semesterentry, @current_user) %>
+      <%= if secondary_action do %>
+        <.button
+          phx-click={secondary_action}
+          phx-value-id={@semesterentry.id}
+          data-confirm={"Möchten Sie diesen Semestereintrag wirklich #{String.downcase(secondary_text)}?"}
+          class={secondary_class}
+        >
+          {secondary_text} <.icon name="hero-x-mark-solid" class="h-4 w-4 ml-2" />
+        </.button>
+      <% end %>
+      
+<!-- Primärer Button -->
+      <% {primary_action, primary_text, primary_class} =
+        get_action_for_role_and_status(@user_role, @semesterentry, @current_user) %>
+      <%= if primary_action do %>
+        <.button
+          phx-click={primary_action}
+          phx-value-id={@semesterentry.id}
+          data-confirm={"Möchten Sie diesen Semestereintrag wirklich #{String.downcase(primary_text)}?"}
+          class={primary_class}
+        >
+          {primary_text} <.icon name="hero-arrow-right-solid" class="h-4 w-4 ml-2" />
+        </.button>
+      <% end %>
+    </div>
+  </div>
   
 <!-- Semesterentry Edit Modal -->
   <.modal

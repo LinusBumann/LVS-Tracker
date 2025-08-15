@@ -12,6 +12,27 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
 
   @impl true
   def mount(params, _session, socket) do
+    # Hole den Semesterentry um den Besitzer zu identifizieren
+    semesterentry = Semesterentrys.get_semesterentry!(params["id"])
+
+    # Bestimme für welchen Benutzer die LVS-Anforderungen berechnet werden sollen
+    {target_user, semesterentry_owner} =
+      case socket.assigns.current_user |> Accounts.get_user_role() do
+        # Für Dekanat: Zeige Informationen des Semesterentry-Besitzers
+        %{id: 6} ->
+          owner = Accounts.get_user!(semesterentry.user_id)
+          {owner, owner}
+
+        # Für Präsidium: Zeige Informationen des Semesterentry-Besitzers
+        %{id: 7} ->
+          owner = Accounts.get_user!(semesterentry.user_id)
+          {owner, owner}
+
+        # Für alle anderen: Zeige eigene Informationen
+        _ ->
+          {socket.assigns.current_user, nil}
+      end
+
     {:ok,
      socket
      |> stream(:standard_course_entries, [], reset: true)
@@ -20,15 +41,16 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
      |> assign(
        :calculated_user_lvs_requirements,
        Accounts.get_user_lvs_requirements_with_reduction_calculation(
-         socket.assigns.current_user,
+         target_user,
          params["id"]
        )
      )
      |> assign(
        :user_lvs_requirements,
-       Accounts.get_user_lvs_requirements(socket.assigns.current_user)
+       Accounts.get_user_lvs_requirements(target_user)
      )
      |> assign(:user_role, Accounts.get_user_role(socket.assigns.current_user))
+     |> assign(:semesterentry_owner, semesterentry_owner)
      |> IO.inspect()}
   end
 
@@ -307,5 +329,111 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
          socket.assigns.semesterentry.id
        )
      )}
+  end
+
+  @impl true
+  def handle_event("submit_for_review", %{"id" => id}, socket) do
+    semesterentry = Semesterentrys.get_semesterentry!(id)
+
+    case Semesterentrys.update_semesterentry(semesterentry, %{status: "Eingereicht"}) do
+      {:ok, _updated_semesterentry} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Semestereintrag wurde zur Prüfung eingereicht")
+         |> push_navigate(to: ~p"/semesterentrys")}
+
+      {:error, _changeset} ->
+        {:noreply, put_flash(socket, :error, "Fehler beim Einreichen")}
+    end
+  end
+
+  @impl true
+  def handle_event("forward_to_presidium", %{"id" => id}, socket) do
+    semesterentry = Semesterentrys.get_semesterentry!(id)
+
+    case Semesterentrys.forward_to_presidium(semesterentry) do
+      {:ok, _updated_semesterentry} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Semestereintrag wurde an das Präsidium weitergeleitet")
+         |> push_navigate(to: ~p"/semesterentrys")}
+
+      {:error, _changeset} ->
+        {:noreply, put_flash(socket, :error, "Fehler beim Weiterleiten")}
+    end
+  end
+
+  @impl true
+  def handle_event("approve_semesterentry", %{"id" => id}, socket) do
+    semesterentry = Semesterentrys.get_semesterentry!(id)
+
+    case Semesterentrys.approve_semesterentry(semesterentry) do
+      {:ok, _updated_semesterentry} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Semestereintrag wurde genehmigt")
+         |> push_navigate(to: ~p"/semesterentrys")}
+
+      {:error, _changeset} ->
+        {:noreply, put_flash(socket, :error, "Fehler beim Genehmigen")}
+    end
+  end
+
+  @impl true
+  def handle_event("reject_semesterentry", %{"id" => id}, socket) do
+    semesterentry = Semesterentrys.get_semesterentry!(id)
+
+    case Semesterentrys.reject_semesterentry(semesterentry) do
+      {:ok, _updated_semesterentry} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Semestereintrag wurde abgelehnt")
+         |> push_navigate(to: ~p"/semesterentrys")}
+
+      {:error, _changeset} ->
+        {:noreply, put_flash(socket, :error, "Fehler beim Ablehnen")}
+    end
+  end
+
+  # Helper-Funktion für primäre Button-Aktion (die wichtigste/erwartete Aktion)
+  def get_action_for_role_and_status(user_role, semesterentry, current_user) do
+    case {user_role.id, semesterentry.status, semesterentry.user_id == current_user.id} do
+      # Lehrende können einreichen wenn Status "Offen" oder "Abgelehnt" und es ihr eigener Eintrag ist
+      {role_id, "Offen", true} when role_id in [1, 2, 3, 4, 5] ->
+        {"submit_for_review", "Einreichen", "bg-blue-600 hover:bg-blue-700 text-white"}
+
+      {role_id, "Abgelehnt", true} when role_id in [1, 2, 3, 4, 5] ->
+        {"submit_for_review", "Erneut einreichen", "bg-blue-600 hover:bg-blue-700 text-white"}
+
+      # Dekanat kann weiterleiten wenn Status "Eingereicht" (primäre Aktion)
+      {6, "Eingereicht", _} ->
+        {"forward_to_presidium", "An Präsidium weiterleiten",
+         "bg-indigo-600 hover:bg-indigo-700 text-white"}
+
+      # Präsidium kann genehmigen wenn Status "An das Präsidium weitergeleitet" (primäre Aktion)
+      {7, "An das Präsidium weitergeleitet", _} ->
+        {"approve_semesterentry", "Genehmigen", "bg-green-600 hover:bg-green-700 text-white"}
+
+      # Kein Button für andere Kombinationen
+      _ ->
+        {nil, nil, nil}
+    end
+  end
+
+  # Helper-Funktion für sekundäre Button-Aktion (Ablehnen)
+  def get_secondary_action_for_role_and_status(user_role, semesterentry, _current_user) do
+    case {user_role.id, semesterentry.status} do
+      # Dekanat kann ablehnen wenn Status "Eingereicht"
+      {6, "Eingereicht"} ->
+        {"reject_semesterentry", "Ablehnen", "bg-red-600 hover:bg-red-700 text-white"}
+
+      # Präsidium kann ablehnen wenn Status "An das Präsidium weitergeleitet"
+      {7, "An das Präsidium weitergeleitet"} ->
+        {"reject_semesterentry", "Ablehnen", "bg-red-600 hover:bg-red-700 text-white"}
+
+      # Keine sekundäre Aktion für andere Kombinationen
+      _ ->
+        {nil, nil, nil}
+    end
   end
 end

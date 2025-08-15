@@ -15,8 +15,6 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
         current_user.id
       )
 
-    IO.inspect(semesterentries, label: "semesterentries")
-
     {:ok,
      socket
      |> assign(:user_role, user_role)
@@ -33,20 +31,38 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Semesterentry")
+    |> assign(:page_title, "Semestereintrag bearbeiten")
     |> assign(:semesterentry, Semesterentrys.get_semesterentry!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Semesterentry")
+    |> assign(:page_title, "Neuer Semestereintrag")
     |> assign(:semesterentry, %Semesterentry{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Semesterentrys")
+    |> assign(:page_title, "Semestereinträge")
     |> assign(:semesterentry, nil)
+  end
+
+  defp apply_action(socket, :forward, %{"id" => id}) do
+    socket
+    |> assign(:page_title, "An Präsidium weiterleiten")
+    |> assign(:semesterentry, Semesterentrys.get_semesterentry!(id))
+  end
+
+  defp apply_action(socket, :approve, %{"id" => id}) do
+    socket
+    |> assign(:page_title, "Semestereintrag genehmigen")
+    |> assign(:semesterentry, Semesterentrys.get_semesterentry!(id))
+  end
+
+  defp apply_action(socket, :reject, %{"id" => id}) do
+    socket
+    |> assign(:page_title, "Semestereintrag ablehnen")
+    |> assign(:semesterentry, Semesterentrys.get_semesterentry!(id))
   end
 
   @impl true
@@ -60,5 +76,56 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
     {:ok, _} = Semesterentrys.delete_semesterentry(semesterentry)
 
     {:noreply, stream_delete(socket, :semesterentrys, semesterentry)}
+  end
+
+  @impl true
+  def handle_event("forward_to_presidium", %{"id" => id}, socket) do
+    semesterentry = Semesterentrys.get_semesterentry!(id)
+
+    case Semesterentrys.forward_to_presidium(semesterentry) do
+      {:ok, updated_semesterentry} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Semestereintrag wurde an das Präsidium weitergeleitet")
+         |> stream_insert(:semesterentrys, updated_semesterentry)
+         |> push_patch(to: ~p"/semesterentrys")}
+
+      {:error, _changeset} ->
+        {:noreply, put_flash(socket, :error, "Fehler beim Weiterleiten")}
+    end
+  end
+
+  @impl true
+  def handle_event("approve_semesterentry", %{"id" => id}, socket) do
+    semesterentry = Semesterentrys.get_semesterentry!(id)
+
+    case Semesterentrys.approve_semesterentry(semesterentry) do
+      {:ok, updated_semesterentry} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Semestereintrag wurde genehmigt")
+         |> stream_insert(:semesterentrys, updated_semesterentry)
+         |> push_patch(to: ~p"/semesterentrys")}
+
+      {:error, _changeset} ->
+        {:noreply, put_flash(socket, :error, "Fehler beim Genehmigen")}
+    end
+  end
+
+  @impl true
+  def handle_event("reject_semesterentry", %{"id" => id}, socket) do
+    semesterentry = Semesterentrys.get_semesterentry!(id)
+
+    case Semesterentrys.reject_semesterentry(semesterentry) do
+      {:ok, _updated_semesterentry} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Semestereintrag wurde abgelehnt")
+         |> stream_delete(:semesterentrys, semesterentry)
+         |> push_patch(to: ~p"/semesterentrys")}
+
+      {:error, _changeset} ->
+        {:noreply, put_flash(socket, :error, "Fehler beim Ablehnen")}
+    end
   end
 end

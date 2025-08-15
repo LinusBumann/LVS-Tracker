@@ -9,7 +9,9 @@ defmodule LvsToolWeb.SemesterentryLive.FormComponent do
     <div>
       <.header>
         {@title}
-        <:subtitle>Use this form to manage semesterentry records in your database.</:subtitle>
+        <:subtitle>
+          Verwenden Sie dieses Formular, um einen einen Semestereintrag anzulegen oder zu bearbeiten.
+        </:subtitle>
       </.header>
 
       <.simple_form
@@ -19,7 +21,7 @@ defmodule LvsToolWeb.SemesterentryLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:name]} type="text" label="Name" />
+        <.input field={@form[:name]} type="text" label="Semester" />
         <.input
           field={@form[:status]}
           type="select"
@@ -33,7 +35,7 @@ defmodule LvsToolWeb.SemesterentryLive.FormComponent do
           ]}
         />
         <:actions>
-          <.button phx-disable-with="Saving...">Save Semesterentry</.button>
+          <.button phx-disable-with="Speichern...">Semestereintrag anlegen</.button>
         </:actions>
       </.simple_form>
     </div>

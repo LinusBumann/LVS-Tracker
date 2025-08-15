@@ -7,9 +7,11 @@
     <% id when id == 7 -> %>
       Weitergeleitete Semestereinträge
   <% end %>
-  <:actions>
-    <.link patch={~p"/semesterentrys/new"}>
-      <.button>Neuer Semestereintrag</.button>
+  <:actions :if={@user_role.id in [1, 2, 3, 4, 5]}>
+    <.link patch={~p"/semesterentrys/new"} class="flex items-center">
+      <.button>
+        Neuen Semestereintrag anlegen <.icon name="hero-plus-solid" class="h-5 w-5" />
+      </.button>
     </.link>
   </:actions>
 </.header>
@@ -23,7 +25,7 @@
     end
   }
 >
-  <:col :let={{_id, semesterentry}} label="Name">{semesterentry.name}</:col>
+  <:col :let={{_id, semesterentry}} label="Semester">{semesterentry.name}</:col>
   <:col :let={{_id, semesterentry}} label="Status">
     <span class={
     "inline-block w-56 text-center px-2 py-1 rounded-md " <>
@@ -41,9 +43,10 @@
     </span>
   </:col>
   <:col :let={{_id, semesterentry}} label="LVS Summe">
-    {Semesterentrys.get_lvs_for_semesterentry(semesterentry.id)} von {Accounts.get_user_lvs_requirements_with_reduction_calculation(
+    {Semesterentrys.get_lvs_for_semesterentry(semesterentry.id)} von {Semesterentrys.get_lvs_requirements_for_display(
       @current_user,
-      semesterentry.id
+      @user_role,
+      semesterentry
     )}
   </:col>
 
@@ -51,23 +54,65 @@
     {Accounts.get_user!(semesterentry.user_id).name}
   </:col>
 
-  <:action :let={{_id, semesterentry}}>
-    <div class="sr-only">
-      <.link navigate={~p"/semesterentrys/#{semesterentry}"}>Show</.link>
-    </div>
-    <.link patch={~p"/semesterentrys/#{semesterentry}/edit"}>Edit</.link>
+  <:action :let={{_id, semesterentry}} :if={@user_role.id == 7}>
+    <.link
+      class="text-blue-600 bg-blue-100 px-2 py-1 rounded-md hover:bg-blue-200"
+      phx-click="approve_semesterentry"
+      phx-value-id={semesterentry.id}
+      data-confirm="Möchten Sie diesen Semestereintrag wirklich genehmigen?"
+    >
+      Genehmigen
+    </.link>
   </:action>
-  <:action :let={{id, semesterentry}}>
+
+  <:action :let={{_id, semesterentry}}>
+    <.link
+      :if={semesterentry.status == "Eingereicht" and @user_role.id == 6}
+      class="text-blue-600 bg-blue-100 px-2 py-1 rounded-md hover:bg-blue-200"
+      phx-click="forward_to_presidium"
+      phx-value-id={semesterentry.id}
+      data-confirm="Möchten Sie diesen Semestereintrag an das Präsidium weiterleiten?"
+    >
+      An Präsidium weiterleiten
+    </.link>
+  </:action>
+
+  <:action :let={{_id, semesterentry}}>
+    <.link
+      :if={@user_role.id in [6, 7]}
+      class="text-red-600 bg-red-100 px-2 py-1 rounded-md hover:bg-red-200"
+      phx-click="reject_semesterentry"
+      phx-value-id={semesterentry.id}
+      data-confirm="Möchten Sie diesen Semestereintrag wirklich ablehnen?"
+    >
+      Ablehnen
+    </.link>
+  </:action>
+
+  <:action :let={{_id, semesterentry}} :if={@user_role.id in [1, 2, 3, 4, 5]}>
+    <.link
+      class="text-blue-600 bg-blue-100 px-2 py-1 rounded-md hover:bg-blue-200"
+      patch={~p"/semesterentrys/#{semesterentry}/edit"}
+    >
+      Bearbeiten
+    </.link>
+  </:action>
+
+  <:action :let={{id, semesterentry}} :if={@user_role.id in [1, 2, 3, 4, 5]}>
     <.link
       phx-click={JS.push("delete", value: %{id: semesterentry.id}) |> hide("##{id}")}
-      data-confirm="Are you sure?"
+      data-confirm="Bist du sicher, dass du diesen Semestereintrag löschen möchtest?"
+      class="text-red-500 bg-red-100 px-2 py-1 rounded-md hover:bg-red-200"
     >
-      Delete
+      Löschen
     </.link>
   </:action>
 </.table>
 
-<p class="text-gray-900 font-medium bg-gray-100 p-2 rounded-md w-fit">
+<p
+  :if={@user_role.id in [1, 2, 3, 4, 5]}
+  class="text-gray-900 font-medium bg-gray-100 p-2 rounded-md w-fit"
+>
   LVS Summe aller Semester: {Semesterentrys.calculate_lvs_sum_for_all_semesterentries_by_user(
     @current_user.id
   )} von {Accounts.get_user_lvs_requirements_with_reduction_calculation_for_all_semesterentries(

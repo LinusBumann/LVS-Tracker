@@ -10,7 +10,11 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisComponent do
       <div class="flex justify-between items-center">
         <h2 class="text-xl font-semibold text-gray-900">Thesis</h2>
         
-        <.link patch={~p"/semesterentrys/#{@semesterentry.id}/thesis/new"}>
+    <!-- Button nur für Lehrende anzeigen -->
+        <.link
+          :if={@user_role.id in [1, 2, 3, 4, 5]}
+          patch={~p"/semesterentrys/#{@semesterentry.id}/thesis/new"}
+        >
           <.button>
             <span class="flex items-center gap-2">
               <.icon name="hero-plus" class="h-4 w-4" /> Thesis hinzufügen
@@ -27,7 +31,11 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisComponent do
         <h3 class="mt-2 text-sm font-medium text-gray-900">Keine Thesis</h3>
         
         <p class="mt-1 text-sm text-gray-500">
-          Fügen Sie Ihre erste Thesis hinzu.
+          <%= if @user_role.id in [1, 2, 3, 4, 5] do %>
+            Fügen Sie Ihre erste Thesis hinzu.
+          <% else %>
+            Keine Thesis vorhanden.
+          <% end %>
         </p>
       </div>
       
@@ -67,7 +75,8 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisComponent do
                     </p>
                   </div>
                   
-                  <div class="flex items-center space-x-2">
+    <!-- Aktions-Buttons nur für Lehrende anzeigen -->
+                  <div :if={@user_role.id in [1, 2, 3, 4, 5]} class="flex items-center space-x-2">
                     <.link patch={~p"/semesterentrys/#{@semesterentry.id}/thesis/#{thesis.id}/edit"}>
                       <.button class="text-blue-600 hover:text-blue-900">
                         <.icon name="hero-pencil-square" class="h-4 w-4" />

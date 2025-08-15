@@ -71,6 +71,11 @@ defmodule LvsToolWeb.Router do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
 
+      # Im bestehenden live_session Block:
+      live "/semesterentrys/:id/forward", SemesterentryLive.Index, :forward
+      live "/semesterentrys/:id/reject", SemesterentryLive.Index, :reject
+      live "/semesterentrys/:id/approve", SemesterentryLive.Index, :approve
+
       live "/semesterentrys", SemesterentryLive.Index, :index
       live "/semesterentrys/new", SemesterentryLive.Index, :new
       live "/semesterentrys/:id/edit", SemesterentryLive.Index, :edit
