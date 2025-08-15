@@ -94,7 +94,7 @@ defmodule LvsTool.Accounts do
   def get_user_lvs_requirements_with_reduction_calculation_for_all_semesterentries(%User{} = user) do
     user = Repo.preload(user, :role)
 
-    semesterentries = Semesterentrys.list_semesterentrys_by_user(user.id)
+    semesterentries = Semesterentrys.retrieve_semesterentries_for_teachers(user.id)
     user_lvs_requirements = get_user_lvs_requirements(user)
 
     requirements_sum_of_all_semesterentries =

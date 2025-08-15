@@ -6,11 +6,23 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
   alias LvsTool.Accounts
   @impl true
   def mount(_params, _session, socket) do
+    current_user = socket.assigns.current_user
+    user_role = Accounts.get_user_role(current_user)
+
+    semesterentries =
+      Semesterentrys.list_visible_semesterentrys_for_role(
+        user_role.id,
+        current_user.id
+      )
+
+    IO.inspect(semesterentries, label: "semesterentries")
+
     {:ok,
-     stream(
-       socket,
+     socket
+     |> assign(:user_role, user_role)
+     |> stream(
        :semesterentrys,
-       Semesterentrys.list_semesterentrys_by_user(socket.assigns.current_user.id)
+       semesterentries
      )}
   end
 

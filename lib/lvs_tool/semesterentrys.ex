@@ -22,8 +22,136 @@ defmodule LvsTool.Semesterentrys do
     Repo.all(Semesterentry)
   end
 
-  def list_semesterentrys_by_user(user_id) do
+  @doc """
+  Returns the semesterentries for the given user (teachers).
+  """
+  def retrieve_semesterentries_for_teachers(user_id) do
     Repo.all(from s in Semesterentry, where: s.user_id == ^user_id)
+  end
+
+  def retrieve_semesterentries_for_dekanat() do
+    from(s in Semesterentry,
+      where:
+        s.status in [
+          "Eingereicht",
+          "Bestätigt",
+          "Abgelehnt",
+          "An das Präsidium weitergeleitet"
+        ],
+      preload: [:user]
+    )
+    |> Repo.all()
+  end
+
+  def retrieve_semesterentries_for_presidium() do
+    from(s in Semesterentry,
+      where: s.status in ["An das Präsidium weitergeleitet", "Akzeptiert"],
+      preload: [:user]
+    )
+    |> Repo.all()
+  end
+
+  @doc """
+  Returns the semesterentries that are visible for the given role.
+  """
+  @teaching_role_ids [1, 2, 3, 4, 5]
+  @dekanat_role_id 6
+  @presidium_role_id 7
+  def list_visible_semesterentrys_for_role(role_id, user_id) do
+    IO.inspect(role_id, label: "role_id")
+    IO.inspect(user_id, label: "user_id")
+
+    case role_id do
+      # Lehrende sehen nur ihre eigenen Einträge
+      role
+      when role in @teaching_role_ids ->
+        retrieve_semesterentries_for_teachers(user_id)
+
+      # Dekanat sieht nur eingereichte Einträge (nicht "Offen")
+      @dekanat_role_id ->
+        retrieve_semesterentries_for_dekanat()
+
+      # Präsidium sieht nur Einträge, die vom Dekanat weitergeleitet wurden
+      @presidium_role_id ->
+        retrieve_semesterentries_for_presidium()
+
+      _ ->
+        []
+    end
+  end
+
+  @doc """
+  Checks if a semesterentry is visible for the given role.
+  """
+  def visible_for_role?(semesterentry, user_role, current_user_id \\ nil) do
+    case user_role do
+      # Lehrende sehen nur ihre eigenen Einträge
+      role
+      when role in [
+             "Professor/in (allgemein)",
+             "Lehrkraft für besondere Aufgaben",
+             "Wissenschaftliche/r Mitarbeiter/in",
+             "Wissenschaftl. MA (befristet, Qualauftrag)",
+             "Prof. bei gemeinsamer Berufung"
+           ] ->
+        semesterentry.user_id == current_user_id
+
+      # Dekanat sieht eingereichte Einträge
+      "Dekanat" ->
+        semesterentry.status in [
+          "Eingereicht",
+          "Bestätigt",
+          "Abgelehnt",
+          "An das Präsidium weitergeleitet"
+        ]
+
+      # Präsidium sieht nur weitergeleitete Einträge
+      "Präsidium" ->
+        semesterentry.status in ["An das Präsidium weitergeleitet", "Akzeptiert"]
+
+      _ ->
+        false
+    end
+  end
+
+  @doc """
+  Returns the possible status transitions for a role.
+  """
+  def allowed_status_transitions(current_status, user_role) do
+    case user_role do
+      # Lehrende können nur von "Offen" zu "Eingereicht" wechseln
+      role
+      when role in [
+             "Professor/in (allgemein)",
+             "Lehrkraft für besondere Aufgaben",
+             "Wissenschaftliche/r Mitarbeiter/in",
+             "Wissenschaftl. MA (befristet, Qualauftrag)",
+             "Prof. bei gemeinsamer Berufung"
+           ] ->
+        case current_status do
+          "Offen" -> ["Eingereicht"]
+          # Erneut einreichen nach Ablehnung
+          "Abgelehnt" -> ["Eingereicht"]
+          _ -> []
+        end
+
+      # Dekanat kann bestätigen, ablehnen oder weiterleiten
+      "Dekanat" ->
+        case current_status do
+          "Eingereicht" -> ["Bestätigt", "Abgelehnt", "An das Präsidium weitergeleitet"]
+          _ -> []
+        end
+
+      # Präsidium kann akzeptieren oder ablehnen
+      "Präsidium" ->
+        case current_status do
+          "An das Präsidium weitergeleitet" -> ["Akzeptiert", "Abgelehnt"]
+          _ -> []
+        end
+
+      _ ->
+        []
+    end
   end
 
   @doc """
@@ -108,7 +236,7 @@ defmodule LvsTool.Semesterentrys do
   end
 
   def calculate_lvs_sum_for_all_semesterentries_by_user(user_id) do
-    semesterentries = list_semesterentrys_by_user(user_id)
+    semesterentries = retrieve_semesterentries_for_teachers(user_id)
 
     semesterentries
     |> Enum.map(fn semesterentry -> semesterentry.lvs_sum end)

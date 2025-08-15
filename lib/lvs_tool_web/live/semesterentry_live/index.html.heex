@@ -1,8 +1,15 @@
 <.header>
-  Deine Semester
+  <%= case @user_role.id do %>
+    <% id when id in [1, 2, 3, 4, 5] -> %>
+      Deine Semestereinträge
+    <% id when id == 6 -> %>
+      Eingereichte Semestereinträge
+    <% id when id == 7 -> %>
+      Weitergeleitete Semestereinträge
+  <% end %>
   <:actions>
     <.link patch={~p"/semesterentrys/new"}>
-      <.button>New Semesterentry</.button>
+      <.button>Neuer Semestereintrag</.button>
     </.link>
   </:actions>
 </.header>
@@ -38,6 +45,10 @@
       @current_user,
       semesterentry.id
     )}
+  </:col>
+
+  <:col :let={{_id, semesterentry}} :if={@user_role.id in [6, 7]} label="Lehrende/r">
+    {Accounts.get_user!(semesterentry.user_id).name}
   </:col>
 
   <:action :let={{_id, semesterentry}}>
