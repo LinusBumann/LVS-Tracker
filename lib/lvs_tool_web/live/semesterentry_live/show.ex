@@ -10,6 +10,7 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
   alias LvsTool.Accounts
   alias LvsTool.Reductions
   alias LvsToolWeb.RoleHelpers
+  alias LvsToolWeb.StatusHelpers
 
   @impl true
   def mount(params, _session, socket) do
@@ -60,8 +61,14 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
-  # Helper-Funktion für Templates
+  # Helper-Funktionen für Templates
   def is_role?(user_role, role_name), do: RoleHelpers.is_role?(user_role, role_name)
+  def is_editable?(status), do: StatusHelpers.is_editable?(status)
+  def is_non_editable?(status), do: StatusHelpers.is_non_editable?(status)
+  def is_dekan_actionable?(status), do: StatusHelpers.is_dekan_actionable?(status)
+  def is_praesidium_actionable?(status), do: StatusHelpers.is_praesidium_actionable?(status)
+  def is_rejectable?(status), do: StatusHelpers.is_rejectable?(status)
+  def can_be_submitted?(status), do: StatusHelpers.can_be_submitted?(status)
 
   defp apply_action(socket, :show, %{"id" => id}) do
     semesterentry = Semesterentrys.get_semesterentry!(id)

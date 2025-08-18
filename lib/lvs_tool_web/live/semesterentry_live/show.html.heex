@@ -149,7 +149,7 @@
 <!-- Status Action Buttons -->
     <div class="flex gap-3">
       <!-- Sekundärer Button (Ablehnen) für Dekanat und Präsidium -->
-      <%= if is_role?(@user_role, :dekan_or_praesidium) and @semesterentry.status in ["Eingereicht", "An das Präsidium weitergeleitet"] do %>
+      <%= if is_role?(@user_role, :dekan_or_praesidium) and is_rejectable?(@semesterentry.status) do %>
         <.button
           phx-click="reject_semesterentry"
           phx-value-id={@semesterentry.id}
@@ -161,7 +161,7 @@
       <% end %>
       
 <!-- Primärer Button -->
-      <%= if is_role?(@user_role, :lehrperson) and @semesterentry.user_id == @current_user.id and @semesterentry.status in ["Offen", "Abgelehnt"] do %>
+      <%= if is_role?(@user_role, :lehrperson) and @semesterentry.user_id == @current_user.id and can_be_submitted?(@semesterentry.status) do %>
         <.button
           phx-click="submit_for_review"
           phx-value-id={@semesterentry.id}
@@ -172,7 +172,7 @@
         </.button>
       <% end %>
 
-      <%= if is_role?(@user_role, :dekan) and @semesterentry.status == "Eingereicht" do %>
+      <%= if is_role?(@user_role, :dekan) and is_dekan_actionable?(@semesterentry.status) do %>
         <.button
           phx-click="forward_to_presidium"
           phx-value-id={@semesterentry.id}
@@ -183,7 +183,7 @@
         </.button>
       <% end %>
 
-      <%= if is_role?(@user_role, :praesidium) and @semesterentry.status == "An das Präsidium weitergeleitet" do %>
+      <%= if is_role?(@user_role, :praesidium) and is_praesidium_actionable?(@semesterentry.status) do %>
         <.button
           phx-click="approve_semesterentry"
           phx-value-id={@semesterentry.id}

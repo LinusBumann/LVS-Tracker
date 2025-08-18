@@ -3,6 +3,7 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisComponent do
 
   alias Phoenix.LiveView.JS
   alias LvsToolWeb.RoleHelpers
+  alias LvsToolWeb.StatusHelpers
 
   @impl true
   def render(assigns) do
@@ -15,12 +16,7 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisComponent do
         <.link
           :if={
             RoleHelpers.is_role?(@user_role, :lehrperson) and
-              @semesterentry.status not in [
-                "Eingereicht",
-                "An das Präsidium weitergeleitet",
-                "Bestätigt",
-                "Akzeptiert"
-              ]
+              StatusHelpers.is_editable?(@semesterentry.status)
           }
           patch={~p"/semesterentrys/#{@semesterentry.id}/thesis/new"}
         >
@@ -40,7 +36,7 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisComponent do
         <h3 class="mt-2 text-sm font-medium text-gray-900">Keine Thesis</h3>
         
         <p class="mt-1 text-sm text-gray-500">
-          <%= if RoleHelpers.is_role?(@user_role, :lehrperson) and @semesterentry.status not in ["Eingereicht", "An das Präsidium weitergeleitet", "Akzeptiert"] do %>
+          <%= if RoleHelpers.is_role?(@user_role, :lehrperson) and StatusHelpers.is_editable?(@semesterentry.status) do %>
             Fügen Sie Ihre erste Thesis hinzu.
           <% else %>
             Keine Thesis vorhanden.
@@ -88,12 +84,7 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisComponent do
                   <div
                     :if={
                       RoleHelpers.is_role?(@user_role, :lehrperson) and
-                        @semesterentry.status not in [
-                          "Eingereicht",
-                          "An das Präsidium weitergeleitet",
-                          "Bestätigt",
-                          "Akzeptiert"
-                        ]
+                        StatusHelpers.is_editable?(@semesterentry.status)
                     }
                     class="flex items-center space-x-2"
                   >
