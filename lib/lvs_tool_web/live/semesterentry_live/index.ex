@@ -89,11 +89,11 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
     semesterentry = Semesterentrys.get_semesterentry!(id)
 
     case Semesterentrys.forward_to_presidium(semesterentry) do
-      {:ok, updated_semesterentry} ->
+      {:ok, _updated_semesterentry} ->
         {:noreply,
          socket
          |> put_flash(:info, "Semestereintrag wurde an das Präsidium weitergeleitet")
-         |> stream_insert(:semesterentries, updated_semesterentry)
+         |> stream_delete(:semesterentries, semesterentry)
          |> push_patch(to: ~p"/semesterentrys")}
 
       {:error, _changeset} ->

@@ -234,7 +234,7 @@ defmodule LvsToolWeb.CoreComponents do
       type={@type}
       class={[
         "phx-submit-loading:opacity-75 rounded-lg py-2 px-3",
-        "text-sm font-semibold leading-6 active:text-white/80",
+        "text-sm font-semibold leading-6",
         if(@class == nil or @class == "", do: "bg-zinc-900 hover:bg-zinc-700 text-white", else: ""),
         @class
       ]}

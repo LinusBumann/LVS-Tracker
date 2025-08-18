@@ -58,57 +58,107 @@
   </:col>
 
   <:action :let={{_id, semesterentry}} :if={RoleHelpers.is_role?(@user_role, :praesidium)}>
-    <.link
-      class="text-blue-600 bg-blue-100 px-2 py-1 rounded-md hover:bg-blue-200"
+    <.button
+      disabled={!StatusHelpers.is_praesidium_actionable?(semesterentry.status)}
+      class={
+        "text-blue-600 bg-blue-100 px-2 py-1 rounded-md  " <>
+        case StatusHelpers.is_praesidium_actionable?(semesterentry.status) do
+          true -> "hover:bg-blue-200 opacity-100 cursor-pointer"
+          false -> "opacity-50 cursor-not-allowed"
+        end
+      }
       phx-click="approve_semesterentry"
       phx-value-id={semesterentry.id}
       data-confirm="Möchten Sie diesen Semestereintrag wirklich genehmigen?"
     >
       Genehmigen
-    </.link>
+    </.button>
   </:action>
 
-  <:action :let={{_id, semesterentry}}>
-    <.link
-      :if={semesterentry.status == "Eingereicht" and RoleHelpers.is_role?(@user_role, :dekan)}
-      class="text-blue-600 bg-blue-100 px-2 py-1 rounded-md hover:bg-blue-200"
+  <:action :let={{_id, semesterentry}} :if={RoleHelpers.is_role?(@user_role, :dekan)}>
+    <.button
+      disabled={!StatusHelpers.is_dekan_actionable?(semesterentry.status)}
+      class={
+        "text-blue-600 bg-blue-100 px-2 py-1 rounded-md  " <>
+        case StatusHelpers.is_dekan_actionable?(semesterentry.status) do
+          true -> "hover:bg-blue-200 opacity-100 cursor-pointer"
+          false -> "opacity-50 cursor-not-allowed"
+        end
+      }
       phx-click="forward_to_presidium"
       phx-value-id={semesterentry.id}
       data-confirm="Möchten Sie diesen Semestereintrag an das Präsidium weiterleiten?"
     >
       An Präsidium weiterleiten
-    </.link>
+    </.button>
   </:action>
 
-  <:action :let={{_id, semesterentry}}>
-    <.link
-      :if={RoleHelpers.is_role?(@user_role, :dekan_or_praesidium)}
-      class="text-red-600 bg-red-100 px-2 py-1 rounded-md hover:bg-red-200"
+  <:action
+    :let={{_id, semesterentry}}
+    :if={RoleHelpers.is_role?(@user_role, :dekan_or_praesidium)}
+  >
+    <.button
+      disabled={
+        case RoleHelpers.is_role?(@user_role, :dekan) do
+          true -> !StatusHelpers.is_dekan_actionable?(semesterentry.status)
+          false -> !StatusHelpers.is_praesidium_actionable?(semesterentry.status)
+        end
+      }
+      class={
+        "text-red-600 bg-red-100 px-2 py-1 rounded-md  " <>
+        case RoleHelpers.is_role?(@user_role, :dekan) do
+          true -> 
+            case StatusHelpers.is_dekan_actionable?(semesterentry.status) do
+              true -> "hover:bg-red-200 opacity-100 cursor-pointer"
+              false -> "opacity-50 cursor-not-allowed"
+            end
+          false -> 
+            case StatusHelpers.is_praesidium_actionable?(semesterentry.status) do
+              true -> "hover:bg-red-200 opacity-100 cursor-pointer"
+              false -> "opacity-50 cursor-not-allowed"
+            end
+        end
+      }
       phx-click="reject_semesterentry"
       phx-value-id={semesterentry.id}
       data-confirm="Möchten Sie diesen Semestereintrag wirklich ablehnen?"
     >
       Ablehnen
-    </.link>
+    </.button>
   </:action>
 
   <:action :let={{_id, semesterentry}} :if={RoleHelpers.is_role?(@user_role, :lehrperson)}>
-    <.link
-      class="text-blue-600 bg-blue-100 px-2 py-1 rounded-md hover:bg-blue-200"
-      patch={~p"/semesterentrys/#{semesterentry}/edit"}
+    <.button
+      phx-click={JS.navigate(~p"/semesterentrys/#{semesterentry}/edit")}
+      phx-disable-with="Bearbeiten..."
+      disabled={!StatusHelpers.is_editable?(semesterentry.status)}
+      class={
+        "text-blue-600 bg-blue-100 px-2 py-1 rounded-md  " <>
+        case StatusHelpers.is_editable?(semesterentry.status) do
+          true -> "hover:bg-blue-200 opacity-100"
+          false -> "opacity-50 cursor-not-allowed"
+        end
+      }
     >
       Bearbeiten
-    </.link>
+    </.button>
   </:action>
 
   <:action :let={{id, semesterentry}} :if={RoleHelpers.is_role?(@user_role, :lehrperson)}>
-    <.link
+    <.button
       phx-click={JS.push("delete", value: %{id: semesterentry.id}) |> hide("##{id}")}
       data-confirm="Bist du sicher, dass du diesen Semestereintrag löschen möchtest?"
-      class="text-red-500 bg-red-100 px-2 py-1 rounded-md hover:bg-red-200"
+      disabled={!StatusHelpers.is_editable?(semesterentry.status)}
+      class={
+        "text-red-500 bg-red-100 px-2 py-1 rounded-md  " <>
+        case StatusHelpers.is_editable?(semesterentry.status) do
+          true -> "hover:bg-red-200 opacity-100"
+          false -> "opacity-50 cursor-not-allowed"
+        end
+      }
     >
       Löschen
-    </.link>
+    </.button>
   </:action>
 </.table>
 

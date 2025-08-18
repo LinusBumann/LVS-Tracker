@@ -34,9 +34,7 @@ defmodule LvsTool.Semesterentrys do
     from(s in Semesterentry,
       where:
         s.status in [
-          "Eingereicht",
-          "An das Präsidium weitergeleitet",
-          "Akzeptiert"
+          "Eingereicht"
         ],
       preload: [:user]
     )
