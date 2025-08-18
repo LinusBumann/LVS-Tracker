@@ -148,31 +148,49 @@
     
 <!-- Status Action Buttons -->
     <div class="flex gap-3">
-      <!-- Sekundärer Button (Ablehnen) -->
-      <% {secondary_action, secondary_text, secondary_class} =
-        get_secondary_action_for_role_and_status(@user_role, @semesterentry, @current_user) %>
-      <%= if secondary_action do %>
+      <!-- Sekundärer Button (Ablehnen) für Dekanat und Präsidium -->
+      <%= if is_role?(@user_role, :dekan_or_praesidium) and @semesterentry.status in ["Eingereicht", "An das Präsidium weitergeleitet"] do %>
         <.button
-          phx-click={secondary_action}
+          phx-click="reject_semesterentry"
           phx-value-id={@semesterentry.id}
-          data-confirm={"Möchten Sie diesen Semestereintrag wirklich #{String.downcase(secondary_text)}?"}
-          class={secondary_class}
+          data-confirm="Möchten Sie diesen Semestereintrag wirklich ablehnen?"
+          class="bg-red-600 hover:bg-red-700 text-white"
         >
-          {secondary_text} <.icon name="hero-x-mark-solid" class="h-4 w-4 ml-2" />
+          Ablehnen <.icon name="hero-x-mark-solid" class="h-4 w-4 ml-2" />
         </.button>
       <% end %>
       
 <!-- Primärer Button -->
-      <% {primary_action, primary_text, primary_class} =
-        get_action_for_role_and_status(@user_role, @semesterentry, @current_user) %>
-      <%= if primary_action do %>
+      <%= if is_role?(@user_role, :lehrperson) and @semesterentry.user_id == @current_user.id and @semesterentry.status in ["Offen", "Abgelehnt"] do %>
         <.button
-          phx-click={primary_action}
+          phx-click="submit_for_review"
           phx-value-id={@semesterentry.id}
-          data-confirm={"Möchten Sie diesen Semestereintrag wirklich #{String.downcase(primary_text)}?"}
-          class={primary_class}
+          data-confirm="Möchten Sie diesen Semestereintrag wirklich einreichen?"
+          class="bg-blue-600 hover:bg-blue-700 text-white"
         >
-          {primary_text} <.icon name="hero-arrow-right-solid" class="h-4 w-4 ml-2" />
+          Einreichen <.icon name="hero-arrow-right-solid" class="h-4 w-4 ml-2" />
+        </.button>
+      <% end %>
+
+      <%= if is_role?(@user_role, :dekan) and @semesterentry.status == "Eingereicht" do %>
+        <.button
+          phx-click="forward_to_presidium"
+          phx-value-id={@semesterentry.id}
+          data-confirm="Möchten Sie diesen Semestereintrag wirklich an das Präsidium weiterleiten?"
+          class="bg-indigo-600 hover:bg-indigo-700 text-white"
+        >
+          An Präsidium weiterleiten <.icon name="hero-arrow-right-solid" class="h-4 w-4 ml-2" />
+        </.button>
+      <% end %>
+
+      <%= if is_role?(@user_role, :praesidium) and @semesterentry.status == "An das Präsidium weitergeleitet" do %>
+        <.button
+          phx-click="approve_semesterentry"
+          phx-value-id={@semesterentry.id}
+          data-confirm="Möchten Sie diesen Semestereintrag wirklich genehmigen?"
+          class="bg-green-600 hover:bg-green-700 text-white"
+        >
+          Genehmigen <.icon name="hero-arrow-right-solid" class="h-4 w-4 ml-2" />
         </.button>
       <% end %>
     </div>

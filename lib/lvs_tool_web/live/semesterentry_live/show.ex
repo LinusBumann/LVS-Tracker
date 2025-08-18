@@ -10,6 +10,13 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
   alias LvsTool.Accounts
   alias LvsTool.Reductions
 
+  @roles %{
+    lehrperson: [1, 2, 3, 4, 5],
+    dekan: 6,
+    praesidium: 7,
+    dekan_or_praesidium: [6, 7]
+  }
+
   @impl true
   def mount(params, _session, socket) do
     # Hole den Semesterentry um den Besitzer zu identifizieren
@@ -51,7 +58,18 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
      )
      |> assign(:user_role, Accounts.get_user_role(socket.assigns.current_user))
      |> assign(:semesterentry_owner, semesterentry_owner)
+     |> assign(:roles, @roles)
      |> IO.inspect()}
+  end
+
+  def is_role?(user_role, role_name) do
+    case role_name do
+      :lehrperson -> user_role.id in [1, 2, 3, 4, 5]
+      :dekan -> user_role.id == 6
+      :praesidium -> user_role.id == 7
+      :dekan_or_praesidium -> user_role.id in [6, 7]
+      _ -> false
+    end
   end
 
   @impl true
@@ -395,45 +413,5 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
     end
   end
 
-  # Helper-Funktion für primäre Button-Aktion (die wichtigste/erwartete Aktion)
-  def get_action_for_role_and_status(user_role, semesterentry, current_user) do
-    case {user_role.id, semesterentry.status, semesterentry.user_id == current_user.id} do
-      # Lehrende können einreichen wenn Status "Offen" oder "Abgelehnt" und es ihr eigener Eintrag ist
-      {role_id, "Offen", true} when role_id in [1, 2, 3, 4, 5] ->
-        {"submit_for_review", "Einreichen", "bg-blue-600 hover:bg-blue-700 text-white"}
-
-      {role_id, "Abgelehnt", true} when role_id in [1, 2, 3, 4, 5] ->
-        {"submit_for_review", "Erneut einreichen", "bg-blue-600 hover:bg-blue-700 text-white"}
-
-      # Dekanat kann weiterleiten wenn Status "Eingereicht" (primäre Aktion)
-      {6, "Eingereicht", _} ->
-        {"forward_to_presidium", "An Präsidium weiterleiten",
-         "bg-indigo-600 hover:bg-indigo-700 text-white"}
-
-      # Präsidium kann genehmigen wenn Status "An das Präsidium weitergeleitet" (primäre Aktion)
-      {7, "An das Präsidium weitergeleitet", _} ->
-        {"approve_semesterentry", "Genehmigen", "bg-green-600 hover:bg-green-700 text-white"}
-
-      # Kein Button für andere Kombinationen
-      _ ->
-        {nil, nil, nil}
-    end
-  end
-
-  # Helper-Funktion für sekundäre Button-Aktion (Ablehnen)
-  def get_secondary_action_for_role_and_status(user_role, semesterentry, _current_user) do
-    case {user_role.id, semesterentry.status} do
-      # Dekanat kann ablehnen wenn Status "Eingereicht"
-      {6, "Eingereicht"} ->
-        {"reject_semesterentry", "Ablehnen", "bg-red-600 hover:bg-red-700 text-white"}
-
-      # Präsidium kann ablehnen wenn Status "An das Präsidium weitergeleitet"
-      {7, "An das Präsidium weitergeleitet"} ->
-        {"reject_semesterentry", "Ablehnen", "bg-red-600 hover:bg-red-700 text-white"}
-
-      # Keine sekundäre Aktion für andere Kombinationen
-      _ ->
-        {nil, nil, nil}
-    end
-  end
+  # Helper-Funktionen entfernt - Logik ist jetzt direkt im Template
 end
