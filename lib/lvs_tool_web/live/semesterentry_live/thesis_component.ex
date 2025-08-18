@@ -2,6 +2,7 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisComponent do
   use LvsToolWeb, :live_component
 
   alias Phoenix.LiveView.JS
+  alias LvsToolWeb.RoleHelpers
 
   @impl true
   def render(assigns) do
@@ -10,9 +11,17 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisComponent do
       <div class="flex justify-between items-center">
         <h2 class="text-xl font-semibold text-gray-900">Thesis</h2>
         
-    <!-- Button nur für Lehrende anzeigen -->
+    <!-- Button nur für Lehrende anzeigen, wenn Semestereintrag noch nicht eingereicht -->
         <.link
-          :if={@user_role.id in [1, 2, 3, 4, 5]}
+          :if={
+            RoleHelpers.is_role?(@user_role, :lehrperson) and
+              @semesterentry.status not in [
+                "Eingereicht",
+                "An das Präsidium weitergeleitet",
+                "Bestätigt",
+                "Akzeptiert"
+              ]
+          }
           patch={~p"/semesterentrys/#{@semesterentry.id}/thesis/new"}
         >
           <.button>
@@ -31,7 +40,7 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisComponent do
         <h3 class="mt-2 text-sm font-medium text-gray-900">Keine Thesis</h3>
         
         <p class="mt-1 text-sm text-gray-500">
-          <%= if @user_role.id in [1, 2, 3, 4, 5] do %>
+          <%= if RoleHelpers.is_role?(@user_role, :lehrperson) and @semesterentry.status not in ["Eingereicht", "An das Präsidium weitergeleitet", "Akzeptiert"] do %>
             Fügen Sie Ihre erste Thesis hinzu.
           <% else %>
             Keine Thesis vorhanden.
@@ -75,10 +84,21 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisComponent do
                     </p>
                   </div>
                   
-    <!-- Aktions-Buttons nur für Lehrende anzeigen -->
-                  <div :if={@user_role.id in [1, 2, 3, 4, 5]} class="flex items-center space-x-2">
+    <!-- Aktions-Buttons nur für Lehrende anzeigen, wenn Semestereintrag noch nicht eingereicht -->
+                  <div
+                    :if={
+                      RoleHelpers.is_role?(@user_role, :lehrperson) and
+                        @semesterentry.status not in [
+                          "Eingereicht",
+                          "An das Präsidium weitergeleitet",
+                          "Bestätigt",
+                          "Akzeptiert"
+                        ]
+                    }
+                    class="flex items-center space-x-2"
+                  >
                     <.link patch={~p"/semesterentrys/#{@semesterentry.id}/thesis/#{thesis.id}/edit"}>
-                      <.button class="text-blue-600 hover:text-blue-900">
+                      <.button class="text-blue-600 hover:text-blue-900 bg-blue-100 hover:bg-blue-200">
                         <.icon name="hero-pencil-square" class="h-4 w-4" />
                       </.button>
                     </.link>
@@ -87,7 +107,7 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisComponent do
                       phx-click={JS.push("delete_thesis", target: @myself, value: %{id: thesis.id})}
                       phx-target={@myself}
                       data-confirm="Sind Sie sicher, dass Sie diese Thesis löschen möchten?"
-                      class="text-red-600 hover:text-red-900"
+                      class="text-red-600 hover:text-red-900 bg-red-100 hover:bg-red-200"
                     >
                       <.icon name="hero-trash" class="h-4 w-4" />
                     </.button>

@@ -2,6 +2,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
   use LvsToolWeb, :live_component
 
   alias Phoenix.LiveView.JS
+  alias LvsToolWeb.RoleHelpers
 
   @impl true
   def render(assigns) do
@@ -10,9 +11,16 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
       <div class="flex justify-between items-center">
         <h2 class="text-xl font-semibold text-gray-900">Standard-Kurse</h2>
         
-    <!-- Button nur für Lehrende anzeigen -->
+    <!-- Button nur für Lehrende anzeigen, wenn Semestereintrag noch nicht eingereicht -->
         <.link
-          :if={@user_role.id in [1, 2, 3, 4, 5]}
+          :if={
+            RoleHelpers.is_role?(@user_role, :lehrperson) and
+              @semesterentry.status not in [
+                "Eingereicht",
+                "An das Präsidium weitergeleitet",
+                "Akzeptiert"
+              ]
+          }
           patch={~p"/semesterentrys/#{@semesterentry.id}/standard-courses/new"}
         >
           <.button>
@@ -74,8 +82,18 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
                     </p>
                   </div>
                   
-    <!-- Aktions-Buttons nur für Lehrende anzeigen -->
-                  <div :if={@user_role.id in [1, 2, 3, 4, 5]} class="flex items-center space-x-2">
+    <!-- Aktions-Buttons nur für Lehrende anzeigen, wenn Semestereintrag noch nicht eingereicht -->
+                  <div
+                    :if={
+                      RoleHelpers.is_role?(@user_role, :lehrperson) and
+                        @semesterentry.status not in [
+                          "Eingereicht",
+                          "An das Präsidium weitergeleitet",
+                          "Akzeptiert"
+                        ]
+                    }
+                    class="flex items-center space-x-2"
+                  >
                     <.link patch={
                       ~p"/semesterentrys/#{@semesterentry.id}/standard-courses/#{course.id}/edit"
                     }>
@@ -110,7 +128,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
         <h3 class="mt-2 text-sm font-medium text-gray-900">Keine Standard-Kurse</h3>
         
         <p class="mt-1 text-sm text-gray-500">
-          <%= if @user_role.id in [1, 2, 3, 4, 5] do %>
+          <%= if RoleHelpers.is_role?(@user_role, :lehrperson) and @semesterentry.status not in ["Eingereicht", "An das Präsidium weitergeleitet", "Akzeptiert"] do %>
             Fügen Sie Ihren ersten Standard-Kurs hinzu.
           <% else %>
             Keine Standard-Kurse vorhanden.

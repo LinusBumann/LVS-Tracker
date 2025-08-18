@@ -9,13 +9,7 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
   alias LvsTool.Theses.ThesisEntry
   alias LvsTool.Accounts
   alias LvsTool.Reductions
-
-  @roles %{
-    lehrperson: [1, 2, 3, 4, 5],
-    dekan: 6,
-    praesidium: 7,
-    dekan_or_praesidium: [6, 7]
-  }
+  alias LvsToolWeb.RoleHelpers
 
   @impl true
   def mount(params, _session, socket) do
@@ -58,24 +52,16 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
      )
      |> assign(:user_role, Accounts.get_user_role(socket.assigns.current_user))
      |> assign(:semesterentry_owner, semesterentry_owner)
-     |> assign(:roles, @roles)
      |> IO.inspect()}
-  end
-
-  def is_role?(user_role, role_name) do
-    case role_name do
-      :lehrperson -> user_role.id in [1, 2, 3, 4, 5]
-      :dekan -> user_role.id == 6
-      :praesidium -> user_role.id == 7
-      :dekan_or_praesidium -> user_role.id in [6, 7]
-      _ -> false
-    end
   end
 
   @impl true
   def handle_params(params, _, socket) do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
+
+  # Helper-Funktion für Templates
+  def is_role?(user_role, role_name), do: RoleHelpers.is_role?(user_role, role_name)
 
   defp apply_action(socket, :show, %{"id" => id}) do
     semesterentry = Semesterentrys.get_semesterentry!(id)
