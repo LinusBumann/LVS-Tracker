@@ -18,7 +18,7 @@
 
 <.table
   id="semesterentrys"
-  rows={@streams.semesterentrys}
+  rows={@streams.semesterentries}
   row_click={
     fn {_id, semesterentry} ->
       JS.navigate(~p"/semesterentrys/#{semesterentry}/standard-courses")
@@ -49,11 +49,15 @@
     )}
   </:col>
 
-  <:col :let={{_id, semesterentry}} :if={@user_role.id in [6, 7]} label="Lehrende/r">
+  <:col
+    :let={{_id, semesterentry}}
+    :if={RoleHelpers.is_role?(@user_role, :dekan_or_praesidium)}
+    label="Lehrende/r"
+  >
     {Accounts.get_user!(semesterentry.user_id).name}
   </:col>
 
-  <:action :let={{_id, semesterentry}} :if={@user_role.id == 7}>
+  <:action :let={{_id, semesterentry}} :if={RoleHelpers.is_role?(@user_role, :praesidium)}>
     <.link
       class="text-blue-600 bg-blue-100 px-2 py-1 rounded-md hover:bg-blue-200"
       phx-click="approve_semesterentry"
@@ -66,7 +70,7 @@
 
   <:action :let={{_id, semesterentry}}>
     <.link
-      :if={semesterentry.status == "Eingereicht" and @user_role.id == 6}
+      :if={semesterentry.status == "Eingereicht" and RoleHelpers.is_role?(@user_role, :dekan)}
       class="text-blue-600 bg-blue-100 px-2 py-1 rounded-md hover:bg-blue-200"
       phx-click="forward_to_presidium"
       phx-value-id={semesterentry.id}
@@ -78,7 +82,7 @@
 
   <:action :let={{_id, semesterentry}}>
     <.link
-      :if={@user_role.id in [6, 7]}
+      :if={RoleHelpers.is_role?(@user_role, :dekan_or_praesidium)}
       class="text-red-600 bg-red-100 px-2 py-1 rounded-md hover:bg-red-200"
       phx-click="reject_semesterentry"
       phx-value-id={semesterentry.id}
@@ -88,7 +92,7 @@
     </.link>
   </:action>
 
-  <:action :let={{_id, semesterentry}} :if={@user_role.id in [1, 2, 3, 4, 5]}>
+  <:action :let={{_id, semesterentry}} :if={RoleHelpers.is_role?(@user_role, :lehrperson)}>
     <.link
       class="text-blue-600 bg-blue-100 px-2 py-1 rounded-md hover:bg-blue-200"
       patch={~p"/semesterentrys/#{semesterentry}/edit"}
@@ -97,7 +101,7 @@
     </.link>
   </:action>
 
-  <:action :let={{id, semesterentry}} :if={@user_role.id in [1, 2, 3, 4, 5]}>
+  <:action :let={{id, semesterentry}} :if={RoleHelpers.is_role?(@user_role, :lehrperson)}>
     <.link
       phx-click={JS.push("delete", value: %{id: semesterentry.id}) |> hide("##{id}")}
       data-confirm="Bist du sicher, dass du diesen Semestereintrag löschen möchtest?"
@@ -109,7 +113,7 @@
 </.table>
 
 <p
-  :if={@user_role.id in [1, 2, 3, 4, 5]}
+  :if={RoleHelpers.is_role?(@user_role, :lehrperson)}
   class="text-gray-900 font-medium bg-gray-100 p-2 rounded-md w-fit"
 >
   LVS Summe aller Semester: {Semesterentrys.calculate_lvs_sum_for_all_semesterentries_by_user(

@@ -4,6 +4,9 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
   alias LvsTool.Semesterentrys
   alias LvsTool.Semesterentrys.Semesterentry
   alias LvsTool.Accounts
+  alias LvsToolWeb.RoleHelpers
+  alias LvsToolWeb.StatusHelpers
+
   @impl true
   def mount(_params, _session, socket) do
     current_user = socket.assigns.current_user
@@ -18,10 +21,13 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
     {:ok,
      socket
      |> assign(:user_role, user_role)
+     |> assign(:status_helpers, StatusHelpers)
+     |> assign(:role_helpers, RoleHelpers)
      |> stream(
-       :semesterentrys,
+       :semesterentries,
        semesterentries
-     )}
+     )
+     |> IO.inspect()}
   end
 
   @impl true
@@ -67,7 +73,7 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
 
   @impl true
   def handle_info({LvsToolWeb.SemesterentryLive.FormComponent, {:saved, semesterentry}}, socket) do
-    {:noreply, stream_insert(socket, :semesterentrys, semesterentry)}
+    {:noreply, stream_insert(socket, :semesterentries, semesterentry)}
   end
 
   @impl true
@@ -75,7 +81,7 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
     semesterentry = Semesterentrys.get_semesterentry!(id)
     {:ok, _} = Semesterentrys.delete_semesterentry(semesterentry)
 
-    {:noreply, stream_delete(socket, :semesterentrys, semesterentry)}
+    {:noreply, stream_delete(socket, :semesterentries, semesterentry)}
   end
 
   @impl true
@@ -87,7 +93,7 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
         {:noreply,
          socket
          |> put_flash(:info, "Semestereintrag wurde an das Präsidium weitergeleitet")
-         |> stream_insert(:semesterentrys, updated_semesterentry)
+         |> stream_insert(:semesterentries, updated_semesterentry)
          |> push_patch(to: ~p"/semesterentrys")}
 
       {:error, _changeset} ->
@@ -104,7 +110,7 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
         {:noreply,
          socket
          |> put_flash(:info, "Semestereintrag wurde genehmigt")
-         |> stream_insert(:semesterentrys, updated_semesterentry)
+         |> stream_insert(:semesterentries, updated_semesterentry)
          |> push_patch(to: ~p"/semesterentrys")}
 
       {:error, _changeset} ->
@@ -121,7 +127,7 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
         {:noreply,
          socket
          |> put_flash(:info, "Semestereintrag wurde abgelehnt")
-         |> stream_delete(:semesterentrys, semesterentry)
+         |> stream_delete(:semesterentries, semesterentry)
          |> push_patch(to: ~p"/semesterentrys")}
 
       {:error, _changeset} ->
