@@ -67,6 +67,7 @@ defmodule LvsToolWeb.Router do
     live_session :require_authenticated_user,
       on_mount: [{LvsToolWeb.UserAuth, :ensure_authenticated}] do
       live "/infos", InfoLive.InfoIndex, :info_index
+      live "/infos/pdf/:file", InfoLive.InfoIndex, :show_pdf
 
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email

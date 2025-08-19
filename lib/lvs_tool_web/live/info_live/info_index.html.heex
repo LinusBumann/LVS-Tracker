@@ -1,181 +1,218 @@
-<.header>
-  Allgemeine Infos
-</.header>
-
-<div class="flex flex-col gap-4">
-  <.accordion
-    id="accordion-1"
-    title="Grundlagen der LVS-Berechnung"
-    subtitle="Welche Parameter werden bei der Berechnung berücksichtigt?"
-  >
-    <p class="mt-3 font-medium">
-      Die Berechnung des Lehrdeputats basiert auf verschiedenen Parametern:
-    </p>
-    
-    <ul class="list-disc list-inside space-y-1 text-sm">
-      <li>Anzahl der Semesterwochenstunden (SWS)</li>
-      
-      <li>Art der Lehrveranstaltung (Vorlesung, Übung, Seminar)</li>
-      
-      <li>Anzahl der Teilnehmer</li>
-      
-      <li>Zusätzliche Aufgaben (Prüfungen, Betreuung)</li>
-    </ul>
-  </.accordion>
+<%= if @live_action == :show_pdf do %>
+  <.live_component
+    module={LvsToolWeb.InfoLive.Pdf}
+    id="pdf-viewer"
+    pdf_file={@pdf_file}
+    page_title={@page_title}
+  />
+<% else %>
+  <.header>
+    Allgemeine Infos
+  </.header>
   
-  <.accordion
-    id="accordion-2"
-    title="In welcher Form werden Ermäßigungen in die Berechnung meines Deputats einbezogen?"
-    subtitle="Ermäßigungen haben zur Folge, dass der Lehraufwand für die Lehrperson reduziert wird."
-  >
-    <section class="bg-gray-100 rounded-lg p-4 my-4">
-      <h2 class="font-medium text-center mb-4">
-        Funktionen und Aufgaben in der Selbstverwaltung
-      </h2>
+  <div class="flex flex-col gap-4">
+    <.accordion
+      id="accordion-1"
+      title="Grundlagen der LVS-Berechnung"
+      subtitle="Welche Parameter werden bei der Berechnung berücksichtigt?"
+    >
+      <p class="mt-3 font-medium">
+        Die Berechnung des Lehrdeputats basiert auf verschiedenen Parametern:
+      </p>
       
-      <div class="flex flex-row gap-4 justify-around">
-        <div>
-          <h3 class="font-bold text-sm mb-2">Aufgaben in den Fachbereichen:</h3>
-          
-          <ul class="list-disc list-inside space-y-1 text-sm">
-            <li>Dekan*in <i>(9 LVS)</i></li>
-            
-            <li>Prodekan*in <i>(2 LVS)</i></li>
-            
-            <li>Beauftragte für Studium und Lehre <i>(3 LVS)</i></li>
-            
-            <li>Stundenplaner*in <i>(2 LVS)</i></li>
-            
-            <li>Studiengangsverantwortliche <i>(bis zu 2 LVS)</i></li>
-            
-            <li>Studiengangsverantwortliche für Reakkreditierung <i>(einmalig 2 LVS)</i></li>
-            
-            <li>Semesterverantwortliche <i>(1 LVS)</i></li>
-            
-            <li>Gleichstellungsbeauftragte (inklusive Stellvertretung) <i>(2 LVS)</i></li>
-          </ul>
-        </div>
+      <ul class="list-disc list-inside space-y-1 text-sm">
+        <li>Anzahl der Semesterwochenstunden (SWS)</li>
         
-        <div>
-          <h3 class="font-bold text-sm mb-2">Zentrale Aufgaben:</h3>
+        <li>Art der Lehrveranstaltung (Vorlesung, Übung, Seminar)</li>
+        
+        <li>Anzahl der Teilnehmer</li>
+        
+        <li>Zusätzliche Aufgaben (Prüfungen, Betreuung)</li>
+      </ul>
+    </.accordion>
+    
+    <.accordion
+      id="accordion-2"
+      title="In welcher Form werden Ermäßigungen in die Berechnung meines Deputats einbezogen?"
+      subtitle="Ermäßigungen haben zur Folge, dass der Lehraufwand für die Lehrperson reduziert wird."
+    >
+      <section class="bg-gray-100 rounded-lg p-4 my-4">
+        <h2 class="font-medium text-center mb-4">
+          Funktionen und Aufgaben in der Selbstverwaltung
+        </h2>
+        
+        <div class="flex flex-row gap-4 justify-around">
+          <div>
+            <h3 class="font-bold text-sm mb-2">Aufgaben in den Fachbereichen:</h3>
+            
+            <ul class="list-disc list-inside space-y-1 text-sm">
+              <li>Dekan*in <i>(9 LVS)</i></li>
+              
+              <li>Prodekan*in <i>(2 LVS)</i></li>
+              
+              <li>Beauftragte für Studium und Lehre <i>(3 LVS)</i></li>
+              
+              <li>Stundenplaner*in <i>(2 LVS)</i></li>
+              
+              <li>Studiengangsverantwortliche <i>(bis zu 2 LVS)</i></li>
+              
+              <li>Studiengangsverantwortliche für Reakkreditierung <i>(einmalig 2 LVS)</i></li>
+              
+              <li>Semesterverantwortliche <i>(1 LVS)</i></li>
+              
+              <li>Gleichstellungsbeauftragte (inklusive Stellvertretung) <i>(2 LVS)</i></li>
+            </ul>
+          </div>
           
-          <ul class="list-disc list-inside space-y-1 text-sm">
-            <li>Vizepräsident*in <i>(bis zu 12 LVS)</i></li>
+          <div>
+            <h3 class="font-bold text-sm mb-2">Zentrale Aufgaben:</h3>
             
-            <li>Prüfungsausschuss-Vorsitzende*r <i>(4 LVS)</i></li>
-            
-            <li>Berufungsausschuss Vorsitzende*r <i>(2 LVS)</i></li>
-            
-            <li>Stundenplaner*in <i>(2 LVS)</i></li>
-            
-            <li>Vorsitz Senatsausschüsse <i>(1 LVS)</i></li>
-            
-            <li>Vorsitz Senat <i>(2 LVS)</i></li>
-          </ul>
+            <ul class="list-disc list-inside space-y-1 text-sm">
+              <li>Vizepräsident*in <i>(bis zu 12 LVS)</i></li>
+              
+              <li>Prüfungsausschuss-Vorsitzende*r <i>(4 LVS)</i></li>
+              
+              <li>Berufungsausschuss Vorsitzende*r <i>(2 LVS)</i></li>
+              
+              <li>Stundenplaner*in <i>(2 LVS)</i></li>
+              
+              <li>Vorsitz Senatsausschüsse <i>(1 LVS)</i></li>
+              
+              <li>Vorsitz Senat <i>(2 LVS)</i></li>
+            </ul>
+          </div>
         </div>
+      </section>
+      
+      <div class="grid grid-cols-2 gap-4 mt-4">
+        <section class="bg-gray-100 rounded-lg p-4">
+          <h2 class="font-medium text-center mb-4">
+            Sonderfunktionen
+          </h2>
+          
+          <div>
+            <ul class="list-disc list-inside space-y-1 text-sm">
+              <li>Bis zu 2 LVS</li>
+            </ul>
+          </div>
+        </section>
+        
+        <section class="bg-gray-100 rounded-lg p-4">
+          <h2 class="font-medium text-center mb-4">
+            Forschung & Entwicklung, sowie Wissens- und Technologietransfer
+          </h2>
+          
+          <div>
+            <p class="text-sm">
+              Siehe „Leitlinien der Hochschule Flensburg zur Förderung anwendungs-orientierter Forschung & Entwicklung und des Technologietransfers"
+            </p>
+          </div>
+        </section>
+        
+        <section class="bg-gray-100 rounded-lg p-4">
+          <h2 class="font-medium text-center mb-4">
+            Promotionsbetreuung
+          </h2>
+          
+          <div>
+            <p class="text-sm">
+              Siehe „Leitlinien der Hochschule Flensburg zur Förderung anwendungs-orientierter Forschung & Entwicklung und des Technologietransfers"
+            </p>
+          </div>
+        </section>
+        
+        <section class="bg-gray-100 rounded-lg p-4">
+          <h2 class="font-medium text-center mb-4">
+            Aufgaben im öffentlichen Interesse außerhalb der Hochschule
+          </h2>
+          
+          <div>
+            <ul class="list-disc list-inside space-y-1 text-sm">
+              <li>Ermäßigung oder Freistellung</li>
+            </ul>
+          </div>
+        </section>
+        
+        <section class="bg-gray-100 rounded-lg p-4">
+          <h2 class="font-medium text-center mb-4">
+            Schwerbehinderte Lehrpersonen
+          </h2>
+          
+          <div>
+            <ul class="list-disc list-inside space-y-1 text-sm">
+              <li>12-25%, je nach Grad der Behinderung</li>
+            </ul>
+          </div>
+        </section>
+        
+        <section class="bg-gray-100 rounded-lg p-4">
+          <h2 class="font-medium text-center mb-4">
+            Internationalisierung
+          </h2>
+          
+          <div>
+            <ul class="list-disc list-inside space-y-1 text-sm">
+              <li>
+                Erstellung eines Lehrangebots in z.B. englischer Sprache für Module, die im Curriculum nur einsprachig vorgesehen sind
+              </li>
+              
+              <li>Einmalig bis zu 2 LVS</li>
+              
+              <li>Die Zustimmung des Dekanats dazu muss vorliegen.</li>
+            </ul>
+          </div>
+        </section>
       </div>
-    </section>
+    </.accordion>
     
-    <div class="grid grid-cols-2 gap-4 mt-4">
-      <section class="bg-gray-100 rounded-lg p-4">
-        <h2 class="font-medium text-center mb-4">
-          Sonderfunktionen
-        </h2>
-        
-        <div>
-          <ul class="list-disc list-inside space-y-1 text-sm">
-            <li>Bis zu 2 LVS</li>
-          </ul>
-        </div>
-      </section>
+    <.accordion
+      id="accordion-3"
+      title="Abschlussarbeiten"
+      subtitle="Betreuung von Bachelor- und Masterarbeiten"
+    >
+      <p class="mt-3 font-medium">Folgende Arten der Betreung sind möglich:</p>
       
-      <section class="bg-gray-100 rounded-lg p-4">
-        <h2 class="font-medium text-center mb-4">
-          Forschung & Entwicklung, sowie Wissens- und Technologietransfer
-        </h2>
+      <ul class="list-decimal list-inside space-y-1 text-sm">
+        <li>Bachelorarbeit: 0,3 SWS pro Arbeit (Erstbetreuung)</li>
         
-        <div>
-          <p class="text-sm">
-            Siehe „Leitlinien der Hochschule Flensburg zur Förderung anwendungs-orientierter Forschung & Entwicklung und des Technologietransfers"
-          </p>
-        </div>
-      </section>
+        <li>Bachelorarbeit: 0,15 SWS pro Arbeit (Zweitbetreuung)</li>
+        
+        <li>Masterarbeit: 0,4 SWS pro Arbeit (Erstbetreuung)</li>
+        
+        <li>Masterarbeit: 0,2 SWS pro Arbeit (Zweitbetreuung)</li>
+      </ul>
       
-      <section class="bg-gray-100 rounded-lg p-4">
-        <h2 class="font-medium text-center mb-4">
-          Promotionsbetreuung
-        </h2>
-        
-        <div>
-          <p class="text-sm">
-            Siehe „Leitlinien der Hochschule Flensburg zur Förderung anwendungs-orientierter Forschung & Entwicklung und des Technologietransfers"
-          </p>
-        </div>
-      </section>
-      
-      <section class="bg-gray-100 rounded-lg p-4">
-        <h2 class="font-medium text-center mb-4">
-          Aufgaben im öffentlichen Interesse außerhalb der Hochschule
-        </h2>
-        
-        <div>
-          <ul class="list-disc list-inside space-y-1 text-sm">
-            <li>Ermäßigung oder Freistellung</li>
-          </ul>
-        </div>
-      </section>
-      
-      <section class="bg-gray-100 rounded-lg p-4">
-        <h2 class="font-medium text-center mb-4">
-          Schwerbehinderte Lehrpersonen
-        </h2>
-        
-        <div>
-          <ul class="list-disc list-inside space-y-1 text-sm">
-            <li>12-25%, je nach Grad der Behinderung</li>
-          </ul>
-        </div>
-      </section>
-      
-      <section class="bg-gray-100 rounded-lg p-4">
-        <h2 class="font-medium text-center mb-4">
-          Internationalisierung
-        </h2>
-        
-        <div>
-          <ul class="list-disc list-inside space-y-1 text-sm">
-            <li>
-              Erstellung eines Lehrangebots in z.B. englischer Sprache für Module, die im Curriculum nur einsprachig vorgesehen sind
-            </li>
-            
-            <li>Einmalig bis zu 2 LVS</li>
-            
-            <li>Die Zustimmung des Dekanats dazu muss vorliegen.</li>
-          </ul>
-        </div>
-      </section>
-    </div>
-  </.accordion>
-  
-  <.accordion
-    id="accordion-3"
-    title="Abschlussarbeiten"
-    subtitle="Betreuung von Bachelor- und Masterarbeiten"
-  >
-    <p class="mt-3 font-medium">Folgende Arten der Betreung sind möglich:</p>
+      <p class="mt-3">
+        Ab einer Anzahl von <b>sechs</b> betreuten Arbeiten werden diese angerechnet.
+      </p>
+    </.accordion>
     
-    <ul class="list-decimal list-inside space-y-1 text-sm">
-      <li>Bachelorarbeit: 0,3 SWS pro Arbeit (Erstbetreuung)</li>
+    <.accordion
+      id="accordion-4"
+      title="Lesefassung der LVVO"
+      subtitle="Hier findest du die aktuelle Lesefassung der LVVO."
+    >
+      <p class="mt-3 font-medium">
+        Die aktuelle Lesefassung der LVVO findest du hier:
+      </p>
       
-      <li>Bachelorarbeit: 0,15 SWS pro Arbeit (Zweitbetreuung)</li>
+      <.button
+        phx-click={JS.navigate(~p"/infos/pdf/Lesefassung_LVVO_2023_06_21.pdf")}
+        phx-disable-with="Öffnen..."
+      >
+        Aktuelle Lesefassung der LVVO öffnen
+      </.button>
       
-      <li>Masterarbeit: 0,4 SWS pro Arbeit (Erstbetreuung)</li>
+      <p class="mt-3 font-medium">
+        Die aktuelle Fassung der LVVO des Landes Schleswig-Holstein findest du hier:
+      </p>
       
-      <li>Masterarbeit: 0,2 SWS pro Arbeit (Zweitbetreuung)</li>
-    </ul>
-    
-    <p class="mt-3">
-      Ab einer Anzahl von <b>sechs</b> betreuten Arbeiten werden diese angerechnet.
-    </p>
-  </.accordion>
-</div>
+      <.button
+        phx-click={JS.navigate(~p"/infos/pdf/LVVO_2021-07-27.pdf")}
+        phx-disable-with="Öffnen..."
+      >
+        Aktuelle Fassung der LVVO des Landes Schleswig-Holstein öffnen
+      </.button>
+    </.accordion>
+  </div>
+<% end %>
