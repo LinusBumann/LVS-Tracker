@@ -8,13 +8,13 @@ defmodule LvsToolWeb.UserRegistrationLive do
     ~H"""
     <div class="mx-auto max-w-sm">
       <.header class="text-center">
-        Register for an account
+        Registrieren für einen Account
         <:subtitle>
-          Already registered?
+          Hast du bereits einen Account?
           <.link navigate={~p"/users/log_in"} class="font-semibold text-brand hover:underline">
-            Log in
+            Einloggen
           </.link>
-          to your account now.
+          in deinen Account.
         </:subtitle>
       </.header>
 
@@ -28,7 +28,7 @@ defmodule LvsToolWeb.UserRegistrationLive do
         method="post"
       >
         <.error :if={@check_errors}>
-          Oops, something went wrong! Please check the errors below.
+          Ups, etwas ist schief gelaufen! Bitte überprüfe die Fehler unten.
         </.error>
 
         <.input field={@form[:email]} type="email" label="E-Mail" required />
@@ -42,7 +42,9 @@ defmodule LvsToolWeb.UserRegistrationLive do
           options={Enum.map(@roles, &{&1.name, &1.id})}
         />
         <:actions>
-          <.button phx-disable-with="Creating account..." class="w-full">Create an account</.button>
+          <.login_register_button phx-disable-with="Creating account..." class="w-full">
+            Account erstellen
+          </.login_register_button>
         </:actions>
       </.simple_form>
     </div>

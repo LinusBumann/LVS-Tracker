@@ -5,30 +5,30 @@ defmodule LvsToolWeb.UserLoginLive do
     ~H"""
     <div class="mx-auto max-w-sm">
       <.header class="text-center">
-        Log in to account
+        In Account einloggen
         <:subtitle>
-          Don't have an account?
+          Du hast noch keinen Account?
           <.link navigate={~p"/users/register"} class="font-semibold text-brand hover:underline">
-            Sign up
+            Registrieren
           </.link>
-          for an account now.
+          für einen Account.
         </:subtitle>
       </.header>
 
       <.simple_form for={@form} id="login_form" action={~p"/users/log_in"} phx-update="ignore">
-        <.input field={@form[:email]} type="email" label="Email" required />
-        <.input field={@form[:password]} type="password" label="Password" required />
+        <.input field={@form[:email]} type="email" label="E-Mail" required />
+        <.input field={@form[:password]} type="password" label="Passwort" required />
 
         <:actions>
-          <.input field={@form[:remember_me]} type="checkbox" label="Keep me logged in" />
+          <.input field={@form[:remember_me]} type="checkbox" label="Eingeloggt bleiben" />
           <.link href={~p"/users/reset_password"} class="text-sm font-semibold">
-            Forgot your password?
+            Passwort vergessen?
           </.link>
         </:actions>
         <:actions>
-          <.button phx-disable-with="Logging in..." class="w-full">
-            Log in <span aria-hidden="true">→</span>
-          </.button>
+          <.login_register_button phx-disable-with="Einloggen..." class="w-full">
+            Einloggen <span aria-hidden="true">→</span>
+          </.login_register_button>
         </:actions>
       </.simple_form>
     </div>
