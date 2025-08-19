@@ -164,7 +164,7 @@
 
 <p
   :if={RoleHelpers.is_role?(@user_role, :lehrperson)}
-  class="text-gray-900 font-medium bg-gray-100 p-2 rounded-md w-fit"
+  class="text-gray-900 font-medium bg-gray-100 p-2 rounded-md w-fit mt-2"
 >
   LVS Summe aller Semester: {Semesterentrys.calculate_lvs_sum_for_all_semesterentries_by_user(
     @current_user.id

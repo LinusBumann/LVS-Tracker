@@ -11,24 +11,103 @@
   </.header>
   
   <div class="flex flex-col gap-4">
+    <div class="bg-gray-100 rounded-lg p-4 mt-4">
+      <p class="text-sm font-normal text-center">
+        💡 <strong>Wichtiger Hinweis:</strong>
+        Dieser FAQ-Block dient lediglich als Informationsquelle falls eine Berechnung nicht ganz klar sein sollte. Die Anwendung berechnet alle Faktoren usw. selbständig. Es muss nichts eigenständig berechnet werden.
+      </p>
+    </div>
+    
     <.accordion
       id="accordion-1"
       title="Grundlagen der LVS-Berechnung"
       subtitle="Welche Parameter werden bei der Berechnung berücksichtigt?"
     >
-      <p class="mt-3 font-medium">
-        Die Berechnung des Lehrdeputats basiert auf verschiedenen Parametern:
-      </p>
-      
-      <ul class="list-disc list-inside space-y-1 text-sm">
-        <li>Anzahl der Semesterwochenstunden (SWS)</li>
+      <div class="space-y-4">
+        <p class="mt-3 font-medium">
+          Die Lehrverpflichtungsverordnung (LVVO) regelt die Berechnung des Lehrdeputats an Hochschulen in Schleswig-Holstein. Die Berechnung erfolgt auf Basis verschiedener Parameter und berücksichtigt sowohl die Art der Lehrveranstaltung als auch zusätzliche Faktoren.
+        </p>
         
-        <li>Art der Lehrveranstaltung (Vorlesung, Übung, Seminar)</li>
+        <section class="bg-gray-100 rounded-lg p-4">
+          <h3 class="font-bold text-sm mb-3">
+            Was ist eine Lehrveranstaltungsstunde (LVS)?
+          </h3>
+          
+          <p class="text-sm mb-2">
+            Eine LVS entspricht 45 Minuten pro Woche während der Vorlesungszeit eines Semesters (§1 Abs.1 LVVO). 4 SWS für eine Veranstaltung sind also 4 LVS.
+          </p>
+        </section>
         
-        <li>Anzahl der Teilnehmer</li>
+        <section class="bg-gray-100 rounded-lg p-4">
+          <h3 class="font-bold text-sm mb-3">Was bedeutet Deputat?</h3>
+          
+          <p class="text-sm mb-2">
+            Das Deputat ist die verpflichtende Lehrverpflichtung einer Lehrperson pro Semester (§1 Abs.2 LVVO).
+          </p>
+          
+          <p class="text-sm mb-2">
+            Es kann durch bestimmte Aufgaben oder Sonderregelungen reduziert werden (Deputatsermäßigungen).
+          </p>
+        </section>
         
-        <li>Zusätzliche Aufgaben (Prüfungen, Betreuung)</li>
-      </ul>
+        <section class="bg-gray-100 rounded-lg p-4">
+          <h3 class="font-bold text-sm mb-3">
+            Können Abweichungen vom Deputat ausgeglichen werden?
+          </h3>
+          
+          <p class="text-sm mb-2">
+            Ja. Wenn in einem Semester mehr oder weniger unterrichtet wird, kann dies im Durchschnitt über drei aufeinanderfolgende Studienjahre ausgeglichen werden (§2 Abs.1 LVVO).
+          </p>
+        </section>
+        
+        <section class="bg-gray-100 rounded-lg p-4">
+          <h3 class="font-bold text-sm mb-3">
+            Wie werden unterschiedliche Lehrveranstaltungen angerechnet?
+          </h3>
+          
+          <p class="text-sm">
+            Die Anrechnung richtet sich nach Art der Veranstaltung:
+          </p>
+          
+          <ul class="list-disc list-inside space-y-1 text-sm mb-4">
+            <li>
+              Vorlesungen, Übungen, Seminare, Workshops, Labore, Laborprojekte: Faktor 1,0 (volle Anrechnung)
+            </li>
+            
+            <li>Projekte ohne ständige Betreuung: Faktor 0,5</li>
+            
+            <li>
+              Labore mit Unterstützung durch Laboringenieur*innen, Lehrperson nur konzeptionell & prüfend: Faktor 0,5
+            </li>
+            
+            <li>
+              Exkursionen (nicht im Studienplan, genehmigt): Faktor 0,3 (max. 2 LVS pro Semester)
+            </li>
+          </ul>
+          
+          <p class="text-sm">
+            <i>
+              Beispielsweise hat eine Vorlesung 4 SWS. Dann wird diese Grundsätzlich mit 4 LVS vergütet, weil der Faktor 1,0 beträgt.
+            </i>
+          </p>
+        </section>
+        
+        <section class="bg-gray-100 rounded-lg p-4">
+          <h3 class="font-bold text-sm mb-3">
+            Wer entscheidet über die genaue Anrechnung?
+          </h3>
+          
+          <ul class="list-disc list-inside space-y-1 text-sm">
+            <li>
+              Die Dekanate erstellen die Lehrpläne, prüfen Nachweise und entscheiden über die konkrete Anrechnung.
+            </li>
+            
+            <li>
+              Bei Sonderfällen (z. B. erhöhte Betreuung, Deputatsermäßigungen) ist ein Antrag beim Präsidium nötig.
+            </li>
+          </ul>
+        </section>
+      </div>
     </.accordion>
     
     <.accordion
@@ -170,7 +249,9 @@
       title="Abschlussarbeiten"
       subtitle="Betreuung von Bachelor- und Masterarbeiten"
     >
-      <p class="mt-3 font-medium">Folgende Arten der Betreung sind möglich:</p>
+      <p class="mt-3 font-medium text-sm">
+        Wenn mehr als 5 Bachelor- oder Masterarbeiten betreut werden, können diese wie folgt angerechnet werden:
+      </p>
       
       <ul class="list-decimal list-inside space-y-1 text-sm">
         <li>Bachelorarbeit: 0,3 SWS pro Arbeit (Erstbetreuung)</li>
@@ -182,37 +263,33 @@
         <li>Masterarbeit: 0,2 SWS pro Arbeit (Zweitbetreuung)</li>
       </ul>
       
-      <p class="mt-3">
-        Ab einer Anzahl von <b>sechs</b> betreuten Arbeiten werden diese angerechnet.
+      <p class="mt-3 text-sm bg-gray-50 rounded-lg p-4">
+        💡 Bei überdurchschnittlich betreuungsintensiven Arbeiten (z. B. Laborprojekte) können doppelte Werte angerechnet werden – auf Antrag beim Dekanat.
       </p>
     </.accordion>
     
     <.accordion
       id="accordion-4"
-      title="Lesefassung der LVVO"
-      subtitle="Hier findest du die aktuelle Lesefassung der LVVO."
+      title="Lesefassungen der LVVO-Richtlinie"
+      subtitle="Hier findest du die aktuelle Lesefassung der LVVO-Richtlinie der Hochschule Flensburg und die aktuelle Fassung der Richtlinie des Landes Schleswig-Holstein."
     >
-      <p class="mt-3 font-medium">
-        Die aktuelle Lesefassung der LVVO findest du hier:
-      </p>
-      
-      <.button
-        phx-click={JS.navigate(~p"/infos/pdf/Lesefassung_LVVO_2023_06_21.pdf")}
-        phx-disable-with="Öffnen..."
-      >
-        Aktuelle Lesefassung der LVVO öffnen
-      </.button>
-      
-      <p class="mt-3 font-medium">
-        Die aktuelle Fassung der LVVO des Landes Schleswig-Holstein findest du hier:
-      </p>
-      
-      <.button
-        phx-click={JS.navigate(~p"/infos/pdf/LVVO_2021-07-27.pdf")}
-        phx-disable-with="Öffnen..."
-      >
-        Aktuelle Fassung der LVVO des Landes Schleswig-Holstein öffnen
-      </.button>
+      <div class="flex flex-row gap-4 justify-center mt-4">
+        <.icon_button
+          phx-click={JS.navigate(~p"/infos/pdf/Lesefassung_LVVO_2023_06_21.pdf")}
+          phx-disable-with="Öffnen..."
+          image_src="/images/hs-logo.png"
+        >
+          Aktuelle Lesefassung der Richtlinie der Hochschule Flensburg
+        </.icon_button>
+        
+        <.icon_button
+          phx-click={JS.navigate(~p"/infos/pdf/LVVO_2021-07-27.pdf")}
+          phx-disable-with="Öffnen..."
+          image_src="/images/DEU_Schleswig-Holstein_COA.svg"
+        >
+          Aktuelle Fassung der Richtlinie des Landes Schleswig-Holstein
+        </.icon_button>
+      </div>
     </.accordion>
   </div>
 <% end %>

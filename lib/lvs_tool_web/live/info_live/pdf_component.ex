@@ -4,10 +4,6 @@ defmodule LvsToolWeb.InfoLive.Pdf do
   def render(assigns) do
     ~H"""
     <div class="space-y-6 w-full">
-      <.header>
-        {@page_title}
-      </.header>
-      
       <div class="w-full h-full">
         <iframe
           src={@pdf_file}

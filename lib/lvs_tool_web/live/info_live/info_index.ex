@@ -19,7 +19,7 @@ defmodule LvsToolWeb.InfoLive.InfoIndex do
 
   defp apply_action(socket, :show_pdf, %{"file" => file}) do
     socket
-    |> assign(:page_title, file)
+    |> assign(:page_title, "PDF")
     |> assign(:pdf_file, "/pdf/#{file}")
   end
 end
