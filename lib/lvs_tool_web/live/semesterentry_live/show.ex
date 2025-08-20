@@ -9,9 +9,32 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
   alias LvsTool.Theses.ThesisEntry
   alias LvsTool.Accounts
   alias LvsTool.Reductions
+  alias LvsToolWeb.RoleHelpers
+  alias LvsToolWeb.StatusHelpers
 
   @impl true
   def mount(params, _session, socket) do
+    # Hole den Semesterentry um den Besitzer zu identifizieren
+    semesterentry = Semesterentrys.get_semesterentry!(params["id"])
+
+    # Bestimme für welchen Benutzer die LVS-Anforderungen berechnet werden sollen
+    {target_user, semesterentry_owner} =
+      case socket.assigns.current_user |> Accounts.get_user_role() do
+        # Für Dekanat: Zeige Informationen des Semesterentry-Besitzers
+        %{id: 6} ->
+          owner = Accounts.get_user!(semesterentry.user_id)
+          {owner, owner}
+
+        # Für Präsidium: Zeige Informationen des Semesterentry-Besitzers
+        %{id: 7} ->
+          owner = Accounts.get_user!(semesterentry.user_id)
+          {owner, owner}
+
+        # Für alle anderen: Zeige eigene Informationen
+        _ ->
+          {socket.assigns.current_user, nil}
+      end
+
     {:ok,
      socket
      |> stream(:standard_course_entries, [], reset: true)
@@ -20,15 +43,16 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
      |> assign(
        :calculated_user_lvs_requirements,
        Accounts.get_user_lvs_requirements_with_reduction_calculation(
-         socket.assigns.current_user,
+         target_user,
          params["id"]
        )
      )
      |> assign(
        :user_lvs_requirements,
-       Accounts.get_user_lvs_requirements(socket.assigns.current_user)
+       Accounts.get_user_lvs_requirements(target_user)
      )
      |> assign(:user_role, Accounts.get_user_role(socket.assigns.current_user))
+     |> assign(:semesterentry_owner, semesterentry_owner)
      |> IO.inspect()}
   end
 
@@ -36,6 +60,15 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
   def handle_params(params, _, socket) do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
+
+  # Helper-Funktionen für Templates
+  def is_role?(user_role, role_name), do: RoleHelpers.is_role?(user_role, role_name)
+  def is_editable?(status), do: StatusHelpers.is_editable?(status)
+  def is_non_editable?(status), do: StatusHelpers.is_non_editable?(status)
+  def is_dekan_actionable?(status), do: StatusHelpers.is_dekan_actionable?(status)
+  def is_praesidium_actionable?(status), do: StatusHelpers.is_praesidium_actionable?(status)
+  def is_rejectable?(status), do: StatusHelpers.is_rejectable?(status)
+  def can_be_submitted?(status), do: StatusHelpers.can_be_submitted?(status)
 
   defp apply_action(socket, :show, %{"id" => id}) do
     semesterentry = Semesterentrys.get_semesterentry!(id)
@@ -308,4 +341,70 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
        )
      )}
   end
+
+  @impl true
+  def handle_event("submit_for_review", %{"id" => id}, socket) do
+    semesterentry = Semesterentrys.get_semesterentry!(id)
+
+    case Semesterentrys.update_semesterentry(semesterentry, %{status: "Eingereicht"}) do
+      {:ok, _updated_semesterentry} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Semestereintrag wurde zur Prüfung eingereicht")
+         |> push_navigate(to: ~p"/semesterentrys")}
+
+      {:error, _changeset} ->
+        {:noreply, put_flash(socket, :error, "Fehler beim Einreichen")}
+    end
+  end
+
+  @impl true
+  def handle_event("forward_to_presidium", %{"id" => id}, socket) do
+    semesterentry = Semesterentrys.get_semesterentry!(id)
+
+    case Semesterentrys.forward_to_presidium(semesterentry) do
+      {:ok, _updated_semesterentry} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Semestereintrag wurde an das Präsidium weitergeleitet")
+         |> push_navigate(to: ~p"/semesterentrys")}
+
+      {:error, _changeset} ->
+        {:noreply, put_flash(socket, :error, "Fehler beim Weiterleiten")}
+    end
+  end
+
+  @impl true
+  def handle_event("approve_semesterentry", %{"id" => id}, socket) do
+    semesterentry = Semesterentrys.get_semesterentry!(id)
+
+    case Semesterentrys.approve_semesterentry(semesterentry) do
+      {:ok, _updated_semesterentry} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Semestereintrag wurde genehmigt")
+         |> push_navigate(to: ~p"/semesterentrys")}
+
+      {:error, _changeset} ->
+        {:noreply, put_flash(socket, :error, "Fehler beim Genehmigen")}
+    end
+  end
+
+  @impl true
+  def handle_event("reject_semesterentry", %{"id" => id}, socket) do
+    semesterentry = Semesterentrys.get_semesterentry!(id)
+
+    case Semesterentrys.reject_semesterentry(semesterentry) do
+      {:ok, _updated_semesterentry} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Semestereintrag wurde abgelehnt")
+         |> push_navigate(to: ~p"/semesterentrys")}
+
+      {:error, _changeset} ->
+        {:noreply, put_flash(socket, :error, "Fehler beim Ablehnen")}
+    end
+  end
+
+  # Helper-Funktionen entfernt - Logik ist jetzt direkt im Template
 end

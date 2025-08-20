@@ -8,6 +8,7 @@ defmodule LvsTool.Semesterentrys do
 
   alias LvsTool.Semesterentrys.Semesterentry
   alias LvsTool.Theses
+  alias LvsTool.Accounts
 
   @doc """
   Returns the list of semesterentrys.
@@ -33,10 +34,7 @@ defmodule LvsTool.Semesterentrys do
     from(s in Semesterentry,
       where:
         s.status in [
-          "Eingereicht",
-          "Bestätigt",
-          "Abgelehnt",
-          "An das Präsidium weitergeleitet"
+          "Eingereicht"
         ],
       preload: [:user]
     )
@@ -58,9 +56,6 @@ defmodule LvsTool.Semesterentrys do
   @dekanat_role_id 6
   @presidium_role_id 7
   def list_visible_semesterentrys_for_role(role_id, user_id) do
-    IO.inspect(role_id, label: "role_id")
-    IO.inspect(user_id, label: "user_id")
-
     case role_id do
       # Lehrende sehen nur ihre eigenen Einträge
       role
@@ -77,6 +72,26 @@ defmodule LvsTool.Semesterentrys do
 
       _ ->
         []
+    end
+  end
+
+  def get_lvs_requirements_for_display(current_user, user_role, semesterentry) do
+    case user_role.id do
+      # Für Dekanat und Präsidium: Zeige Anforderungen des Semesterentry-Besitzers
+      role_id when role_id in [6, 7] ->
+        semesterentry_owner = Accounts.get_user!(semesterentry.user_id)
+
+        Accounts.get_user_lvs_requirements_with_reduction_calculation(
+          semesterentry_owner,
+          semesterentry.id
+        )
+
+      # Für alle anderen: Zeige eigene Anforderungen
+      _ ->
+        Accounts.get_user_lvs_requirements_with_reduction_calculation(
+          current_user,
+          semesterentry.id
+        )
     end
   end
 
@@ -100,9 +115,8 @@ defmodule LvsTool.Semesterentrys do
       "Dekanat" ->
         semesterentry.status in [
           "Eingereicht",
-          "Bestätigt",
-          "Abgelehnt",
-          "An das Präsidium weitergeleitet"
+          "An das Präsidium weitergeleitet",
+          "Akzeptiert"
         ]
 
       # Präsidium sieht nur weitergeleitete Einträge
@@ -138,7 +152,7 @@ defmodule LvsTool.Semesterentrys do
       # Dekanat kann bestätigen, ablehnen oder weiterleiten
       "Dekanat" ->
         case current_status do
-          "Eingereicht" -> ["Bestätigt", "Abgelehnt", "An das Präsidium weitergeleitet"]
+          "Eingereicht" -> ["Abgelehnt", "An das Präsidium weitergeleitet"]
           _ -> []
         end
 
@@ -219,6 +233,27 @@ defmodule LvsTool.Semesterentrys do
     semesterentry
     |> Semesterentry.changeset(attrs)
     |> Repo.update()
+  end
+
+  @doc """
+  Updates the status of a semesterentry to 'An das Präsidium weitergeleitet'.
+  """
+  def forward_to_presidium(%Semesterentry{} = semesterentry) do
+    update_semesterentry(semesterentry, %{status: "An das Präsidium weitergeleitet"})
+  end
+
+  @doc """
+  Updates the status of a semesterentry to 'Akzeptiert'.
+  """
+  def approve_semesterentry(%Semesterentry{} = semesterentry) do
+    update_semesterentry(semesterentry, %{status: "Akzeptiert"})
+  end
+
+  @doc """
+  Updates the status of a semesterentry to 'Abgelehnt'.
+  """
+  def reject_semesterentry(%Semesterentry{} = semesterentry) do
+    update_semesterentry(semesterentry, %{status: "Abgelehnt"})
   end
 
   def update_semesterentry_lvs(%Semesterentry{} = semesterentry, lvs_delta) do

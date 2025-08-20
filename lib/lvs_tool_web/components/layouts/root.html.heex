@@ -11,44 +11,44 @@
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
   </head>
-  <body class="bg-white">
+  <body class="bg-white mt-2">
     <ul class="relative z-10 flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end">
       <%= if @current_user do %>
         <li class="text-[0.8125rem] leading-6 text-zinc-900">
-          {@current_user.email}
+          {@current_user.name}
         </li>
         <li>
           <.link
             href={~p"/users/settings"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold bg-gray-100 hover:bg-gray-200 text-white active:bg-gray-300 rounded-lg px-2 py-1"
           >
-            Settings
+            Einstellungen
           </.link>
         </li>
         <li>
           <.link
             href={~p"/users/log_out"}
             method="delete"
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold bg-gray-100 hover:bg-gray-200 text-white active:bg-gray-300 rounded-lg px-2 py-1"
           >
-            Log out
+            Abmelden
           </.link>
         </li>
       <% else %>
         <li>
           <.link
             href={~p"/users/register"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold bg-gray-100 hover:bg-gray-200 text-white active:bg-gray-300 rounded-lg px-2 py-1"
           >
-            Register
+            Registrieren
           </.link>
         </li>
         <li>
           <.link
             href={~p"/users/log_in"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold bg-gray-100 hover:bg-gray-200 text-white active:bg-gray-300 rounded-lg px-2 py-1"
           >
-            Log in
+            Anmelden
           </.link>
         </li>
       <% end %>

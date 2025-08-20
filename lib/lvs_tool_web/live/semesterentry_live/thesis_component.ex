@@ -2,6 +2,8 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisComponent do
   use LvsToolWeb, :live_component
 
   alias Phoenix.LiveView.JS
+  alias LvsToolWeb.RoleHelpers
+  alias LvsToolWeb.StatusHelpers
 
   @impl true
   def render(assigns) do
@@ -10,7 +12,14 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisComponent do
       <div class="flex justify-between items-center">
         <h2 class="text-xl font-semibold text-gray-900">Thesis</h2>
         
-        <.link patch={~p"/semesterentrys/#{@semesterentry.id}/thesis/new"}>
+    <!-- Button nur für Lehrende anzeigen, wenn Semestereintrag noch nicht eingereicht -->
+        <.link
+          :if={
+            RoleHelpers.is_role?(@user_role, :lehrperson) and
+              StatusHelpers.is_editable?(@semesterentry.status)
+          }
+          patch={~p"/semesterentrys/#{@semesterentry.id}/thesis/new"}
+        >
           <.button>
             <span class="flex items-center gap-2">
               <.icon name="hero-plus" class="h-4 w-4" /> Thesis hinzufügen
@@ -27,7 +36,11 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisComponent do
         <h3 class="mt-2 text-sm font-medium text-gray-900">Keine Thesis</h3>
         
         <p class="mt-1 text-sm text-gray-500">
-          Fügen Sie Ihre erste Thesis hinzu.
+          <%= if RoleHelpers.is_role?(@user_role, :lehrperson) and StatusHelpers.is_editable?(@semesterentry.status) do %>
+            Fügen Sie Ihre erste Thesis hinzu.
+          <% else %>
+            Keine Thesis vorhanden.
+          <% end %>
         </p>
       </div>
       
@@ -67,9 +80,16 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisComponent do
                     </p>
                   </div>
                   
-                  <div class="flex items-center space-x-2">
+    <!-- Aktions-Buttons nur für Lehrende anzeigen, wenn Semestereintrag noch nicht eingereicht -->
+                  <div
+                    :if={
+                      RoleHelpers.is_role?(@user_role, :lehrperson) and
+                        StatusHelpers.is_editable?(@semesterentry.status)
+                    }
+                    class="flex items-center space-x-2"
+                  >
                     <.link patch={~p"/semesterentrys/#{@semesterentry.id}/thesis/#{thesis.id}/edit"}>
-                      <.button class="text-blue-600 hover:text-blue-900">
+                      <.button class="text-blue-600 hover:text-blue-900 bg-blue-100 hover:bg-blue-200">
                         <.icon name="hero-pencil-square" class="h-4 w-4" />
                       </.button>
                     </.link>
@@ -78,7 +98,7 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisComponent do
                       phx-click={JS.push("delete_thesis", target: @myself, value: %{id: thesis.id})}
                       phx-target={@myself}
                       data-confirm="Sind Sie sicher, dass Sie diese Thesis löschen möchten?"
-                      class="text-red-600 hover:text-red-900"
+                      class="text-red-600 hover:text-red-900 bg-red-100 hover:bg-red-200"
                     >
                       <.icon name="hero-trash" class="h-4 w-4" />
                     </.button>

@@ -33,10 +33,13 @@
               }>
               LVS Summe: {@semesterentry.lvs_sum} von {@calculated_user_lvs_requirements}
 
-              <span class="text-xs">
-                ({@user_role.name} hat regulär {if @user_role.has_lvs,
-                  do: @user_lvs_requirements,
-                  else: "keine"} LVS)
+              <span :if={@user_role.id in [1, 2, 3, 4, 5]} class="text-xs">
+                ({@user_role.name} hat regulär {@user_lvs_requirements} LVS)
+              </span>
+              
+<!-- Neue Anzeige für Dekanat und Präsidium -->
+              <span :if={@user_role.id in [6, 7] and @semesterentry_owner} class="text-xs">
+                ({@semesterentry_owner.name} - {@semesterentry_owner.role.name} hat regulär {@user_lvs_requirements} LVS)
               </span>
             </span>
             <span class={"font-medium px-2 py-1 rounded-md " <>
@@ -76,6 +79,7 @@
             live_action={@live_action}
             page_title={@page_title}
             standard_course_entries={@streams.standard_course_entries}
+            user_role={@user_role}
           />
         </:tab>
         <:tab
@@ -91,6 +95,7 @@
             live_action={@live_action}
             page_title={@page_title}
             thesis_entries={@streams.thesis_entries}
+            user_role={@user_role}
           />
         </:tab>
         <:tab
@@ -131,13 +136,65 @@
             semesterentry={@semesterentry}
             live_action={@live_action}
             reduction_entries={@streams.reduction_entries}
+            user_role={@user_role}
           />
         </:tab>
       </.tabs>
     </div>
   </div>
 
-  <.back navigate={~p"/semesterentrys"}>Zu deinen Semestereinträgen zurück</.back>
+  <div class="flex justify-between items-center">
+    <.back navigate={~p"/semesterentrys"}>Zu deinen Semestereinträgen zurück</.back>
+    
+<!-- Status Action Buttons -->
+    <div class="flex gap-3">
+      <!-- Sekundärer Button (Ablehnen) für Dekanat und Präsidium -->
+      <%= if is_role?(@user_role, :dekan_or_praesidium) and is_rejectable?(@semesterentry.status) do %>
+        <.button
+          phx-click="reject_semesterentry"
+          phx-value-id={@semesterentry.id}
+          data-confirm="Möchten Sie diesen Semestereintrag wirklich ablehnen?"
+          class="bg-red-600 hover:bg-red-700 text-white"
+        >
+          Ablehnen <.icon name="hero-x-mark-solid" class="h-4 w-4 ml-2" />
+        </.button>
+      <% end %>
+      
+<!-- Primärer Button -->
+      <%= if is_role?(@user_role, :lehrperson) and @semesterentry.user_id == @current_user.id and can_be_submitted?(@semesterentry.status) do %>
+        <.button
+          phx-click="submit_for_review"
+          phx-value-id={@semesterentry.id}
+          data-confirm="Möchten Sie diesen Semestereintrag wirklich einreichen?"
+          class="bg-blue-600 hover:bg-blue-700 text-white"
+        >
+          Einreichen <.icon name="hero-arrow-right-solid" class="h-4 w-4 ml-2" />
+        </.button>
+      <% end %>
+
+      <%= if is_role?(@user_role, :dekan) and is_dekan_actionable?(@semesterentry.status) do %>
+        <.button
+          phx-click="forward_to_presidium"
+          phx-value-id={@semesterentry.id}
+          data-confirm="Möchten Sie diesen Semestereintrag wirklich an das Präsidium weiterleiten?"
+          class="bg-indigo-600 hover:bg-indigo-700 text-white"
+        >
+          An Präsidium weiterleiten <.icon name="hero-arrow-right-solid" class="h-4 w-4 ml-2" />
+        </.button>
+      <% end %>
+
+      <%= if is_role?(@user_role, :praesidium) and is_praesidium_actionable?(@semesterentry.status) do %>
+        <.button
+          phx-click="approve_semesterentry"
+          phx-value-id={@semesterentry.id}
+          data-confirm="Möchten Sie diesen Semestereintrag wirklich genehmigen?"
+          class="bg-green-600 hover:bg-green-700 text-white"
+        >
+          Genehmigen <.icon name="hero-arrow-right-solid" class="h-4 w-4 ml-2" />
+        </.button>
+      <% end %>
+    </div>
+  </div>
   
 <!-- Semesterentry Edit Modal -->
   <.modal
