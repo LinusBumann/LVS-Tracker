@@ -17,7 +17,7 @@ defmodule LvsTool.SubmissionPeriods do
       [%Submissionperiod{}, ...]
 
   """
-  def list_submissionperiods do
+  def list_submission_periods do
     Repo.all(SubmissionPeriod)
   end
 
@@ -35,7 +35,7 @@ defmodule LvsTool.SubmissionPeriods do
       ** (Ecto.NoResultsError)
 
   """
-  def get_submissionperiod!(id), do: Repo.get!(SubmissionPeriod, id)
+  def get_submission_period!(id), do: Repo.get!(SubmissionPeriod, id)
 
   @doc """
   Creates a submissionperiod.
@@ -49,7 +49,7 @@ defmodule LvsTool.SubmissionPeriods do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_submissionperiod(attrs \\ %{}) do
+  def create_submission_period(attrs \\ %{}) do
     %SubmissionPeriod{}
     |> SubmissionPeriod.changeset(attrs)
     |> Repo.insert()
@@ -67,8 +67,8 @@ defmodule LvsTool.SubmissionPeriods do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_submissionperiod(%SubmissionPeriod{} = submissionperiod, attrs) do
-    submissionperiod
+  def update_submission_period(%SubmissionPeriod{} = submission_period, attrs) do
+    submission_period
     |> SubmissionPeriod.changeset(attrs)
     |> Repo.update()
   end
@@ -85,8 +85,8 @@ defmodule LvsTool.SubmissionPeriods do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_submissionperiod(%SubmissionPeriod{} = submissionperiod) do
-    Repo.delete(submissionperiod)
+  def delete_submission_period(%SubmissionPeriod{} = submission_period) do
+    Repo.delete(submission_period)
   end
 
   @doc """
@@ -98,7 +98,7 @@ defmodule LvsTool.SubmissionPeriods do
       %Ecto.Changeset{data: %Submissionperiod{}}
 
   """
-  def change_submissionperiod(%SubmissionPeriod{} = submissionperiod, attrs \\ %{}) do
-    SubmissionPeriod.changeset(submissionperiod, attrs)
+  def change_submission_period(%SubmissionPeriod{} = submission_period, attrs \\ %{}) do
+    SubmissionPeriod.changeset(submission_period, attrs)
   end
 end

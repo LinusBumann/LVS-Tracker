@@ -21,7 +21,13 @@ defmodule LvsToolWeb.SemesterentryLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:name]} type="text" label="Semester" />
+        <.input
+          field={@form[:name]}
+          type="select"
+          label="Semester"
+          options={Enum.map(@submission_periods, &{&1.name, &1.name})}
+          required
+        />
 
         <:actions>
           <.button phx-disable-with="Speichern...">Semestereintrag anlegen</.button>

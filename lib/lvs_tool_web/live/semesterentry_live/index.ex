@@ -6,7 +6,7 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
   alias LvsTool.Accounts
   alias LvsToolWeb.RoleHelpers
   alias LvsToolWeb.StatusHelpers
-
+  alias LvsTool.SubmissionPeriods
   @impl true
   def mount(_params, _session, socket) do
     current_user = socket.assigns.current_user
@@ -36,15 +36,23 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
+    submission_periods = SubmissionPeriods.list_submission_periods()
+
     socket
     |> assign(:page_title, "Semestereintrag bearbeiten")
     |> assign(:semesterentry, Semesterentrys.get_semesterentry!(id))
+    |> assign(:submission_periods, submission_periods)
+    |> IO.inspect()
   end
 
   defp apply_action(socket, :new, _params) do
+    submission_periods = SubmissionPeriods.list_submission_periods()
+
     socket
     |> assign(:page_title, "Neuer Semestereintrag")
     |> assign(:semesterentry, %Semesterentry{})
+    |> assign(:submission_periods, submission_periods)
+    |> IO.inspect()
   end
 
   defp apply_action(socket, :index, _params) do

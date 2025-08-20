@@ -4,7 +4,7 @@ defmodule LvsTool.Semesterentrys.Semesterentry do
 
   schema "semesterentrys" do
     field :name, :string
-    field :status, :string
+    field :status, :string, default: "Offen"
     field :lvs_sum, :float, default: 0.0
     field :theses_count, :integer, default: 0
 
@@ -26,5 +26,8 @@ defmodule LvsTool.Semesterentrys.Semesterentry do
     semesterentry
     |> cast(attrs, [:name, :status, :user_id, :lvs_sum, :theses_count])
     |> validate_required([:name, :status, :user_id, :lvs_sum])
+    |> unique_constraint([:name, :user_id],
+      message: "Sie haben bereits einen Eintrag für dieses Semester"
+    )
   end
 end
