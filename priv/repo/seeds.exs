@@ -232,3 +232,94 @@ end)
 
 IO.puts("Reduction Types wurden erfolgreich eingefügt!")
 """
+
+# Submission Periods Seeds - Von SoSe 25 bis SoSe 30
+submission_periods = [
+  # SoSe 25
+  %{
+    name: "SoSe 25",
+    start_date: ~U[2025-01-01 00:00:00Z],
+    end_date: ~U[2025-03-31 23:59:59Z]
+  },
+
+  # WiSe 25/26
+  %{
+    name: "WiSe 25/26",
+    start_date: ~U[2025-08-01 00:00:00Z],
+    end_date: ~U[2025-10-31 23:59:59Z]
+  },
+
+  # SoSe 26
+  %{
+    name: "SoSe 26",
+    start_date: ~U[2026-01-01 00:00:00Z],
+    end_date: ~U[2026-03-31 23:59:59Z]
+  },
+
+  # WiSe 26/27
+  %{
+    name: "WiSe 26/27",
+    start_date: ~U[2026-08-01 00:00:00Z],
+    end_date: ~U[2026-10-31 23:59:59Z]
+  },
+
+  # SoSe 27
+  %{
+    name: "SoSe 27",
+    start_date: ~U[2027-01-01 00:00:00Z],
+    end_date: ~U[2027-03-31 23:59:59Z]
+  },
+
+  # WiSe 27/28
+  %{
+    name: "WiSe 27/28",
+    start_date: ~U[2027-08-01 00:00:00Z],
+    end_date: ~U[2027-10-31 23:59:59Z]
+  },
+
+  # SoSe 28
+  %{
+    name: "SoSe 28",
+    start_date: ~U[2028-01-01 00:00:00Z],
+    end_date: ~U[2028-03-31 23:59:59Z]
+  },
+
+  # WiSe 28/29
+  %{
+    name: "WiSe 28/29",
+    start_date: ~U[2028-08-01 00:00:00Z],
+    end_date: ~U[2028-10-31 23:59:59Z]
+  },
+
+  # SoSe 29
+  %{
+    name: "SoSe 29",
+    start_date: ~U[2029-01-01 00:00:00Z],
+    end_date: ~U[2029-03-31 23:59:59Z]
+  },
+
+  # WiSe 29/30
+  %{
+    name: "WiSe 29/30",
+    start_date: ~U[2029-08-01 00:00:00Z],
+    end_date: ~U[2029-10-31 23:59:59Z]
+  },
+
+  # SoSe 30
+  %{
+    name: "SoSe 30",
+    start_date: ~U[2030-01-01 00:00:00Z],
+    end_date: ~U[2030-03-31 23:59:59Z]
+  }
+]
+
+Enum.each(submission_periods, fn period_attrs ->
+  LvsTool.Repo.insert!(
+    LvsTool.SubmissionPeriods.SubmissionPeriod.changeset(
+      %LvsTool.SubmissionPeriods.SubmissionPeriod{},
+      period_attrs
+    )
+  )
+end)
+
+IO.puts("Submission Periods von SoSe 25 bis SoSe 30 wurden erfolgreich eingefügt!")

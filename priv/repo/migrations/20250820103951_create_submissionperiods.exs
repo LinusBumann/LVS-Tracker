@@ -1,0 +1,13 @@
+defmodule LvsTool.Repo.Migrations.CreateSubmissionPeriods do
+  use Ecto.Migration
+
+  def change do
+    create table(:submission_periods) do
+      add :name, :string
+      add :start_date, :utc_datetime
+      add :end_date, :utc_datetime
+
+      timestamps(type: :utc_datetime)
+    end
+  end
+end
