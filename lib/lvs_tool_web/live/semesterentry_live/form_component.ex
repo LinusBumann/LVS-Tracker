@@ -66,7 +66,7 @@ defmodule LvsToolWeb.SemesterentryLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Semesterentry updated successfully")
+         |> put_flash(:info, "Semestereintrag erfolgreich bearbeitet")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -83,7 +83,7 @@ defmodule LvsToolWeb.SemesterentryLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Semesterentry created successfully")
+         |> put_flash(:info, "Semestereintrag erfolgreich erstellt")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
