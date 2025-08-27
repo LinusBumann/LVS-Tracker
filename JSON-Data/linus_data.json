@@ -1,0 +1,410 @@
+{
+  "data": {
+    "type": "users",
+    "id": "eff7c6d02169f86e03a6dadf1a208d70",
+    "attributes": {
+      "username": "libu4717",
+      "formatted-name": "Linus Bumann-Buzuk",
+      "family-name": "Bumann-Buzuk",
+      "given-name": "Linus",
+      "name-prefix": "",
+      "name-suffix": "",
+      "permission": "tutor",
+      "email": "linus.bumann-buzuk@stud.hs-flensburg.de",
+      "phone": null,
+      "homepage": null,
+      "address": null
+    },
+    "relationships": {
+      "activitystream": {
+        "links": {
+          "related": "/jsonapi.php/v1/users/eff7c6d02169f86e03a6dadf1a208d70/activitystream"
+        }
+      },
+      "blubber-threads": {
+        "links": {
+          "related": "/jsonapi.php/v1/users/eff7c6d02169f86e03a6dadf1a208d70/blubber-threads"
+        }
+      },
+      "blubber-default-thread": {
+        "links": {
+          "related": "/jsonapi.php/v1/blubber-threads/1ece6027c303c63d67a0cdd0d5c5003b",
+          "self": "/jsonapi.php/v1/users/eff7c6d02169f86e03a6dadf1a208d70/relationships/blubber-default-thread"
+        }
+      },
+      "config-values": {
+        "links": {
+          "related": "/jsonapi.php/v1/users/eff7c6d02169f86e03a6dadf1a208d70/config-values",
+          "self": "/jsonapi.php/v1/users/eff7c6d02169f86e03a6dadf1a208d70/relationships/config-values"
+        }
+      },
+      "contacts": {
+        "links": {
+          "related": "/jsonapi.php/v1/users/eff7c6d02169f86e03a6dadf1a208d70/contacts",
+          "self": "/jsonapi.php/v1/users/eff7c6d02169f86e03a6dadf1a208d70/relationships/contacts"
+        }
+      },
+      "courses": {
+        "links": {
+          "related": "/jsonapi.php/v1/users/eff7c6d02169f86e03a6dadf1a208d70/courses"
+        }
+      },
+      "course-memberships": {
+        "links": {
+          "related": "/jsonapi.php/v1/users/eff7c6d02169f86e03a6dadf1a208d70/course-memberships"
+        },
+        "data": [
+          {
+            "type": "course-memberships",
+            "id": "00c937572d824dfaef5c00732510e21e_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "0244244dbb48e96d091b6fdb6f7718d5_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "08e38a4b84f0bbfd8a9989207af598b7_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "0934ed7886fae3c2b1a4f9e6faac2673_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "14f8650c493aada4c6b696ed0eb2ce9a_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "18316606cc47e3d152150b9135ba8289_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "1ab0253b854e353abf9471b829b03bf8_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "1d9159b93d1a62650d6ef222388318d3_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "1e0f95cdd052d14c1713f9acd2a29df1_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "1f0660c2162a1dda4a7da57706edff1a_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "28425ea3e06f9b9f985c481f5f8e2e7c_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "285b813760e7d6640b080ec35ebf59e1_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "2a53721fb1ddcfe68629c68dd0d3faed_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "2a573dc80fcd9f98ea533fe6a737212c_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "2e49253585a5e12deba7a4658a6138e4_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "324b4fcbf888438483e33f6fdb43f4d4_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "33f1a607f7617ff5ae282afe9d2cce09_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "3c85175d62433a513acede9ee127c20c_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "3e45316307f3da83a2e52dcead386e4a_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "3fcb3f3312e611c4ac55acabade3151f_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "44d12673495ef9eb5d9feea440e765d7_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "453b543a80719c8b67be7c2e677767ca_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "4891347da3f2f9a5d84965e32fc64200_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "4c081f741c53bfce7ccc7fb217958d53_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "4d45fd93bf7b3ffbbf505eca79ad013e_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "57b0fb1204f214e782e7a09d317a4fa4_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "5a93979b6a1ee9e3e39406e876caff6e_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "69b44e781ce257d697760da39eca8c34_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "6b7775dcc41feb61f8a75f56e2f09d68_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "6b77d28dbd87bf875197038eb0cf064a_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "6f6232d3bd3c7d8152278f39e680137c_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "6f6cd4b41f0bb804831f5248537d96b1_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "715a0213c789102d063cf0be532a5d5f_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "715d7c650759b00dcf8b2d6c4c535d44_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "7182e2b12176ec19e2a7aa5217a2b718_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "73bd982cf92ea8071ab19a4fc06213c0_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "7afc5d17d14826ac8fa2753f779fcf73_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "7db5aec4c275d82c2be483f161d9c821_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "7ee6d27ae10567cf9cf695dd761ab2bf_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "806ce7c5b1abb21d6fc6b9d6e2015441_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "80c8660198e2b5a6dc20a3374605e4b0_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "815e691b11a78b295fc8f3bf99b57b80_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "821da80213ac8efe9a494d53dd39f4bd_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "848196468c5c003159a26f5c551e667d_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "946743ffb1ec318b6fd92fb8ad4399fe_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "952ee9e1ef499f661772ff74e2831739_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "96f8da6d584b8ab4cd8cd8f9d28c8c68_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "971ce3ff1ccb11ed4ca0dd474e67e8dc_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "9a8b4343f5e5463acd2afadff80fb2bc_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "a23dc273d137cc8414db1b16f2e6701c_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "a525d0f7b81ac8cd896ead607c617e9a_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "a5809ab52053704b228b87737dc01f1c_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "aa32b59d7f65bff886c28521144f635e_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "bc17ad6c9fe9ee706b1a84445db9010a_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "bc283a63802a174839249cde0e75ac45_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "c005347f0172072240cb1ac3f7e4c39c_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "c1c023a62980608d06e3e84e7f7a0f83_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "c729ad32d95fdb9b48b424548478781d_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "c8d84413cde781b80ce96786473cb441_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "ca404d992b4db748829030f06fc50ca8_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "cf721e638eb3b999ad2eba1998f0f0ab_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "d2d83d6b2406189ab584e220b3d8b38b_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "d7077a0be7bc13a5c9145a6589b1c9b0_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "e0b5085772f1ca9c8444506f3c6e3a26_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "e0ee14531c78947ba0d231a478329aef_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "e4826ca12a1a1cc96ac71415ca02d50f_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "e92499454eef00a2eadec09bfbf07d6c_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "eb9145269804ba62298724a2a8db7ab5_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "ef3587818eb865fe793ce534d8e452c0_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "f2732ff2e87af6dbd6a95e657d9eac62_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "f3c34b62a78dd61513c2d54f1488ba2c_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "f7123d18b20b530f3c2e46a4d8407fa4_eff7c6d02169f86e03a6dadf1a208d70"
+          },
+          {
+            "type": "course-memberships",
+            "id": "fd72c217a262c89ba5b3b2254940f967_eff7c6d02169f86e03a6dadf1a208d70"
+          }
+        ]
+      },
+      "events": {
+        "links": {
+          "related": "/jsonapi.php/v1/users/eff7c6d02169f86e03a6dadf1a208d70/events"
+        }
+      },
+      "file-refs": {
+        "links": {
+          "related": "/jsonapi.php/v1/users/eff7c6d02169f86e03a6dadf1a208d70/file-refs"
+        }
+      },
+      "folders": {
+        "links": {
+          "related": "/jsonapi.php/v1/users/eff7c6d02169f86e03a6dadf1a208d70/folders"
+        }
+      },
+      "inbox": {
+        "links": {
+          "related": "/jsonapi.php/v1/users/eff7c6d02169f86e03a6dadf1a208d70/inbox"
+        }
+      },
+      "institute-memberships": {
+        "links": {
+          "related": "/jsonapi.php/v1/users/eff7c6d02169f86e03a6dadf1a208d70/institute-memberships"
+        }
+      },
+      "news": {
+        "links": {
+          "related": "/jsonapi.php/v1/users/eff7c6d02169f86e03a6dadf1a208d70/news"
+        }
+      },
+      "outbox": {
+        "links": {
+          "related": "/jsonapi.php/v1/users/eff7c6d02169f86e03a6dadf1a208d70/outbox"
+        }
+      },
+      "schedule": {
+        "links": {
+          "related": "/jsonapi.php/v1/users/eff7c6d02169f86e03a6dadf1a208d70/schedule"
+        }
+      },
+      "courseware-bookmarks": {
+        "links": {
+          "related": "/jsonapi.php/v1/users/eff7c6d02169f86e03a6dadf1a208d70/courseware-bookmarks",
+          "self": "/jsonapi.php/v1/users/eff7c6d02169f86e03a6dadf1a208d70/relationships/courseware-bookmarks"
+        }
+      }
+    },
+    "links": {
+      "self": "/jsonapi.php/v1/users/eff7c6d02169f86e03a6dadf1a208d70"
+    },
+    "meta": {
+      "avatar": {
+        "small": "https://elearning.hs-flensburg.de/pictures/user/ef/eff7c6d02169f86e03a6dadf1a208d70_small.webp?d=1730124053",
+        "medium": "https://elearning.hs-flensburg.de/pictures/user/ef/eff7c6d02169f86e03a6dadf1a208d70_medium.webp?d=1730124053",
+        "normal": "https://elearning.hs-flensburg.de/pictures/user/ef/eff7c6d02169f86e03a6dadf1a208d70_normal.webp?d=1730124053",
+        "original": "https://elearning.hs-flensburg.de/pictures/user/ef/eff7c6d02169f86e03a6dadf1a208d70_normal.webp?d=1730124053"
+      }
+    }
+  }
+}
