@@ -448,4 +448,41 @@ defmodule LvsTool.Accounts do
     |> User.name_changeset(attrs)
     |> Repo.update()
   end
+
+  @doc """
+  Registriert einen Benutzer über OAuth.
+  """
+  def register_oauth_user(attrs) do
+    # Setze eine Standard-Rolle falls keine angegeben
+    attrs_with_role = Map.put_new(attrs, :role_id, get_default_role_id())
+
+    %User{}
+    |> User.oauth_registration_changeset(attrs_with_role)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Findet einen Benutzer anhand der StudIP Provider ID.
+  """
+  def get_user_by_studip_id(provider_id) do
+    Repo.get_by(User, provider: "studip", provider_id: provider_id)
+  end
+
+  @doc """
+  Aktualisiert StudIP-Benutzerdaten bei erneutem Login.
+  """
+  def update_studip_user_data(user, attrs) do
+    user
+    |> User.oauth_registration_changeset(attrs, validate_email: false)
+    |> Repo.update()
+  end
+
+  defp get_default_role_id do
+    # Hole die Standard-Rolle für neue Benutzer
+    # Passe dies an deine Rollenstruktur an
+    case Repo.get_by(LvsTool.Accounts.Role, name: "Student") do
+      nil -> 1
+      role -> role.id
+    end
+  end
 end

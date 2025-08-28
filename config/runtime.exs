@@ -1,5 +1,10 @@
 import Config
 
+# Lade .env nur in dev/test Umgebung
+if config_env() in [:dev, :test] and File.exists?(".env") do
+  Dotenv.load!(".env")
+end
+
 # config/runtime.exs is executed for all environments, including
 # during releases. It is executed after compilation and before the
 # system starts, so it is typically used to load production configuration
