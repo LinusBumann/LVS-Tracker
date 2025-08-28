@@ -17,7 +17,6 @@ defmodule LvsTool.OAuth.StudIP do
     Application.get_env(:lvs_tool, StudIP)
     |> Keyword.merge(config())
     |> OAuth2.Client.new()
-    # JSON:API Content-Type
     |> OAuth2.Client.put_header("Accept", "application/vnd.api+json")
     |> OAuth2.Client.put_header("User-Agent", "LvsTool Phoenix App")
     |> OAuth2.Client.put_serializer("application/json", Jason)

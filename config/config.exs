@@ -7,12 +7,6 @@
 # General application configuration
 import Config
 
-config :lvs_tool, StudIP,
-  client_id: System.get_env("STUDIP_CLIENT_ID"),
-  client_secret: System.get_env("STUDIP_CLIENT_SECRET"),
-  redirect_uri:
-    System.get_env("STUDIP_REDIRECT_URI") || "http://localhost:4000/auth/studip/callback"
-
 config :lvs_tool,
   ecto_repos: [LvsTool.Repo],
   generators: [timestamp_type: :utc_datetime]
