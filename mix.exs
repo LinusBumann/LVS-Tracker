@@ -32,6 +32,7 @@ defmodule LvsTool.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:dotenv, "~> 3.0", only: [:dev, :test]},
       {:oauth2, "~> 2.0"},
       {:argon2_elixir, "~> 3.0"},
       {:phoenix, "~> 1.7.21"},
