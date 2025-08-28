@@ -1,5 +1,17 @@
 import Config
 
+# Lade .env nur in dev/test Umgebung
+if File.exists?(".env") do
+  Dotenv.load!(".env")
+end
+
+config :lvs_tool, StudIP,
+  client_id: System.get_env("STUDIP_CLIENT_ID") |> then(&if &1, do: String.trim(&1), else: nil),
+  client_secret:
+    System.get_env("STUDIP_CLIENT_SECRET") |> then(&if &1, do: String.trim(&1), else: nil),
+  redirect_uri:
+    System.get_env("STUDIP_REDIRECT_URI") |> then(&if &1, do: String.trim(&1), else: nil)
+
 # config/runtime.exs is executed for all environments, including
 # during releases. It is executed after compilation and before the
 # system starts, so it is typically used to load production configuration

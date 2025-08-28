@@ -38,18 +38,38 @@
     />
   </svg>
 </div>
+
 <div class="px-4 py-10 sm:px-6 sm:py-28 lg:px-8 xl:px-28 xl:py-10">
   <div class="mx-auto max-w-xl lg:mx-0">
     <img class="rounded-md mx-auto pb-8" src={~p"/images/lvs-icon.png"} width="300" />
     <p class="text-[2rem] mt-4 font-semibold leading-10 tracking-tighter text-zinc-900 text-balance">
       Plane dein Semester und erstelle deine LVS-Einträge einfach und schnell.
     </p>
+    
     <p class="mt-4 text-base leading-7 text-zinc-600">
       Mit Hilfe dieses Tools kannst du dein Semester planen und deine LVS-Einträge einfach und schnell erstellen. Ist es Zeit für das Einreichen deines Lehrdeputats musst du einfach nur auf Abschicken drücken und das Dekanat erhält deine Einträge, um diese Überprüfen zu können.
     </p>
+    
+<!-- Login und Registrieren Buttons für nicht-eingeloggte Benutzer -->
+    <div :if={!@current_user} class="mt-8 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
+      <.link
+        navigate={~p"/users/log_in"}
+        class="group relative rounded-2xl px-6 py-4 text-sm text-center font-semibold text-white bg-brand hover:bg-brand/90 transition-colors sm:py-6"
+      >
+        Anmelden
+      </.link>
+      
+      <.link
+        navigate={~p"/users/register"}
+        class="group relative rounded-2xl px-6 py-4 text-sm text-center font-semibold text-zinc-900 border-2 border-brand hover:bg-brand/10 transition-colors sm:py-6"
+      >
+        Registrieren
+      </.link>
+    </div>
+    
     <div class="flex">
       <div class="w-full sm:w-auto">
-        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-3">
+        <div class="mt-10 grid grid-cols-1 gap-x-10 gap-y-4 sm:grid-cols-3">
           <a
             href="https://hexdocs.pm/phoenix/overview.html"
             target="_blank"
@@ -72,6 +92,7 @@
               Phoenix Guide
             </span>
           </a>
+          
           <a
             href="https://github.com/LinusBumann/LVS-Tracker"
             target="_blank"
@@ -92,6 +113,7 @@
               Source Code
             </span>
           </a>
+          
           <a
             href="https://github.com/LinusBumann/LVS-Tracker/blob/main/CHANGELOG.md"
             target="_blank"
@@ -149,7 +171,7 @@
             </span>
           </.link>
         </div>
-
+        
         <div
           :if={@current_user && @current_user.role_id in [6, 7]}
           class="mt-8 flex justify-center w-full"

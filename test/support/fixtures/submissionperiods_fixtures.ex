@@ -1,7 +1,7 @@
 defmodule LvsTool.SubmissionperiodsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `LvsTool.Submissionperiods` context.
+  entities via the `LvsTool.SubmissionPeriods` context.
   """
 
   @doc """
@@ -15,7 +15,7 @@ defmodule LvsTool.SubmissionperiodsFixtures do
         name: "some name",
         startdate: ~U[2025-08-19 10:39:00Z]
       })
-      |> LvsTool.Submissionperiods.create_submissionperiod()
+      |> LvsTool.SubmissionPeriods.create_submission_period()
 
     submissionperiod
   end

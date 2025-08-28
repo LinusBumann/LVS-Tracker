@@ -1,9 +1,13 @@
 <header class="px-4 sm:px-6 lg:px-8">
   <div class="flex items-center justify-between border-b border-zinc-100 py-3 text-sm">
     <div class="flex items-center gap-4">
-      <a href="/">
+      <%= if @current_user do %>
+        <a href="/semesterentrys">
+          <img class="rounded-md" src={~p"/images/lvs-icon.png"} width="60" />
+        </a>
+      <% else %>
         <img class="rounded-md" src={~p"/images/lvs-icon.png"} width="60" />
-      </a>
+      <% end %>
     </div>
     
     <div class="flex items-center gap-4 font-semibold leading-6 text-zinc-900">
@@ -12,7 +16,7 @@
       </a>
       
       <.link
-        :if={@live_action not in [:info_index]}
+        :if={@live_action not in [:info_index] and @current_user}
         class="rounded-lg bg-zinc-100 px-2 py-1 hover:bg-zinc-200/80"
         navigate={~p"/infos"}
       >

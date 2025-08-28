@@ -1,0 +1,1486 @@
+{
+  "meta": { "page": { "offset": 60, "limit": 30, "total": 73 } },
+  "links": {
+    "first": "/jsonapi.php/v1/users/eff7c6d02169f86e03a6dadf1a208d70/courses?page%5Boffset%5D=0&page%5Blimit%5D=30",
+    "last": "/jsonapi.php/v1/users/eff7c6d02169f86e03a6dadf1a208d70/courses?page%5Boffset%5D=30&page%5Blimit%5D=30",
+    "prev": "/jsonapi.php/v1/users/eff7c6d02169f86e03a6dadf1a208d70/courses?page%5Boffset%5D=30&page%5Blimit%5D=30"
+  },
+  "data": [
+    {
+      "type": "courses",
+      "id": "1e0f95cdd052d14c1713f9acd2a29df1",
+      "attributes": {
+        "course-number": null,
+        "title": "Berufspraktikum Abschlussseminar MI",
+        "subtitle": null,
+        "course-type": 4,
+        "description": "Allgemeines\r\nIm Bachelor-Studiengang Medien\u00adinformatik ist nach der Pr\u00fcfungsordnung im 7. Semester ein dreimonatiges Berufs\u00adpraktikum vorgesehen. Es dient dazu, Ihnen die M\u00f6glichkeit zu geben, sich im angestrebten Berufsfeld zu orientieren sowie typische fachliche und organisatorische Arbeits\u00adstrukturen kennenzulernen.\r\n\r\nAlle Einzelheiten zur Durchf\u00fchrung des Berufs\u00adpraktikums entnehmen Sie bitte der Praktikumsordnung.\r\n\r\nZulassung\r\nAls Zulassungsvoraussetzung m\u00fcssen Sie alle Pr\u00fcfungs- und Studienleistungen aus den ersten drei Semestern komplett und zus\u00e4tzlich noch weitere 50 Leistungspunkte (CP) erbracht haben. So ist gew\u00e4hrleistet, dass Sie bereits mit ausreichend K\u00f6nnen und Erfahrung in das Berufspraktikum gehen.\r\n\r\nDar\u00fcber hinaus kann das Praktikum nur begonnen werden, wenn ein Praktikumsvertrag vorliegt und Sie vor Beginn des Berufspraktikums an einem Einf\u00fchrungsseminar an der Hochschule teilgenommen haben. Zu diesem Einf\u00fchrungsseminar melden Sie sich bitte sp\u00e4testens einen Tag vor der Veranstaltung in Stud.IP durch Eintragung in die Veranstaltung \u201eBerufspraktikum Einf\u00fchrungsseminar MI\u201c an.\r\n\r\nEinf\u00fchrungsseminar\r\nSie erhalten im Einf\u00fchrungsseminar Hinweise zur Durchf\u00fchrung des Praktikums und k\u00f6nnen Kontakt zu ihren Vorg\u00e4ngerinnen und Vorg\u00e4ngern kn\u00fcpfen.\r\n\r\nBetrieb\r\nDen Betrieb, in dem Sie Ihr Praktikum durchf\u00fchren wollen, suchen Sie sich selbst rechtzeitig vorher aus. Ein Betrieb ist geeignet, wenn dort Mitarbeiter t\u00e4tig sind, die Ihrem angestrebten Berufsbild entsprechen, und wenn Sie w\u00e4hrend Ihrer Praktikums\u00adt\u00e4tigkeit dort fachkundig betreut werden k\u00f6nnen.\r\n\r\nDer Praktikums\u00advertrag, den Sie mit dem Betrieb schlie\u00dfen, wird im allgemeinen vom Betrieb vorgegeben. Bitte achten Sie darauf, dass im Vertrag zumindest Praktikumsdauer, w\u00f6chtliche Arbeitszeit und Ihr zuk\u00fcnftiger Einsatz- und T\u00e4tigkeitsbereich festgelegt sind.\r\n\r\nVor Beginn des Praktikums lassen Sie Ihr Notenkonto, den von Ihnen ausgef\u00fcllten Testatebogen und den Praktikantenvertrag Ihrer oder Ihrem Praktikumsbeauftragten per Mail zukommen und lassen sich das ofizielle Go geben, ins Praktikum zu starten.\r\n\r\nNach Praktikumsende lassen Sie sich Ihre erfolgreiche Ableistung des Praktikums durch den Praktikumsbetrieb auf dem Testatebogen bescheinigen.\r\n\r\nBetreuung\r\nW\u00e4hrend des Berufspraktikums wird Ihnen im Betrieb im allgemeinen ein fester Betreuer oder eine feste Betreuerin zugeordnet, um Sie in Ihr Arbeitsgebiet einzuweisen und Ihnen Aufgaben zuzuteilen. An der Hochschule ist die Praktikumsbeauftragte des Studiengangs Ihre Ansprechpartnerin; zur Zeit ist dies Prof. Angela Clemens. Wenden Sie sich an die Praktikumsbeauftragte, wenn Sie Fragen zum Berufspraktikum haben oder wenn sich irgendwelche Schwierig\u00adkeiten bei der Durchf\u00fchrung des Berufspraktikums ergeben sollten.\r\n\r\nAbschlussbericht und -vortrag\r\nNach Abschluss Ihres Berufspraktikums berichten Sie in Form eines Vortrags beim Abschlussseminar im Pecha Kucha Format (http://www.pechakucha.org/faq) sowie eines ca. zehnseitigen schriftlichen Berichts als pdf \u00fcber den Ablauf und die Inhalte Ihres Praktikums. Zu diesem Abschlussseminar melden Sie sich bitte sp\u00e4testens acht Tage vorher schriftlich in Stud.IP \u00fcber die Veranstaltung \u201eBerufspraktikum Abschlussseminar MI\u201c an. Auch der Bericht und die Pr\u00e4sentation m\u00fcssen sp\u00e4testens acht Tage vor dem Abschlussseminar in den entsprechenden Abgabeordner auf StudIP geladen werden.\r\n\r\nNach erfolgreicher Teilnahme am Abschlussseminar leitet die Praktikumsbeauftragte diese Info zur Erfassung an das Pr\u00fcfungsamt weiter.\r\n\r\nTermine\r\nAlle wichtigen Termine, etwa f\u00fcr das Einf\u00fchrungs- und Abschlussseminar, sowie weitere Informationen erhalten Sie, indem Sie sich in Stud.IP in die jeweiligen Veranstaltungen \u201eBerufspraktikum Einf\u00fchrungsseminar\u201c oder \u201eBerufspraktikum Abschlussseminar\u201c eintragen. In der Regel finden diese Seminare zweimal j\u00e4hrlich am Endes des Semesters nach der Pr\u00fcfungswoche statt.\r\n\r\nF\u00fcr das Berufs\u00adpraktikum ist keine Pr\u00fcfungsanmeldung n\u00f6tig.",
+        "location": null,
+        "miscellaneous": null
+      },
+      "relationships": {
+        "institute": {
+          "links": {
+            "related": "/jsonapi.php/v1/institutes/186b49176b4ade86fc002f0247d562f8"
+          },
+          "data": {
+            "type": "institutes",
+            "id": "186b49176b4ade86fc002f0247d562f8"
+          }
+        },
+        "start-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/73a41880ac5f9fdbbf57c0d93bccb7db"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "73a41880ac5f9fdbbf57c0d93bccb7db"
+          }
+        },
+        "end-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/73a41880ac5f9fdbbf57c0d93bccb7db"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "73a41880ac5f9fdbbf57c0d93bccb7db"
+          }
+        },
+        "participating-institutes": { "data": [] },
+        "file-refs": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/1e0f95cdd052d14c1713f9acd2a29df1/file-refs"
+          }
+        },
+        "folders": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/1e0f95cdd052d14c1713f9acd2a29df1/folders"
+          }
+        },
+        "forum-categories": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/1e0f95cdd052d14c1713f9acd2a29df1/forum-categories"
+          }
+        },
+        "blubber-threads": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/1e0f95cdd052d14c1713f9acd2a29df1/blubber-threads"
+          }
+        },
+        "courseware": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/1e0f95cdd052d14c1713f9acd2a29df1/courseware"
+          },
+          "data": null
+        },
+        "events": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/1e0f95cdd052d14c1713f9acd2a29df1/events"
+          }
+        },
+        "memberships": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/1e0f95cdd052d14c1713f9acd2a29df1/memberships",
+            "self": "/jsonapi.php/v1/courses/1e0f95cdd052d14c1713f9acd2a29df1/relationships/memberships"
+          }
+        },
+        "news": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/1e0f95cdd052d14c1713f9acd2a29df1/news"
+          }
+        },
+        "sem-class": { "data": { "type": "sem-classes", "id": "1" } },
+        "sem-type": { "data": { "type": "sem-types", "id": "4" } },
+        "status-groups": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/1e0f95cdd052d14c1713f9acd2a29df1/status-groups"
+          }
+        },
+        "wiki-pages": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/1e0f95cdd052d14c1713f9acd2a29df1/wiki-pages"
+          }
+        },
+        "tools": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/1e0f95cdd052d14c1713f9acd2a29df1/tools"
+          }
+        }
+      },
+      "links": {
+        "self": "/jsonapi.php/v1/courses/1e0f95cdd052d14c1713f9acd2a29df1"
+      },
+      "meta": {
+        "avatar": {
+          "small": "https://elearning.hs-flensburg.de/pictures/course/1e/1e0f95cdd052d14c1713f9acd2a29df1_small.webp?d=1730124309",
+          "medium": "https://elearning.hs-flensburg.de/pictures/course/1e/1e0f95cdd052d14c1713f9acd2a29df1_medium.webp?d=1730124309",
+          "normal": "https://elearning.hs-flensburg.de/pictures/course/1e/1e0f95cdd052d14c1713f9acd2a29df1_normal.webp?d=1730124309"
+        }
+      }
+    },
+    {
+      "type": "courses",
+      "id": "f7123d18b20b530f3c2e46a4d8407fa4",
+      "attributes": {
+        "course-number": null,
+        "title": "AI Engineering (M-AI)",
+        "subtitle": null,
+        "course-type": 15,
+        "description": "Diese Veranstaltung gibt eine grundlegende Einf\u00fchrung in die Methoden von K\u00fcnstlicher Intelligenz (KI)/Artificial Intelligence (AI) im angewandten Kontext. Darauf aufbauend werden Kenntnisse in der Praxis durch die Arbeit in interdisziplin\u00e4ren Teams vertieft. Gemeinsam mit dem Kurs \"Management von KI\" wird an realen Anwendungsf\u00e4llen gearbeitet. Die Teams setzen sich somit zusammen aus Master Studierenden der Angewandten Informatik und des Business Managements. Durch diese interdisziplin\u00e4re Zusammenarbeit k\u00f6nnen nicht nur technischen F\u00e4higkeiten verbessert werden, sondern auch Kenntnisse, um KI-L\u00f6sungen erfolgreich in gesch\u00e4ftlichen Kontexten zu integrieren. Der Kurs deckt den gesamten Lebenszyklus von KI-Projekten ab. Von der Konzeption, in der grundlegende Ideen und Anforderungen definiert werden, \u00fcber die Umsetzung, in der die Teams algorithmische Modelle entwickeln und testen, bis hin zu Konzepten f\u00fcr einen erfolgreichen Betrieb und die Integration ins Unternehmen.",
+        "location": null,
+        "miscellaneous": null
+      },
+      "relationships": {
+        "institute": {
+          "links": {
+            "related": "/jsonapi.php/v1/institutes/7329b1ed5efea839317d7f31fd3e0acc"
+          },
+          "data": {
+            "type": "institutes",
+            "id": "7329b1ed5efea839317d7f31fd3e0acc"
+          }
+        },
+        "start-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/dc9b61d7731de0d7ca709fbeacff1716"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "dc9b61d7731de0d7ca709fbeacff1716"
+          }
+        },
+        "end-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/dc9b61d7731de0d7ca709fbeacff1716"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "dc9b61d7731de0d7ca709fbeacff1716"
+          }
+        },
+        "participating-institutes": {
+          "data": [
+            { "type": "institutes", "id": "6a2d06881d664e5248109f06b633fc24" }
+          ]
+        },
+        "file-refs": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/f7123d18b20b530f3c2e46a4d8407fa4/file-refs"
+          }
+        },
+        "folders": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/f7123d18b20b530f3c2e46a4d8407fa4/folders"
+          }
+        },
+        "forum-categories": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/f7123d18b20b530f3c2e46a4d8407fa4/forum-categories"
+          }
+        },
+        "blubber-threads": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/f7123d18b20b530f3c2e46a4d8407fa4/blubber-threads"
+          }
+        },
+        "courseware": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/f7123d18b20b530f3c2e46a4d8407fa4/courseware"
+          },
+          "data": null
+        },
+        "events": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/f7123d18b20b530f3c2e46a4d8407fa4/events"
+          }
+        },
+        "memberships": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/f7123d18b20b530f3c2e46a4d8407fa4/memberships",
+            "self": "/jsonapi.php/v1/courses/f7123d18b20b530f3c2e46a4d8407fa4/relationships/memberships"
+          }
+        },
+        "news": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/f7123d18b20b530f3c2e46a4d8407fa4/news"
+          }
+        },
+        "sem-class": { "data": { "type": "sem-classes", "id": "1" } },
+        "sem-type": { "data": { "type": "sem-types", "id": "15" } },
+        "status-groups": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/f7123d18b20b530f3c2e46a4d8407fa4/status-groups"
+          }
+        },
+        "wiki-pages": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/f7123d18b20b530f3c2e46a4d8407fa4/wiki-pages"
+          }
+        },
+        "tools": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/f7123d18b20b530f3c2e46a4d8407fa4/tools"
+          }
+        }
+      },
+      "links": {
+        "self": "/jsonapi.php/v1/courses/f7123d18b20b530f3c2e46a4d8407fa4"
+      },
+      "meta": {
+        "avatar": {
+          "small": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_small.webp",
+          "medium": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_medium.webp",
+          "normal": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_normal.webp"
+        }
+      }
+    },
+    {
+      "type": "courses",
+      "id": "1ab0253b854e353abf9471b829b03bf8",
+      "attributes": {
+        "course-number": null,
+        "title": "Funktionale Fullstack Webentwicklung mit Elixir",
+        "subtitle": null,
+        "course-type": 1,
+        "description": null,
+        "location": null,
+        "miscellaneous": null
+      },
+      "relationships": {
+        "institute": {
+          "links": {
+            "related": "/jsonapi.php/v1/institutes/186b49176b4ade86fc002f0247d562f8"
+          },
+          "data": {
+            "type": "institutes",
+            "id": "186b49176b4ade86fc002f0247d562f8"
+          }
+        },
+        "start-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/dc9b61d7731de0d7ca709fbeacff1716"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "dc9b61d7731de0d7ca709fbeacff1716"
+          }
+        },
+        "end-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/dc9b61d7731de0d7ca709fbeacff1716"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "dc9b61d7731de0d7ca709fbeacff1716"
+          }
+        },
+        "participating-institutes": { "data": [] },
+        "file-refs": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/1ab0253b854e353abf9471b829b03bf8/file-refs"
+          }
+        },
+        "folders": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/1ab0253b854e353abf9471b829b03bf8/folders"
+          }
+        },
+        "forum-categories": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/1ab0253b854e353abf9471b829b03bf8/forum-categories"
+          }
+        },
+        "blubber-threads": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/1ab0253b854e353abf9471b829b03bf8/blubber-threads"
+          }
+        },
+        "courseware": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/1ab0253b854e353abf9471b829b03bf8/courseware"
+          },
+          "data": null
+        },
+        "events": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/1ab0253b854e353abf9471b829b03bf8/events"
+          }
+        },
+        "memberships": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/1ab0253b854e353abf9471b829b03bf8/memberships",
+            "self": "/jsonapi.php/v1/courses/1ab0253b854e353abf9471b829b03bf8/relationships/memberships"
+          }
+        },
+        "news": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/1ab0253b854e353abf9471b829b03bf8/news"
+          }
+        },
+        "sem-class": { "data": { "type": "sem-classes", "id": "1" } },
+        "sem-type": { "data": { "type": "sem-types", "id": "1" } },
+        "status-groups": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/1ab0253b854e353abf9471b829b03bf8/status-groups"
+          }
+        },
+        "wiki-pages": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/1ab0253b854e353abf9471b829b03bf8/wiki-pages"
+          }
+        },
+        "tools": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/1ab0253b854e353abf9471b829b03bf8/tools"
+          }
+        }
+      },
+      "links": {
+        "self": "/jsonapi.php/v1/courses/1ab0253b854e353abf9471b829b03bf8"
+      },
+      "meta": {
+        "avatar": {
+          "small": "https://elearning.hs-flensburg.de/pictures/course/1a/1ab0253b854e353abf9471b829b03bf8_small.webp?d=1730124288",
+          "medium": "https://elearning.hs-flensburg.de/pictures/course/1a/1ab0253b854e353abf9471b829b03bf8_medium.webp?d=1730124288",
+          "normal": "https://elearning.hs-flensburg.de/pictures/course/1a/1ab0253b854e353abf9471b829b03bf8_normal.webp?d=1730124288"
+        }
+      }
+    },
+    {
+      "type": "courses",
+      "id": "c729ad32d95fdb9b48b424548478781d",
+      "attributes": {
+        "course-number": null,
+        "title": "Master Projekt - Smart City - Gr\u00fcnfl\u00e4chenmanagement",
+        "subtitle": null,
+        "course-type": 10,
+        "description": null,
+        "location": null,
+        "miscellaneous": null
+      },
+      "relationships": {
+        "institute": {
+          "links": {
+            "related": "/jsonapi.php/v1/institutes/186b49176b4ade86fc002f0247d562f8"
+          },
+          "data": {
+            "type": "institutes",
+            "id": "186b49176b4ade86fc002f0247d562f8"
+          }
+        },
+        "start-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/dc9b61d7731de0d7ca709fbeacff1716"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "dc9b61d7731de0d7ca709fbeacff1716"
+          }
+        },
+        "end-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/dc9b61d7731de0d7ca709fbeacff1716"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "dc9b61d7731de0d7ca709fbeacff1716"
+          }
+        },
+        "participating-institutes": { "data": [] },
+        "file-refs": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/c729ad32d95fdb9b48b424548478781d/file-refs"
+          }
+        },
+        "folders": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/c729ad32d95fdb9b48b424548478781d/folders"
+          }
+        },
+        "forum-categories": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/c729ad32d95fdb9b48b424548478781d/forum-categories"
+          }
+        },
+        "blubber-threads": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/c729ad32d95fdb9b48b424548478781d/blubber-threads"
+          }
+        },
+        "courseware": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/c729ad32d95fdb9b48b424548478781d/courseware"
+          },
+          "data": null
+        },
+        "events": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/c729ad32d95fdb9b48b424548478781d/events"
+          }
+        },
+        "memberships": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/c729ad32d95fdb9b48b424548478781d/memberships",
+            "self": "/jsonapi.php/v1/courses/c729ad32d95fdb9b48b424548478781d/relationships/memberships"
+          }
+        },
+        "news": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/c729ad32d95fdb9b48b424548478781d/news"
+          }
+        },
+        "sem-class": { "data": { "type": "sem-classes", "id": "2" } },
+        "sem-type": { "data": { "type": "sem-types", "id": "10" } },
+        "status-groups": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/c729ad32d95fdb9b48b424548478781d/status-groups"
+          }
+        },
+        "wiki-pages": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/c729ad32d95fdb9b48b424548478781d/wiki-pages"
+          }
+        },
+        "tools": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/c729ad32d95fdb9b48b424548478781d/tools"
+          }
+        }
+      },
+      "links": {
+        "self": "/jsonapi.php/v1/courses/c729ad32d95fdb9b48b424548478781d"
+      },
+      "meta": {
+        "avatar": {
+          "small": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_small.webp",
+          "medium": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_medium.webp",
+          "normal": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_normal.webp"
+        }
+      }
+    },
+    {
+      "type": "courses",
+      "id": "821da80213ac8efe9a494d53dd39f4bd",
+      "attributes": {
+        "course-number": null,
+        "title": "Qualitative Research Methods ",
+        "subtitle": null,
+        "course-type": 15,
+        "description": null,
+        "location": null,
+        "miscellaneous": null
+      },
+      "relationships": {
+        "institute": {
+          "links": {
+            "related": "/jsonapi.php/v1/institutes/186b49176b4ade86fc002f0247d562f8"
+          },
+          "data": {
+            "type": "institutes",
+            "id": "186b49176b4ade86fc002f0247d562f8"
+          }
+        },
+        "start-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/dc9b61d7731de0d7ca709fbeacff1716"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "dc9b61d7731de0d7ca709fbeacff1716"
+          }
+        },
+        "end-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/dc9b61d7731de0d7ca709fbeacff1716"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "dc9b61d7731de0d7ca709fbeacff1716"
+          }
+        },
+        "participating-institutes": { "data": [] },
+        "file-refs": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/821da80213ac8efe9a494d53dd39f4bd/file-refs"
+          }
+        },
+        "folders": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/821da80213ac8efe9a494d53dd39f4bd/folders"
+          }
+        },
+        "forum-categories": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/821da80213ac8efe9a494d53dd39f4bd/forum-categories"
+          }
+        },
+        "blubber-threads": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/821da80213ac8efe9a494d53dd39f4bd/blubber-threads"
+          }
+        },
+        "courseware": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/821da80213ac8efe9a494d53dd39f4bd/courseware"
+          },
+          "data": null
+        },
+        "events": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/821da80213ac8efe9a494d53dd39f4bd/events"
+          }
+        },
+        "memberships": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/821da80213ac8efe9a494d53dd39f4bd/memberships",
+            "self": "/jsonapi.php/v1/courses/821da80213ac8efe9a494d53dd39f4bd/relationships/memberships"
+          }
+        },
+        "news": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/821da80213ac8efe9a494d53dd39f4bd/news"
+          }
+        },
+        "sem-class": { "data": { "type": "sem-classes", "id": "1" } },
+        "sem-type": { "data": { "type": "sem-types", "id": "15" } },
+        "status-groups": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/821da80213ac8efe9a494d53dd39f4bd/status-groups"
+          }
+        },
+        "wiki-pages": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/821da80213ac8efe9a494d53dd39f4bd/wiki-pages"
+          }
+        },
+        "tools": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/821da80213ac8efe9a494d53dd39f4bd/tools"
+          }
+        }
+      },
+      "links": {
+        "self": "/jsonapi.php/v1/courses/821da80213ac8efe9a494d53dd39f4bd"
+      },
+      "meta": {
+        "avatar": {
+          "small": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_small.webp",
+          "medium": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_medium.webp",
+          "normal": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_normal.webp"
+        }
+      }
+    },
+    {
+      "type": "courses",
+      "id": "4d45fd93bf7b3ffbbf505eca79ad013e",
+      "attributes": {
+        "course-number": "781352",
+        "title": "Deep Learning",
+        "subtitle": null,
+        "course-type": 15,
+        "description": "Verstehen Sie die Mechanismen hinter modernen Technologien: In der Vorlesung Deep Learning erlernen wir die Grundlagen neuronaler Netze, den Aufbau komplexer Modelle und deren Anwendung in der Praxis. Entdecken Sie das Potenzial und die Herausforderungen dieser spannenden Wissenschaft gemeinsam mit uns.",
+        "location": null,
+        "miscellaneous": null
+      },
+      "relationships": {
+        "institute": {
+          "links": {
+            "related": "/jsonapi.php/v1/institutes/186b49176b4ade86fc002f0247d562f8"
+          },
+          "data": {
+            "type": "institutes",
+            "id": "186b49176b4ade86fc002f0247d562f8"
+          }
+        },
+        "start-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/ab3f3769c58cfbee9073c52070b304af"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "ab3f3769c58cfbee9073c52070b304af"
+          }
+        },
+        "end-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/ab3f3769c58cfbee9073c52070b304af"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "ab3f3769c58cfbee9073c52070b304af"
+          }
+        },
+        "participating-institutes": { "data": [] },
+        "file-refs": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/4d45fd93bf7b3ffbbf505eca79ad013e/file-refs"
+          }
+        },
+        "folders": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/4d45fd93bf7b3ffbbf505eca79ad013e/folders"
+          }
+        },
+        "forum-categories": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/4d45fd93bf7b3ffbbf505eca79ad013e/forum-categories"
+          }
+        },
+        "blubber-threads": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/4d45fd93bf7b3ffbbf505eca79ad013e/blubber-threads"
+          }
+        },
+        "courseware": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/4d45fd93bf7b3ffbbf505eca79ad013e/courseware"
+          },
+          "data": null
+        },
+        "events": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/4d45fd93bf7b3ffbbf505eca79ad013e/events"
+          }
+        },
+        "memberships": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/4d45fd93bf7b3ffbbf505eca79ad013e/memberships",
+            "self": "/jsonapi.php/v1/courses/4d45fd93bf7b3ffbbf505eca79ad013e/relationships/memberships"
+          }
+        },
+        "news": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/4d45fd93bf7b3ffbbf505eca79ad013e/news"
+          }
+        },
+        "sem-class": { "data": { "type": "sem-classes", "id": "1" } },
+        "sem-type": { "data": { "type": "sem-types", "id": "15" } },
+        "status-groups": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/4d45fd93bf7b3ffbbf505eca79ad013e/status-groups"
+          }
+        },
+        "wiki-pages": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/4d45fd93bf7b3ffbbf505eca79ad013e/wiki-pages"
+          }
+        },
+        "tools": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/4d45fd93bf7b3ffbbf505eca79ad013e/tools"
+          }
+        }
+      },
+      "links": {
+        "self": "/jsonapi.php/v1/courses/4d45fd93bf7b3ffbbf505eca79ad013e"
+      },
+      "meta": {
+        "avatar": {
+          "small": "https://elearning.hs-flensburg.de/pictures/course/4d/4d45fd93bf7b3ffbbf505eca79ad013e_small.webp?d=1730124219",
+          "medium": "https://elearning.hs-flensburg.de/pictures/course/4d/4d45fd93bf7b3ffbbf505eca79ad013e_medium.webp?d=1730124219",
+          "normal": "https://elearning.hs-flensburg.de/pictures/course/4d/4d45fd93bf7b3ffbbf505eca79ad013e_normal.webp?d=1730124219"
+        }
+      }
+    },
+    {
+      "type": "courses",
+      "id": "d7077a0be7bc13a5c9145a6589b1c9b0",
+      "attributes": {
+        "course-number": null,
+        "title": "Digitale Signalverarbeitung AI - Labor A: Di 12:15 - Raum D311 (WiSe 24/25)",
+        "subtitle": null,
+        "course-type": 16,
+        "description": null,
+        "location": null,
+        "miscellaneous": null
+      },
+      "relationships": {
+        "institute": {
+          "links": {
+            "related": "/jsonapi.php/v1/institutes/7329b1ed5efea839317d7f31fd3e0acc"
+          },
+          "data": {
+            "type": "institutes",
+            "id": "7329b1ed5efea839317d7f31fd3e0acc"
+          }
+        },
+        "start-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/ab3f3769c58cfbee9073c52070b304af"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "ab3f3769c58cfbee9073c52070b304af"
+          }
+        },
+        "end-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/ab3f3769c58cfbee9073c52070b304af"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "ab3f3769c58cfbee9073c52070b304af"
+          }
+        },
+        "participating-institutes": {
+          "data": [
+            { "type": "institutes", "id": "6a2d06881d664e5248109f06b633fc24" }
+          ]
+        },
+        "file-refs": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/d7077a0be7bc13a5c9145a6589b1c9b0/file-refs"
+          }
+        },
+        "folders": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/d7077a0be7bc13a5c9145a6589b1c9b0/folders"
+          }
+        },
+        "forum-categories": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/d7077a0be7bc13a5c9145a6589b1c9b0/forum-categories"
+          }
+        },
+        "blubber-threads": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/d7077a0be7bc13a5c9145a6589b1c9b0/blubber-threads"
+          }
+        },
+        "courseware": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/d7077a0be7bc13a5c9145a6589b1c9b0/courseware"
+          },
+          "data": null
+        },
+        "events": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/d7077a0be7bc13a5c9145a6589b1c9b0/events"
+          }
+        },
+        "memberships": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/d7077a0be7bc13a5c9145a6589b1c9b0/memberships",
+            "self": "/jsonapi.php/v1/courses/d7077a0be7bc13a5c9145a6589b1c9b0/relationships/memberships"
+          }
+        },
+        "news": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/d7077a0be7bc13a5c9145a6589b1c9b0/news"
+          }
+        },
+        "sem-class": { "data": { "type": "sem-classes", "id": "1" } },
+        "sem-type": { "data": { "type": "sem-types", "id": "16" } },
+        "status-groups": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/d7077a0be7bc13a5c9145a6589b1c9b0/status-groups"
+          }
+        },
+        "wiki-pages": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/d7077a0be7bc13a5c9145a6589b1c9b0/wiki-pages"
+          }
+        },
+        "tools": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/d7077a0be7bc13a5c9145a6589b1c9b0/tools"
+          }
+        }
+      },
+      "links": {
+        "self": "/jsonapi.php/v1/courses/d7077a0be7bc13a5c9145a6589b1c9b0"
+      },
+      "meta": {
+        "avatar": {
+          "small": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_small.webp",
+          "medium": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_medium.webp",
+          "normal": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_normal.webp"
+        }
+      }
+    },
+    {
+      "type": "courses",
+      "id": "971ce3ff1ccb11ed4ca0dd474e67e8dc",
+      "attributes": {
+        "course-number": null,
+        "title": "Digitale Signalverarbeitung AI - Labor B: Di 14:00 - Raum D311 (WiSe 24/25)",
+        "subtitle": null,
+        "course-type": 16,
+        "description": null,
+        "location": null,
+        "miscellaneous": null
+      },
+      "relationships": {
+        "institute": {
+          "links": {
+            "related": "/jsonapi.php/v1/institutes/7329b1ed5efea839317d7f31fd3e0acc"
+          },
+          "data": {
+            "type": "institutes",
+            "id": "7329b1ed5efea839317d7f31fd3e0acc"
+          }
+        },
+        "start-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/ab3f3769c58cfbee9073c52070b304af"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "ab3f3769c58cfbee9073c52070b304af"
+          }
+        },
+        "end-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/ab3f3769c58cfbee9073c52070b304af"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "ab3f3769c58cfbee9073c52070b304af"
+          }
+        },
+        "participating-institutes": {
+          "data": [
+            { "type": "institutes", "id": "6a2d06881d664e5248109f06b633fc24" }
+          ]
+        },
+        "file-refs": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/971ce3ff1ccb11ed4ca0dd474e67e8dc/file-refs"
+          }
+        },
+        "folders": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/971ce3ff1ccb11ed4ca0dd474e67e8dc/folders"
+          }
+        },
+        "forum-categories": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/971ce3ff1ccb11ed4ca0dd474e67e8dc/forum-categories"
+          }
+        },
+        "blubber-threads": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/971ce3ff1ccb11ed4ca0dd474e67e8dc/blubber-threads"
+          }
+        },
+        "courseware": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/971ce3ff1ccb11ed4ca0dd474e67e8dc/courseware"
+          },
+          "data": null
+        },
+        "events": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/971ce3ff1ccb11ed4ca0dd474e67e8dc/events"
+          }
+        },
+        "memberships": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/971ce3ff1ccb11ed4ca0dd474e67e8dc/memberships",
+            "self": "/jsonapi.php/v1/courses/971ce3ff1ccb11ed4ca0dd474e67e8dc/relationships/memberships"
+          }
+        },
+        "news": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/971ce3ff1ccb11ed4ca0dd474e67e8dc/news"
+          }
+        },
+        "sem-class": { "data": { "type": "sem-classes", "id": "1" } },
+        "sem-type": { "data": { "type": "sem-types", "id": "16" } },
+        "status-groups": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/971ce3ff1ccb11ed4ca0dd474e67e8dc/status-groups"
+          }
+        },
+        "wiki-pages": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/971ce3ff1ccb11ed4ca0dd474e67e8dc/wiki-pages"
+          }
+        },
+        "tools": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/971ce3ff1ccb11ed4ca0dd474e67e8dc/tools"
+          }
+        }
+      },
+      "links": {
+        "self": "/jsonapi.php/v1/courses/971ce3ff1ccb11ed4ca0dd474e67e8dc"
+      },
+      "meta": {
+        "avatar": {
+          "small": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_small.webp",
+          "medium": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_medium.webp",
+          "normal": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_normal.webp"
+        }
+      }
+    },
+    {
+      "type": "courses",
+      "id": "69b44e781ce257d697760da39eca8c34",
+      "attributes": {
+        "course-number": null,
+        "title": "Digitale Signalverarbeitung AI - Labor C: Di 15:45 - Raum D311 (WiSe 24/25)",
+        "subtitle": null,
+        "course-type": 16,
+        "description": null,
+        "location": null,
+        "miscellaneous": null
+      },
+      "relationships": {
+        "institute": {
+          "links": {
+            "related": "/jsonapi.php/v1/institutes/7329b1ed5efea839317d7f31fd3e0acc"
+          },
+          "data": {
+            "type": "institutes",
+            "id": "7329b1ed5efea839317d7f31fd3e0acc"
+          }
+        },
+        "start-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/ab3f3769c58cfbee9073c52070b304af"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "ab3f3769c58cfbee9073c52070b304af"
+          }
+        },
+        "end-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/ab3f3769c58cfbee9073c52070b304af"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "ab3f3769c58cfbee9073c52070b304af"
+          }
+        },
+        "participating-institutes": {
+          "data": [
+            { "type": "institutes", "id": "6a2d06881d664e5248109f06b633fc24" }
+          ]
+        },
+        "file-refs": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/69b44e781ce257d697760da39eca8c34/file-refs"
+          }
+        },
+        "folders": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/69b44e781ce257d697760da39eca8c34/folders"
+          }
+        },
+        "forum-categories": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/69b44e781ce257d697760da39eca8c34/forum-categories"
+          }
+        },
+        "blubber-threads": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/69b44e781ce257d697760da39eca8c34/blubber-threads"
+          }
+        },
+        "courseware": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/69b44e781ce257d697760da39eca8c34/courseware"
+          },
+          "data": null
+        },
+        "events": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/69b44e781ce257d697760da39eca8c34/events"
+          }
+        },
+        "memberships": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/69b44e781ce257d697760da39eca8c34/memberships",
+            "self": "/jsonapi.php/v1/courses/69b44e781ce257d697760da39eca8c34/relationships/memberships"
+          }
+        },
+        "news": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/69b44e781ce257d697760da39eca8c34/news"
+          }
+        },
+        "sem-class": { "data": { "type": "sem-classes", "id": "1" } },
+        "sem-type": { "data": { "type": "sem-types", "id": "16" } },
+        "status-groups": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/69b44e781ce257d697760da39eca8c34/status-groups"
+          }
+        },
+        "wiki-pages": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/69b44e781ce257d697760da39eca8c34/wiki-pages"
+          }
+        },
+        "tools": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/69b44e781ce257d697760da39eca8c34/tools"
+          }
+        }
+      },
+      "links": {
+        "self": "/jsonapi.php/v1/courses/69b44e781ce257d697760da39eca8c34"
+      },
+      "meta": {
+        "avatar": {
+          "small": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_small.webp",
+          "medium": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_medium.webp",
+          "normal": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_normal.webp"
+        }
+      }
+    },
+    {
+      "type": "courses",
+      "id": "6b7775dcc41feb61f8a75f56e2f09d68",
+      "attributes": {
+        "course-number": null,
+        "title": "Maker's Lab",
+        "subtitle": null,
+        "course-type": 15,
+        "description": null,
+        "location": null,
+        "miscellaneous": null
+      },
+      "relationships": {
+        "institute": {
+          "links": {
+            "related": "/jsonapi.php/v1/institutes/186b49176b4ade86fc002f0247d562f8"
+          },
+          "data": {
+            "type": "institutes",
+            "id": "186b49176b4ade86fc002f0247d562f8"
+          }
+        },
+        "start-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/ab3f3769c58cfbee9073c52070b304af"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "ab3f3769c58cfbee9073c52070b304af"
+          }
+        },
+        "end-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/ab3f3769c58cfbee9073c52070b304af"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "ab3f3769c58cfbee9073c52070b304af"
+          }
+        },
+        "participating-institutes": { "data": [] },
+        "file-refs": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/6b7775dcc41feb61f8a75f56e2f09d68/file-refs"
+          }
+        },
+        "folders": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/6b7775dcc41feb61f8a75f56e2f09d68/folders"
+          }
+        },
+        "forum-categories": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/6b7775dcc41feb61f8a75f56e2f09d68/forum-categories"
+          }
+        },
+        "blubber-threads": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/6b7775dcc41feb61f8a75f56e2f09d68/blubber-threads"
+          }
+        },
+        "courseware": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/6b7775dcc41feb61f8a75f56e2f09d68/courseware"
+          },
+          "data": null
+        },
+        "events": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/6b7775dcc41feb61f8a75f56e2f09d68/events"
+          }
+        },
+        "memberships": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/6b7775dcc41feb61f8a75f56e2f09d68/memberships",
+            "self": "/jsonapi.php/v1/courses/6b7775dcc41feb61f8a75f56e2f09d68/relationships/memberships"
+          }
+        },
+        "news": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/6b7775dcc41feb61f8a75f56e2f09d68/news"
+          }
+        },
+        "sem-class": { "data": { "type": "sem-classes", "id": "1" } },
+        "sem-type": { "data": { "type": "sem-types", "id": "15" } },
+        "status-groups": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/6b7775dcc41feb61f8a75f56e2f09d68/status-groups"
+          }
+        },
+        "wiki-pages": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/6b7775dcc41feb61f8a75f56e2f09d68/wiki-pages"
+          }
+        },
+        "tools": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/6b7775dcc41feb61f8a75f56e2f09d68/tools"
+          }
+        }
+      },
+      "links": {
+        "self": "/jsonapi.php/v1/courses/6b7775dcc41feb61f8a75f56e2f09d68"
+      },
+      "meta": {
+        "avatar": {
+          "small": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_small.webp",
+          "medium": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_medium.webp",
+          "normal": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_normal.webp"
+        }
+      }
+    },
+    {
+      "type": "courses",
+      "id": "aa32b59d7f65bff886c28521144f635e",
+      "attributes": {
+        "course-number": null,
+        "title": "Vorlesung Digitale Signalverarbeitung AI - Raum A212 (WiSe 24/25) ",
+        "subtitle": null,
+        "course-type": 1,
+        "description": null,
+        "location": null,
+        "miscellaneous": null
+      },
+      "relationships": {
+        "institute": {
+          "links": {
+            "related": "/jsonapi.php/v1/institutes/7329b1ed5efea839317d7f31fd3e0acc"
+          },
+          "data": {
+            "type": "institutes",
+            "id": "7329b1ed5efea839317d7f31fd3e0acc"
+          }
+        },
+        "start-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/ab3f3769c58cfbee9073c52070b304af"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "ab3f3769c58cfbee9073c52070b304af"
+          }
+        },
+        "end-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/ab3f3769c58cfbee9073c52070b304af"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "ab3f3769c58cfbee9073c52070b304af"
+          }
+        },
+        "participating-institutes": {
+          "data": [
+            { "type": "institutes", "id": "6a2d06881d664e5248109f06b633fc24" }
+          ]
+        },
+        "file-refs": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/aa32b59d7f65bff886c28521144f635e/file-refs"
+          }
+        },
+        "folders": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/aa32b59d7f65bff886c28521144f635e/folders"
+          }
+        },
+        "forum-categories": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/aa32b59d7f65bff886c28521144f635e/forum-categories"
+          }
+        },
+        "blubber-threads": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/aa32b59d7f65bff886c28521144f635e/blubber-threads"
+          }
+        },
+        "courseware": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/aa32b59d7f65bff886c28521144f635e/courseware"
+          },
+          "data": null
+        },
+        "events": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/aa32b59d7f65bff886c28521144f635e/events"
+          }
+        },
+        "memberships": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/aa32b59d7f65bff886c28521144f635e/memberships",
+            "self": "/jsonapi.php/v1/courses/aa32b59d7f65bff886c28521144f635e/relationships/memberships"
+          }
+        },
+        "news": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/aa32b59d7f65bff886c28521144f635e/news"
+          }
+        },
+        "sem-class": { "data": { "type": "sem-classes", "id": "1" } },
+        "sem-type": { "data": { "type": "sem-types", "id": "1" } },
+        "status-groups": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/aa32b59d7f65bff886c28521144f635e/status-groups"
+          }
+        },
+        "wiki-pages": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/aa32b59d7f65bff886c28521144f635e/wiki-pages"
+          }
+        },
+        "tools": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/aa32b59d7f65bff886c28521144f635e/tools"
+          }
+        }
+      },
+      "links": {
+        "self": "/jsonapi.php/v1/courses/aa32b59d7f65bff886c28521144f635e"
+      },
+      "meta": {
+        "avatar": {
+          "small": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_small.webp",
+          "medium": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_medium.webp",
+          "normal": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_normal.webp"
+        }
+      }
+    },
+    {
+      "type": "courses",
+      "id": "0244244dbb48e96d091b6fdb6f7718d5",
+      "attributes": {
+        "course-number": null,
+        "title": "Wearable Computing",
+        "subtitle": null,
+        "course-type": 15,
+        "description": null,
+        "location": null,
+        "miscellaneous": null
+      },
+      "relationships": {
+        "institute": {
+          "links": {
+            "related": "/jsonapi.php/v1/institutes/186b49176b4ade86fc002f0247d562f8"
+          },
+          "data": {
+            "type": "institutes",
+            "id": "186b49176b4ade86fc002f0247d562f8"
+          }
+        },
+        "start-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/ab3f3769c58cfbee9073c52070b304af"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "ab3f3769c58cfbee9073c52070b304af"
+          }
+        },
+        "end-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/ab3f3769c58cfbee9073c52070b304af"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "ab3f3769c58cfbee9073c52070b304af"
+          }
+        },
+        "participating-institutes": { "data": [] },
+        "file-refs": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/0244244dbb48e96d091b6fdb6f7718d5/file-refs"
+          }
+        },
+        "folders": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/0244244dbb48e96d091b6fdb6f7718d5/folders"
+          }
+        },
+        "forum-categories": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/0244244dbb48e96d091b6fdb6f7718d5/forum-categories"
+          }
+        },
+        "blubber-threads": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/0244244dbb48e96d091b6fdb6f7718d5/blubber-threads"
+          }
+        },
+        "courseware": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/0244244dbb48e96d091b6fdb6f7718d5/courseware"
+          },
+          "data": null
+        },
+        "events": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/0244244dbb48e96d091b6fdb6f7718d5/events"
+          }
+        },
+        "memberships": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/0244244dbb48e96d091b6fdb6f7718d5/memberships",
+            "self": "/jsonapi.php/v1/courses/0244244dbb48e96d091b6fdb6f7718d5/relationships/memberships"
+          }
+        },
+        "news": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/0244244dbb48e96d091b6fdb6f7718d5/news"
+          }
+        },
+        "sem-class": { "data": { "type": "sem-classes", "id": "1" } },
+        "sem-type": { "data": { "type": "sem-types", "id": "15" } },
+        "status-groups": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/0244244dbb48e96d091b6fdb6f7718d5/status-groups"
+          }
+        },
+        "wiki-pages": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/0244244dbb48e96d091b6fdb6f7718d5/wiki-pages"
+          }
+        },
+        "tools": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/0244244dbb48e96d091b6fdb6f7718d5/tools"
+          }
+        }
+      },
+      "links": {
+        "self": "/jsonapi.php/v1/courses/0244244dbb48e96d091b6fdb6f7718d5"
+      },
+      "meta": {
+        "avatar": {
+          "small": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_small.webp",
+          "medium": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_medium.webp",
+          "normal": "https://elearning.hs-flensburg.de/assets/images/avatars/course/nobody_normal.webp"
+        }
+      }
+    },
+    {
+      "type": "courses",
+      "id": "324b4fcbf888438483e33f6fdb43f4d4",
+      "attributes": {
+        "course-number": null,
+        "title": "Advanced Deep Learning",
+        "subtitle": null,
+        "course-type": 15,
+        "description": "Aufbauend auf der Veranstaltung Deep Learning werden wir ausgew\u00e4hlte Kapitel in den Bereichen Deep Learning und Computer Vision vertiefen. Teilnahme am Kurs \"Deep Learning\" aus dem WS ist keine Voraussetzung an der Teilnahme, aber Vorkenntnisse in Deep Learning sind sehr hilfreich. ",
+        "location": null,
+        "miscellaneous": null
+      },
+      "relationships": {
+        "institute": {
+          "links": {
+            "related": "/jsonapi.php/v1/institutes/186b49176b4ade86fc002f0247d562f8"
+          },
+          "data": {
+            "type": "institutes",
+            "id": "186b49176b4ade86fc002f0247d562f8"
+          }
+        },
+        "start-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/de13bdb54ed34d5dbf58aff5f93a2a8a"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "de13bdb54ed34d5dbf58aff5f93a2a8a"
+          }
+        },
+        "end-semester": {
+          "links": {
+            "related": "/jsonapi.php/v1/semesters/de13bdb54ed34d5dbf58aff5f93a2a8a"
+          },
+          "data": {
+            "type": "semesters",
+            "id": "de13bdb54ed34d5dbf58aff5f93a2a8a"
+          }
+        },
+        "participating-institutes": { "data": [] },
+        "file-refs": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/324b4fcbf888438483e33f6fdb43f4d4/file-refs"
+          }
+        },
+        "folders": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/324b4fcbf888438483e33f6fdb43f4d4/folders"
+          }
+        },
+        "forum-categories": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/324b4fcbf888438483e33f6fdb43f4d4/forum-categories"
+          }
+        },
+        "blubber-threads": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/324b4fcbf888438483e33f6fdb43f4d4/blubber-threads"
+          }
+        },
+        "courseware": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/324b4fcbf888438483e33f6fdb43f4d4/courseware"
+          },
+          "data": null
+        },
+        "events": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/324b4fcbf888438483e33f6fdb43f4d4/events"
+          }
+        },
+        "memberships": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/324b4fcbf888438483e33f6fdb43f4d4/memberships",
+            "self": "/jsonapi.php/v1/courses/324b4fcbf888438483e33f6fdb43f4d4/relationships/memberships"
+          }
+        },
+        "news": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/324b4fcbf888438483e33f6fdb43f4d4/news"
+          }
+        },
+        "sem-class": { "data": { "type": "sem-classes", "id": "1" } },
+        "sem-type": { "data": { "type": "sem-types", "id": "15" } },
+        "status-groups": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/324b4fcbf888438483e33f6fdb43f4d4/status-groups"
+          }
+        },
+        "wiki-pages": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/324b4fcbf888438483e33f6fdb43f4d4/wiki-pages"
+          }
+        },
+        "tools": {
+          "links": {
+            "related": "/jsonapi.php/v1/courses/324b4fcbf888438483e33f6fdb43f4d4/tools"
+          }
+        }
+      },
+      "links": {
+        "self": "/jsonapi.php/v1/courses/324b4fcbf888438483e33f6fdb43f4d4"
+      },
+      "meta": {
+        "avatar": {
+          "small": "https://elearning.hs-flensburg.de/pictures/course/32/324b4fcbf888438483e33f6fdb43f4d4_small.webp?d=1741079246",
+          "medium": "https://elearning.hs-flensburg.de/pictures/course/32/324b4fcbf888438483e33f6fdb43f4d4_medium.webp?d=1741079246",
+          "normal": "https://elearning.hs-flensburg.de/pictures/course/32/324b4fcbf888438483e33f6fdb43f4d4_normal.webp?d=1741079246"
+        }
+      }
+    }
+  ]
+}

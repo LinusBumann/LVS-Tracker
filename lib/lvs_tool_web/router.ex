@@ -59,6 +59,10 @@ defmodule LvsToolWeb.Router do
     end
 
     post "/users/log_in", UserSessionController, :create
+
+    # OAuth Routen
+    get "/auth/:provider", OAuthController, :index
+    get "/auth/:provider/callback", OAuthController, :callback
   end
 
   scope "/", LvsToolWeb do

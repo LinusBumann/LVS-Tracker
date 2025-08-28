@@ -10,6 +10,22 @@ defmodule LvsTool.Accounts.User do
     field :confirmed_at, :utc_datetime
     field :name, :string
 
+    field :provider, :string
+    field :provider_id, :string
+    field :avatar, :string
+
+    # StudIP-spezifische Felder
+    field :username, :string
+    field :formatted_name, :string
+    field :family_name, :string
+    field :given_name, :string
+    field :name_prefix, :string
+    field :name_suffix, :string
+    field :studip_permission, :string
+    field :phone, :string
+    field :homepage, :string
+    field :address, :string
+
     belongs_to :role, LvsTool.Accounts.Role
     has_many :semesterentrys, LvsTool.Semesterentrys.Semesterentry
 
@@ -45,6 +61,30 @@ defmodule LvsTool.Accounts.User do
     |> validate_required([:name])
     |> validate_email(opts)
     |> validate_password(opts)
+  end
+
+  def oauth_registration_changeset(user, attrs, opts \\ []) do
+    user
+    |> cast(attrs, [
+      :email,
+      :name,
+      :provider,
+      :provider_id,
+      :avatar,
+      :username,
+      :formatted_name,
+      :family_name,
+      :given_name,
+      :name_prefix,
+      :name_suffix,
+      :studip_permission,
+      :phone,
+      :homepage,
+      :address
+    ])
+    |> validate_required([:email, :name, :provider, :provider_id])
+    |> validate_email(opts)
+    |> put_change(:confirmed_at, DateTime.utc_now() |> DateTime.truncate(:second))
   end
 
   defp validate_email(changeset, opts) do
