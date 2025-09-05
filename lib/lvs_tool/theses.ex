@@ -147,14 +147,12 @@ defmodule LvsTool.Theses do
     |> Repo.preload([:thesis_type, :studygroups])
   end
 
-  def calculate_thesis_lvs(percent, thesis_type_id) do
+  def calculate_thesis_lvs(thesis_type_id) do
     if thesis_type_id && thesis_type_id != "" do
       thesis_type_id =
         if is_binary(thesis_type_id), do: String.to_integer(thesis_type_id), else: thesis_type_id
 
-      imputationfactor = get_thesis_type!(thesis_type_id).imputationfactor
-      {percent_int, _} = Integer.parse(percent)
-      percent_int * imputationfactor / 100
+      get_thesis_type!(thesis_type_id).imputationfactor
     else
       0.0
     end

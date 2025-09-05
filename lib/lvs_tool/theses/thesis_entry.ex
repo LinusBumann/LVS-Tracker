@@ -3,7 +3,6 @@ defmodule LvsTool.Theses.ThesisEntry do
   import Ecto.Changeset
 
   schema "theses_entries" do
-    field :percent, :float
     field :lvs, :float
     field :thesis_title, :string
 
@@ -20,8 +19,8 @@ defmodule LvsTool.Theses.ThesisEntry do
   @doc false
   def changeset(thesis_entry, attrs) do
     thesis_entry
-    |> cast(attrs, [:percent, :lvs, :semesterentry_id, :thesis_type_id, :thesis_title])
-    |> validate_required([:percent, :lvs, :semesterentry_id, :thesis_type_id, :thesis_title])
+    |> cast(attrs, [:lvs, :semesterentry_id, :thesis_type_id, :thesis_title])
+    |> validate_required([:lvs, :semesterentry_id, :thesis_type_id, :thesis_title])
     |> put_assoc(:studygroups, parse_studygroups(attrs))
   end
 
