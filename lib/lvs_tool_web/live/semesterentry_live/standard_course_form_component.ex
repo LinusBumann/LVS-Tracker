@@ -55,6 +55,11 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
           field={@form[:percent]}
           type="number"
           label="Anteil an der Veranstaltung (in %)"
+          step="5"
+          min="0"
+          max="100"
+          icon="hero-question-mark-circle-solid"
+          tooltip="Beispiele: 100% = alleinige Durchführung, 50% = geteilte Veranstaltung"
           required
         /> <.input field={@form[:lvs]} type="number" disabled label="LVS" required />
         <:actions>
@@ -70,7 +75,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
     attrs =
       case standard_course_entry.id do
         nil ->
-          %{}
+          %{"percent" => "100"}
 
         _ ->
           %{

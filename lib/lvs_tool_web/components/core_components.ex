@@ -329,6 +329,8 @@ defmodule LvsToolWeb.CoreComponents do
   attr :name, :any
   attr :label, :string, default: nil
   attr :value, :any
+  attr :icon, :string, default: nil
+  attr :tooltip, :string, default: nil
 
   attr :type, :string,
     default: "text",
@@ -429,7 +431,21 @@ defmodule LvsToolWeb.CoreComponents do
   def input(assigns) do
     ~H"""
     <div>
-      <.label for={@id}>{@label}</.label>
+      <div class="flex gap-1 items-center">
+        <.label for={@id}>{@label}</.label>
+
+        <div :if={@icon} class="relative group flex items-center">
+          <.icon name={@icon} class="h-6 w-6 cursor-help hover:text-gray-700" />
+          <div
+            :if={@tooltip}
+            class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 text-sm text-white bg-gray-800 rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none whitespace-nowrap z-50"
+          >
+            {@tooltip}
+            <div class="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800">
+            </div>
+          </div>
+        </div>
+      </div>
 
       <input
         type={@type}
