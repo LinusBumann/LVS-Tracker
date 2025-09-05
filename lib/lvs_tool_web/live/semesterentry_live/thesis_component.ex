@@ -72,10 +72,6 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisComponent do
                     </p>
                     
                     <p class="text-sm text-gray-500">
-                      <span class="font-semibold">Prozentualer Anteil:</span> {thesis.percent}%
-                    </p>
-                    
-                    <p class="text-sm text-gray-500">
                       <span class="font-semibold">LVS:</span> {thesis.lvs}
                     </p>
                   </div>

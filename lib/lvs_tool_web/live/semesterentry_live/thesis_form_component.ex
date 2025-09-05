@@ -36,9 +36,7 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisFormComponent do
           label="Studiengruppen"
           options={Enum.map(@studygroups, &{&1.name, &1.id})}
           required
-        />
-        <.input field={@form[:percent]} type="number" label="Anteil an der Thesis (in %)" required />
-        <.input field={@form[:lvs]} type="number" disabled label="LVS" step="0.1" required />
+        /> <.input field={@form[:lvs]} type="number" disabled label="LVS" step="0.1" required />
         <:actions>
           <.button phx-disable-with="Saving...">Semestereintrag speichern</.button>
         </:actions>
@@ -125,16 +123,9 @@ defmodule LvsToolWeb.SemesterentryLive.ThesisFormComponent do
   end
 
   defp add_lvs_to_params(thesis_entry_params) do
-    if thesis_entry_params["percent"] != "" do
-      lvs =
-        Theses.calculate_thesis_lvs(
-          thesis_entry_params["percent"],
-          thesis_entry_params["thesis_type_id"]
-        )
+    lvs =
+      Theses.calculate_thesis_lvs(thesis_entry_params["thesis_type_id"])
 
-      Map.put(thesis_entry_params, "lvs", lvs)
-    else
-      thesis_entry_params
-    end
+    Map.put(thesis_entry_params, "lvs", lvs)
   end
 end
