@@ -180,7 +180,7 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
       Courses.list_standard_course_entries_by_semesterentry(semesterentry.id)
 
     socket
-    |> assign(:page_title, "New Standard Course")
+    |> assign(:page_title, "Neuer Standard-Kurs")
     |> assign(:semesterentry, semesterentry)
     |> assign(:standard_course_types, standard_course_types)
     |> assign(:standard_course_names, standard_course_names)
@@ -201,7 +201,7 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
     studygroups = Courses.list_studygroups()
 
     socket
-    |> assign(:page_title, "Edit Standard Course")
+    |> assign(:page_title, "Bearbeite Standard-Kurs")
     |> assign(:course_id, course_id)
     |> assign(:semesterentry, semesterentry)
     |> assign(:standard_course_entry, standard_course_entry)
