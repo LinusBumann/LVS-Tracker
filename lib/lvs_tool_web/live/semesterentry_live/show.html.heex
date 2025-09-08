@@ -66,6 +66,7 @@
           label="Standard-Kurse"
           path="/standard-courses"
           live_actions={[
+            :edit,
             :show,
             :show_standard_courses,
             :new_standard_course,
@@ -163,6 +164,17 @@
 <!-- Primärer Button -->
       <%= if is_role?(@user_role, :lehrperson) and @semesterentry.user_id == @current_user.id and can_be_submitted?(@semesterentry.status) do %>
         <.button
+          id="semesterentry-edit-button"
+          phx-click={JS.navigate(~p"/semesterentrys/#{@semesterentry.id}/edit")}
+          phx-disable-with="Bearbeiten..."
+          disabled={!StatusHelpers.is_editable?(@semesterentry.status)}
+          class="bg-blue-600 hover:bg-blue-700 text-white"
+        >
+          <span>
+            Semesternamen bearbeiten <.icon name="hero-pencil-square" class="h-4 w-4 ml-2" />
+          </span>
+        </.button>
+        <.button
           phx-click="submit_for_review"
           phx-value-id={@semesterentry.id}
           data-confirm="Möchten Sie diesen Semestereintrag wirklich einreichen?"
@@ -209,6 +221,7 @@
       title={@page_title}
       action={@live_action}
       semesterentry={@semesterentry}
+      submission_periods={@submission_periods}
       patch={~p"/semesterentrys/#{@semesterentry}"}
     />
   </.modal>

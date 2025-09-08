@@ -83,7 +83,7 @@ defmodule LvsToolWeb.Router do
 
       live "/semesterentrys", SemesterentryLive.Index, :index
       live "/semesterentrys/new", SemesterentryLive.Index, :new
-      live "/semesterentrys/:id/edit", SemesterentryLive.Index, :edit
+      live "/semesterentrys/:id/edit", SemesterentryLive.Show, :edit
 
       live "/semesterentrys/:id", SemesterentryLive.Show, :show
       live "/semesterentrys/:id/show/edit", SemesterentryLive.Show, :edit

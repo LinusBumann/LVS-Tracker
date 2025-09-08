@@ -11,28 +11,25 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
   alias LvsTool.Reductions
   alias LvsToolWeb.RoleHelpers
   alias LvsToolWeb.StatusHelpers
+  alias LvsTool.SubmissionPeriods
 
   @impl true
   def mount(params, _session, socket) do
     # Hole den Semesterentry um den Besitzer zu identifizieren
     semesterentry = Semesterentrys.get_semesterentry!(params["id"])
 
-    # Bestimme für welchen Benutzer die LVS-Anforderungen berechnet werden sollen
-    {target_user, semesterentry_owner} =
+    # Immer den Besitzer des Semestereintrags für LVS-Berechnung verwenden
+    target_user = Accounts.get_user!(semesterentry.user_id)
+
+    # Für Dekanat und Präsidium: Zeige Informationen des Semesterentry-Besitzers
+    semesterentry_owner =
       case socket.assigns.current_user |> Accounts.get_user_role() do
-        # Für Dekanat: Zeige Informationen des Semesterentry-Besitzers
-        %{id: 6} ->
-          owner = Accounts.get_user!(semesterentry.user_id)
-          {owner, owner}
-
-        # Für Präsidium: Zeige Informationen des Semesterentry-Besitzers
-        %{id: 7} ->
-          owner = Accounts.get_user!(semesterentry.user_id)
-          {owner, owner}
-
-        # Für alle anderen: Zeige eigene Informationen
-        _ ->
-          {socket.assigns.current_user, nil}
+        # Dekanat
+        %{id: 6} -> target_user
+        # Präsidium
+        %{id: 7} -> target_user
+        # Alle anderen
+        _ -> nil
       end
 
     {:ok,
@@ -78,11 +75,15 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
 
     thesis_entries = Theses.list_theses_entries_by_semesterentry(semesterentry.id)
 
+    # Hinzufügen der fehlenden reduction_entries
+    reduction_entries = Reductions.list_reduction_entries_by_semesterentry(semesterentry.id)
+
     socket
     |> assign(:page_title, "Show Semesterentry")
     |> assign(:semesterentry, semesterentry)
-    |> stream(:standard_course_entries, standard_course_entries, reset: true)
-    |> stream(:thesis_entries, thesis_entries, reset: true)
+    |> stream(:standard_course_entries, standard_course_entries)
+    |> stream(:thesis_entries, thesis_entries)
+    |> stream(:reduction_entries, reduction_entries)
   end
 
   # Neue apply_action Funktionen für Tab-spezifische Routen
@@ -164,9 +165,17 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
+    submission_periods = SubmissionPeriods.list_submission_periods()
+    semesterentry = Semesterentrys.get_semesterentry!(id)
+
+    standard_course_entries =
+      Courses.list_standard_course_entries_by_semesterentry(semesterentry.id)
+
     socket
-    |> assign(:page_title, "Edit Semesterentry")
-    |> assign(:semesterentry, Semesterentrys.get_semesterentry!(id))
+    |> assign(:page_title, "Semestereintrag bearbeiten")
+    |> assign(:semesterentry, semesterentry)
+    |> assign(:submission_periods, submission_periods)
+    |> stream(:standard_course_entries, standard_course_entries)
   end
 
   defp apply_action(socket, :new_standard_course, %{"id" => id}) do
@@ -309,13 +318,15 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
         reduction_entries =
           Reductions.list_reduction_entries_by_semesterentry(socket.assigns.semesterentry.id)
 
+        target_user = Accounts.get_user!(socket.assigns.semesterentry.user_id)
+
         {:noreply,
          socket
          |> assign(:semesterentry, updated_semesterentry)
          |> assign(
            :calculated_user_lvs_requirements,
            Accounts.get_user_lvs_requirements_with_reduction_calculation(
-             socket.assigns.current_user,
+             target_user,
              socket.assigns.semesterentry.id
            )
          )
@@ -331,15 +342,24 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
         {LvsToolWeb.SemesterentryLive.ReductionsFormComponent, :reduction_updated},
         socket
       ) do
+    target_user = Accounts.get_user!(socket.assigns.semesterentry.user_id)
+
     {:noreply,
      socket
      |> assign(
        :calculated_user_lvs_requirements,
        Accounts.get_user_lvs_requirements_with_reduction_calculation(
-         socket.assigns.current_user,
+         target_user,
          socket.assigns.semesterentry.id
        )
      )}
+  end
+
+  def handle_info({LvsToolWeb.SemesterentryLive.FormComponent, {:saved, semesterentry}}, socket) do
+    {:noreply,
+     socket
+     |> assign(:semesterentry, semesterentry)
+     |> put_flash(:info, "Semestereintrag wurde erfolgreich aktualisiert")}
   end
 
   @impl true

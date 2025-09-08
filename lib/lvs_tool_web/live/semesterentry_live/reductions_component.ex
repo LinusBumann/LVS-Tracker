@@ -14,8 +14,9 @@ defmodule LvsToolWeb.SemesterentryLive.ReductionsComponent do
     <!-- Button nur für Lehrende anzeigen, wenn Semestereintrag noch nicht eingereicht -->
         <.link
           :if={
-            RoleHelpers.is_role?(@user_role, :lehrperson) and
-              StatusHelpers.is_editable?(@semesterentry.status)
+            RoleHelpers.is_role?(@user_role, :dekan) or
+              (RoleHelpers.is_role?(@user_role, :lehrperson) and
+                 StatusHelpers.is_editable?(@semesterentry.status))
           }
           patch={~p"/semesterentrys/#{@semesterentry.id}/reductions/new"}
         >
@@ -35,7 +36,7 @@ defmodule LvsToolWeb.SemesterentryLive.ReductionsComponent do
         <h3 class="mt-2 text-sm font-medium text-gray-900">Keine Ermäßigungen</h3>
         
         <p class="mt-1 text-sm text-gray-500">
-          <%= if RoleHelpers.is_role?(@user_role, :lehrperson) and StatusHelpers.is_editable?(@semesterentry.status) do %>
+          <%= if RoleHelpers.is_role?(@user_role, :dekan) or (RoleHelpers.is_role?(@user_role, :lehrperson) and StatusHelpers.is_editable?(@semesterentry.status)) do %>
             Fügen Sie Ihre erste Ermäßigung hinzu.
           <% else %>
             Keine Ermäßigungen vorhanden.
@@ -67,15 +68,16 @@ defmodule LvsToolWeb.SemesterentryLive.ReductionsComponent do
     <!-- Aktions-Buttons nur für Lehrende anzeigen, wenn Semestereintrag noch nicht eingereicht -->
                   <div
                     :if={
-                      RoleHelpers.is_role?(@user_role, :lehrperson) and
-                        StatusHelpers.is_editable?(@semesterentry.status)
+                      RoleHelpers.is_role?(@user_role, :dekan) or
+                        (RoleHelpers.is_role?(@user_role, :lehrperson) and
+                           StatusHelpers.is_editable?(@semesterentry.status))
                     }
                     class="flex items-center space-x-2"
                   >
                     <.link patch={
                       ~p"/semesterentrys/#{@semesterentry.id}/reductions/#{reduction.id}/edit"
                     }>
-                      <.button class="text-blue-600 hover:text-blue-900">
+                      <.button class="text-blue-600 hover:text-blue-900 bg-blue-100 hover:bg-blue-200">
                         <.icon name="hero-pencil-square" class="h-4 w-4" />
                       </.button>
                     </.link>
@@ -86,7 +88,7 @@ defmodule LvsToolWeb.SemesterentryLive.ReductionsComponent do
                       }
                       phx-target={@myself}
                       data-confirm="Sind Sie sicher, dass Sie diese Ermäßigung löschen möchten?"
-                      class="text-red-600 hover:text-red-900"
+                      class="text-red-600 hover:text-red-900 bg-red-100 hover:bg-red-200"
                     >
                       <.icon name="hero-trash" class="h-4 w-4" />
                     </.button>

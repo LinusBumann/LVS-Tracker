@@ -90,7 +90,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
                     <.link patch={
                       ~p"/semesterentrys/#{@semesterentry.id}/standard-courses/#{course.id}/edit"
                     }>
-                      <.button class="text-blue-600 hover:text-blue-900">
+                      <.button class="text-blue-600 hover:text-blue-900 bg-blue-100 hover:bg-blue-200">
                         <.icon name="hero-pencil-square" class="h-4 w-4" />
                       </.button>
                     </.link>
@@ -101,7 +101,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCoursesComponent do
                       }
                       phx-target={@myself}
                       data-confirm="Sind Sie sicher, dass Sie diesen Standard-Kurs löschen möchten?"
-                      class="text-red-600 hover:text-red-900"
+                      class="text-red-600 hover:text-red-900 bg-red-100 hover:bg-red-200"
                     >
                       <.icon name="hero-trash" class="h-4 w-4" />
                     </.button>
