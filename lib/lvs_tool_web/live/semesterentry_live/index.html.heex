@@ -129,7 +129,7 @@
 
   <:action :let={{_id, semesterentry}} :if={RoleHelpers.is_role?(@user_role, :lehrperson)}>
     <.button
-      phx-click={JS.navigate(~p"/semesterentrys/#{semesterentry}/edit")}
+      phx-click={JS.navigate(~p"/semesterentrys/#{semesterentry}/standard-courses")}
       phx-disable-with="Bearbeiten..."
       disabled={!StatusHelpers.is_editable?(semesterentry.status)}
       class={
