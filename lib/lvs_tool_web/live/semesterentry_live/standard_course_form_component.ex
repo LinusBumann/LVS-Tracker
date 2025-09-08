@@ -59,7 +59,7 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
           min="0"
           max="100"
           icon="hero-question-mark-circle-solid"
-          tooltip="Beispiele: 100% = alleinige Durchführung, 50% = geteilte Veranstaltung"
+          tooltip_text="Beispiele: 100% = alleinige Durchführung, 50% = geteilte Veranstaltung"
           required
         /> <.input field={@form[:lvs]} type="number" disabled label="LVS" required />
         <:actions>
