@@ -59,6 +59,18 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
     socket
     |> assign(:page_title, "Semestereinträge")
     |> assign(:semesterentry, nil)
+    |> assign(
+      :all_semesterentries_lvs_sum,
+      Semesterentrys.calculate_lvs_sum_for_all_semesterentries_by_user(
+        socket.assigns.current_user.id
+      )
+    )
+    |> assign(
+      :all_semesterentries_lvs_requirements,
+      Accounts.get_user_lvs_requirements_with_reduction_calculation_for_all_semesterentries(
+        socket.assigns.current_user
+      )
+    )
   end
 
   defp apply_action(socket, :forward, %{"id" => id}) do
