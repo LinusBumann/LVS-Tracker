@@ -300,6 +300,21 @@ defmodule LvsToolWeb.CoreComponents do
   end
 
   @doc """
+  Renders a tooltip.
+  """
+  attr :tooltip_text, :string, required: true
+
+  def tooltip(assigns) do
+    ~H"""
+    <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 text-sm text-white bg-gray-800 rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none whitespace-nowrap z-50">
+      {@tooltip_text}
+      <div class="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800">
+      </div>
+    </div>
+    """
+  end
+
+  @doc """
   Renders an input with label and error messages.
 
   A `Phoenix.HTML.FormField` may be passed as argument,
@@ -330,7 +345,7 @@ defmodule LvsToolWeb.CoreComponents do
   attr :label, :string, default: nil
   attr :value, :any
   attr :icon, :string, default: nil
-  attr :tooltip, :string, default: nil
+  attr :tooltip_text, :string, default: nil
 
   attr :type, :string,
     default: "text",
@@ -436,14 +451,7 @@ defmodule LvsToolWeb.CoreComponents do
 
         <div :if={@icon} class="relative group flex items-center">
           <.icon name={@icon} class="h-6 w-6 cursor-help hover:text-gray-700" />
-          <div
-            :if={@tooltip}
-            class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 text-sm text-white bg-gray-800 rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none whitespace-nowrap z-50"
-          >
-            {@tooltip}
-            <div class="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800">
-            </div>
-          </div>
+          <.tooltip tooltip_text={@tooltip_text} />
         </div>
       </div>
 
