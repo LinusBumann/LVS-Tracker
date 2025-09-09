@@ -10,7 +10,12 @@ defmodule LvsToolWeb.SemesterentryLive.FormComponent do
       <.header>
         {@title}
         <:subtitle>
-          Verwenden Sie dieses Formular, um einen einen Semestereintrag anzulegen oder zu bearbeiten.
+          Verwenden Sie dieses Formular, um einen einen Semestereintrag
+          <%= if @action == :edit do %>
+            zu bearbeiten.
+          <% else %>
+            anzulegen.
+          <% end %>
         </:subtitle>
       </.header>
 
@@ -30,7 +35,13 @@ defmodule LvsToolWeb.SemesterentryLive.FormComponent do
         />
 
         <:actions>
-          <.button phx-disable-with="Speichern...">Semestereintrag anlegen</.button>
+          <.button phx-disable-with="Speichern...">
+            <%= if @action == :edit do %>
+              Bearbeitung speichern
+            <% else %>
+              Semestereintrag anlegen
+            <% end %>
+          </.button>
         </:actions>
       </.simple_form>
     </div>
