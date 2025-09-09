@@ -370,7 +370,7 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
       {:ok, _updated_semesterentry} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Semestereintrag wurde zur Prüfung eingereicht")
+         |> put_flash(:info, "Semestereintrag wurde zur Prüfung beim Dekanat eingereicht")
          |> push_navigate(to: ~p"/semesterentrys")}
 
       {:error, _changeset} ->
@@ -425,6 +425,4 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
         {:noreply, put_flash(socket, :error, "Fehler beim Ablehnen")}
     end
   end
-
-  # Helper-Funktionen entfernt - Logik ist jetzt direkt im Template
 end
