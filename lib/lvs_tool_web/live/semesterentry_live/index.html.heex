@@ -172,11 +172,7 @@
   end
 }
 >
-  LVS Summe aller Semester: {Semesterentrys.calculate_lvs_sum_for_all_semesterentries_by_user(
-    @current_user.id
-  )} von {Accounts.get_user_lvs_requirements_with_reduction_calculation_for_all_semesterentries(
-    @current_user
-  )}
+  LVS Summe aller Semester: {@all_semesterentries_lvs_sum} von {@all_semesterentries_lvs_requirements}
 </p>
 
 <.modal

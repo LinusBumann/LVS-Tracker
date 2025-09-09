@@ -93,7 +93,21 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
 
   @impl true
   def handle_info({LvsToolWeb.SemesterentryLive.FormComponent, {:saved, semesterentry}}, socket) do
-    {:noreply, stream_insert(socket, :semesterentries, semesterentry)}
+    {:noreply,
+     socket
+     |> stream_insert(:semesterentries, semesterentry)
+     |> assign(
+       :all_semesterentries_lvs_sum,
+       Semesterentrys.calculate_lvs_sum_for_all_semesterentries_by_user(
+         socket.assigns.current_user.id
+       )
+     )
+     |> assign(
+       :all_semesterentries_lvs_requirements,
+       Accounts.get_user_lvs_requirements_with_reduction_calculation_for_all_semesterentries(
+         socket.assigns.current_user
+       )
+     )}
   end
 
   @impl true
@@ -101,7 +115,21 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
     semesterentry = Semesterentrys.get_semesterentry!(id)
     {:ok, _} = Semesterentrys.delete_semesterentry(semesterentry)
 
-    {:noreply, stream_delete(socket, :semesterentries, semesterentry)}
+    {:noreply,
+     socket
+     |> stream_delete(:semesterentries, semesterentry)
+     |> assign(
+       :all_semesterentries_lvs_sum,
+       Semesterentrys.calculate_lvs_sum_for_all_semesterentries_by_user(
+         socket.assigns.current_user.id
+       )
+     )
+     |> assign(
+       :all_semesterentries_lvs_requirements,
+       Accounts.get_user_lvs_requirements_with_reduction_calculation_for_all_semesterentries(
+         socket.assigns.current_user
+       )
+     )}
   end
 
   @impl true
