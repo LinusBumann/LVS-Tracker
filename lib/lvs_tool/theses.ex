@@ -158,6 +158,18 @@ defmodule LvsTool.Theses do
     end
   end
 
+  def max_lvs_for_theses_exceeded?(semesterentry_id) do
+    all_theses_lvs =
+      from(te in ThesisEntry, where: te.semesterentry_id == ^semesterentry_id)
+      |> Repo.all()
+      |> Enum.reduce(0, fn te, acc -> acc + te.lvs end)
+
+    # Maximal 3 LVS für Theses pro Semester nach LVVO
+    max_lvs = 3.0
+
+    all_theses_lvs > max_lvs
+  end
+
   @doc """
   Creates a thesis_entry.
 

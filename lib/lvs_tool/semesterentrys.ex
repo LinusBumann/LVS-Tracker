@@ -290,14 +290,19 @@ defmodule LvsTool.Semesterentrys do
     thesis_count = Theses.get_thesis_count(semesterentry.id)
 
     thesis_lvs_sum =
-      if thesis_count >= 6 do
-        from(te in LvsTool.Theses.ThesisEntry,
-          where: te.semesterentry_id == ^semesterentry.id,
-          select: coalesce(sum(te.lvs), 0.0)
-        )
-        |> Repo.one()
-      else
-        0.0
+      cond do
+        Theses.max_lvs_for_theses_exceeded?(semesterentry.id) ->
+          3.0
+
+        thesis_count >= 6 ->
+          from(te in Theses.ThesisEntry,
+            where: te.semesterentry_id == ^semesterentry.id,
+            select: coalesce(sum(te.lvs), 0.0)
+          )
+          |> Repo.one()
+
+        true ->
+          0.0
       end
 
     # Gesamtsumme berechnen (Standard-Kurse + Theses - Reduktionen) und auf 2 Nachkommastellen runden
