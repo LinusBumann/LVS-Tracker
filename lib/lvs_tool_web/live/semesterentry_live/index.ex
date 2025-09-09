@@ -26,8 +26,7 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
      |> stream(
        :semesterentries,
        semesterentries
-     )
-     |> IO.inspect()}
+     )}
   end
 
   @impl true
@@ -42,7 +41,6 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
     |> assign(:page_title, "Semestereintrag bearbeiten")
     |> assign(:semesterentry, Semesterentrys.get_semesterentry!(id))
     |> assign(:submission_periods, submission_periods)
-    |> IO.inspect()
   end
 
   defp apply_action(socket, :new, _params) do
@@ -52,7 +50,6 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
     |> assign(:page_title, "Neuer Semestereintrag")
     |> assign(:semesterentry, %Semesterentry{})
     |> assign(:submission_periods, submission_periods)
-    |> IO.inspect()
   end
 
   defp apply_action(socket, :index, _params) do

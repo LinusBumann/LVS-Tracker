@@ -276,6 +276,7 @@ defmodule LvsTool.Semesterentrys do
     semesterentries
     |> Enum.map(fn semesterentry -> semesterentry.lvs_sum end)
     |> Enum.sum()
+    |> Float.round(2)
   end
 
   def recalculate_lvs_sum(%Semesterentry{} = semesterentry) do
