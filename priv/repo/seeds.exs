@@ -233,6 +233,7 @@ end)
 IO.puts("Reduction Types wurden erfolgreich eingefügt!")
 """
 
+"""
 # Submission Periods Seeds - Von SoSe 25 bis SoSe 30
 submission_periods = [
   # SoSe 25
@@ -323,3 +324,4 @@ Enum.each(submission_periods, fn period_attrs ->
 end)
 
 IO.puts("Submission Periods von SoSe 25 bis SoSe 30 wurden erfolgreich eingefügt!")
+"""
