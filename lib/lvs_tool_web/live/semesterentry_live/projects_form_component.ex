@@ -140,7 +140,7 @@ defmodule LvsToolWeb.SemesterentryLive.ProjectsFormComponent do
          project_entry_params["student_count"] != "" do
       # Für Projekte berechnen wir LVS als SWS * Prozent / 100
       lvs =
-        calculate_project_lvs(
+        Projects.calculate_project_lvs(
           project_entry_params["sws"],
           project_entry_params["percent"],
           project_entry_params["student_count"]
@@ -151,31 +151,4 @@ defmodule LvsToolWeb.SemesterentryLive.ProjectsFormComponent do
       project_entry_params
     end
   end
-
-  defp calculate_project_lvs(sws, percent, student_count)
-       when is_binary(sws) and is_binary(percent) and is_binary(student_count) do
-    case {Float.parse(sws), Float.parse(percent), Float.parse(student_count)} do
-      {{sws_float, _}, {percent_float, _}, {student_count_float, _}} ->
-        calculate_project_lvs(sws_float, percent_float, student_count_float)
-
-      _ ->
-        0.0
-    end
-  end
-
-  defp calculate_project_lvs(sws, percent, student_count)
-       when is_number(sws) and is_number(percent) and is_number(student_count) do
-    standard_project_student_count = 8
-
-    cond do
-      student_count < standard_project_student_count ->
-        student_ratio = student_count / standard_project_student_count
-        (student_ratio * sws * percent / 100.0) |> Float.round(2)
-
-      true ->
-        (sws * percent / 100.0) |> Float.round(2)
-    end
-  end
-
-  defp calculate_project_lvs(_, _, _), do: 0.0
 end
