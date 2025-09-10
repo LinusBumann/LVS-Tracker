@@ -52,8 +52,7 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
        Accounts.get_user_lvs_requirements(target_user)
      )
      |> assign(:user_role, Accounts.get_user_role(socket.assigns.current_user))
-     |> assign(:semesterentry_owner, semesterentry_owner)
-     |> IO.inspect()}
+     |> assign(:semesterentry_owner, semesterentry_owner)}
   end
 
   @impl true

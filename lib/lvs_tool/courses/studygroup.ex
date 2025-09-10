@@ -13,6 +13,10 @@ defmodule LvsTool.Courses.Studygroup do
       join_through: "thesis_entry_studygroups",
       on_replace: :delete
 
+    many_to_many :project_entries, LvsTool.Projects.ProjectEntry,
+      join_through: "project_entry_studygroups",
+      on_replace: :delete
+
     timestamps(type: :utc_datetime)
   end
 
