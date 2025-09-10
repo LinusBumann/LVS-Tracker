@@ -7,6 +7,8 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
   alias LvsTool.Courses.StandardCourseEntry
   alias LvsTool.Theses
   alias LvsTool.Theses.ThesisEntry
+  alias LvsTool.Projects
+  alias LvsTool.Projects.ProjectEntry
   alias LvsTool.Accounts
   alias LvsTool.Reductions
   alias LvsToolWeb.RoleHelpers
@@ -36,6 +38,7 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
      socket
      |> stream(:standard_course_entries, [], reset: true)
      |> stream(:thesis_entries, [], reset: true)
+     |> stream(:project_entries, [], reset: true)
      |> stream(:reduction_entries, [], reset: true)
      |> assign(
        :calculated_user_lvs_requirements,
@@ -75,6 +78,8 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
 
     thesis_entries = Theses.list_theses_entries_by_semesterentry(semesterentry.id)
 
+    project_entries = Projects.list_project_entries_by_semesterentry(semesterentry.id)
+
     # Hinzufügen der fehlenden reduction_entries
     reduction_entries = Reductions.list_reduction_entries_by_semesterentry(semesterentry.id)
 
@@ -83,6 +88,7 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
     |> assign(:semesterentry, semesterentry)
     |> stream(:standard_course_entries, standard_course_entries)
     |> stream(:thesis_entries, thesis_entries)
+    |> stream(:project_entries, project_entries)
     |> stream(:reduction_entries, reduction_entries)
   end
 
@@ -113,9 +119,12 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
   defp apply_action(socket, :show_projects, %{"id" => id}) do
     semesterentry = Semesterentrys.get_semesterentry!(id)
 
+    project_entries = Projects.list_project_entries_by_semesterentry(semesterentry.id)
+
     socket
     |> assign(:page_title, "Projekte")
     |> assign(:semesterentry, semesterentry)
+    |> stream(:project_entries, project_entries, reset: true)
   end
 
   defp apply_action(socket, :show_excursions, %{"id" => id}) do
@@ -162,6 +171,33 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
     |> assign(:semesterentry, semesterentry)
     |> assign(:reduction_types, reduction_types)
     |> stream(:reduction_entries, reduction_entries, reset: true)
+  end
+
+  defp apply_action(socket, :new_project, %{"id" => id}) do
+    semesterentry = Semesterentrys.get_semesterentry!(id)
+    studygroups = Courses.list_studygroups()
+    project_entries = Projects.list_project_entries_by_semesterentry(semesterentry.id)
+
+    socket
+    |> assign(:page_title, "Neues Projekt")
+    |> assign(:semesterentry, semesterentry)
+    |> assign(:studygroups, studygroups)
+    |> assign(:project_entry, %ProjectEntry{})
+    |> stream(:project_entries, project_entries, reset: true)
+  end
+
+  defp apply_action(socket, :edit_project, %{"id" => id, "project_id" => project_id}) do
+    project_entry = Projects.get_project_entry!(project_id)
+    semesterentry = Semesterentrys.get_semesterentry!(id)
+    studygroups = Courses.list_studygroups()
+    project_entries = Projects.list_project_entries_by_semesterentry(semesterentry.id)
+
+    socket
+    |> assign(:page_title, "Projekt bearbeiten")
+    |> assign(:project_entry, project_entry)
+    |> assign(:semesterentry, semesterentry)
+    |> assign(:studygroups, studygroups)
+    |> stream(:project_entries, project_entries, reset: true)
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
@@ -299,6 +335,30 @@ defmodule LvsToolWeb.SemesterentryLive.Show do
          |> assign(:semesterentry, updated_semesterentry)
          |> put_flash(:info, "Thesis gelöscht")
          |> stream(:thesis_entries, thesis_entries, reset: true)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, form: to_form(changeset))}
+    end
+  end
+
+  def handle_info(
+        {LvsToolWeb.SemesterentryLive.ProjectsComponent, {:deleted_project, id}},
+        socket
+      ) do
+    project_entry = Projects.get_project_entry!(id)
+
+    case Projects.delete_project_entry(project_entry) do
+      {:ok, _} ->
+        updated_semesterentry = Semesterentrys.recalculate_lvs_sum(socket.assigns.semesterentry)
+
+        project_entries =
+          Projects.list_project_entries_by_semesterentry(socket.assigns.semesterentry.id)
+
+        {:noreply,
+         socket
+         |> assign(:semesterentry, updated_semesterentry)
+         |> put_flash(:info, "Projekt gelöscht")
+         |> stream(:project_entries, project_entries, reset: true)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}

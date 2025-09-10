@@ -13,9 +13,9 @@ defmodule LvsTool.Semesterentrys.Semesterentry do
     has_many :standard_course_entries, LvsTool.Courses.StandardCourseEntry
     has_many :thesis_entries, LvsTool.Theses.ThesisEntry
     has_many :reduction_entries, LvsTool.Reductions.ReductionEntry
+    has_many :project_entries, LvsTool.Projects.ProjectEntry
 
-    # TODO: Add project, excursion, thesis, reduction entries
-    # has_many :project_entries, LvsTool.Semesterentrys.ProjectEntry
+    # TODO: Add excursion
     # has_many :excursion_entries, LvsTool.Semesterentrys.ExcursionEntry
 
     timestamps(type: :utc_datetime)

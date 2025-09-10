@@ -287,7 +287,6 @@ defmodule LvsTool.Semesterentrys do
       )
       |> Repo.one()
 
-    # Summe aller Thesis LVS
     thesis_count = Theses.get_thesis_count(semesterentry.id)
 
     thesis_lvs_sum =
@@ -306,8 +305,15 @@ defmodule LvsTool.Semesterentrys do
           0.0
       end
 
-    # Gesamtsumme berechnen (Standard-Kurse + Theses - Reduktionen) und auf 2 Nachkommastellen runden
-    total_lvs = Float.round(standard_course_lvs_sum + thesis_lvs_sum, 2)
+    project_lvs_sum =
+      from(pe in LvsTool.Projects.ProjectEntry,
+        where: pe.semesterentry_id == ^semesterentry.id,
+        select: coalesce(sum(pe.lvs), 0.0)
+      )
+      |> Repo.one()
+
+    # Gesamtsumme berechnen (Standard-Kurse + Theses + Projekte - Reduktionen) und auf 2 Nachkommastellen runden
+    total_lvs = Float.round(standard_course_lvs_sum + thesis_lvs_sum + project_lvs_sum, 2)
 
     # Update der LVS-Summe
     from(s in Semesterentry, where: s.id == ^semesterentry.id)

@@ -110,6 +110,9 @@
             id="projects"
             semesterentry={@semesterentry}
             live_action={@live_action}
+            page_title={@page_title}
+            project_entries={@streams.project_entries}
+            user_role={@user_role}
           />
         </:tab>
         <:tab
@@ -291,20 +294,18 @@
     :if={@live_action in [:new_project, :edit_project]}
     id="project-modal"
     show
-    on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}")}
+    on_cancel={JS.patch(~p"/semesterentrys/#{@semesterentry}/projects")}
   >
-    <div class="text-center py-12">
-      <div class="mx-auto h-12 w-12 text-gray-400">
-        <.icon name="hero-light-bulb" class="h-12 w-12" />
-      </div>
-      <h3 class="mt-2 text-sm font-medium text-gray-900">Projekt Modal</h3>
-      <p class="mt-1 text-sm text-gray-500">
-        {if @live_action == :new_project, do: "Neues Projekt", else: "Projekt bearbeiten"}
-      </p>
-      <p class="mt-1 text-sm text-gray-500">
-        Funktionalität wird noch implementiert.
-      </p>
-    </div>
+    <.live_component
+      module={LvsToolWeb.SemesterentryLive.ProjectsFormComponent}
+      id={@project_entry.id || :new}
+      page_title={@page_title}
+      project_entry={@project_entry}
+      studygroups={@studygroups}
+      live_action={@live_action}
+      semesterentry={@semesterentry}
+      patch={~p"/semesterentrys/#{@semesterentry}/projects"}
+    />
   </.modal>
   
 <!-- Excursion Modals -->
