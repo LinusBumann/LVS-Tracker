@@ -138,7 +138,6 @@ defmodule LvsToolWeb.SemesterentryLive.ProjectsFormComponent do
     if project_entry_params["percent"] != "" &&
          project_entry_params["sws"] != "" &&
          project_entry_params["student_count"] != "" do
-      # Für Projekte berechnen wir LVS als SWS * Prozent / 100
       lvs =
         Projects.calculate_project_lvs(
           project_entry_params["sws"],
