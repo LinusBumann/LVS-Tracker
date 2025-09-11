@@ -143,6 +143,7 @@ defmodule LvsTool.Projects do
     cond do
       student_count < standard_project_student_count ->
         student_ratio = student_count / standard_project_student_count
+
         (student_ratio * sws * percent / 100.0) |> Float.round(2)
 
       true ->

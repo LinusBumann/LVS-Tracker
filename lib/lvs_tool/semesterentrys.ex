@@ -312,8 +312,19 @@ defmodule LvsTool.Semesterentrys do
       )
       |> Repo.one()
 
+    excursion_lvs_sum =
+      from(ee in LvsTool.Excursions.ExcursionEntry,
+        where: ee.semesterentry_id == ^semesterentry.id,
+        select: coalesce(sum(ee.lvs), 0.0)
+      )
+      |> Repo.one()
+
     # Gesamtsumme berechnen (Standard-Kurse + Theses + Projekte - Reduktionen) und auf 2 Nachkommastellen runden
-    total_lvs = Float.round(standard_course_lvs_sum + thesis_lvs_sum + project_lvs_sum, 2)
+    total_lvs =
+      Float.round(
+        standard_course_lvs_sum + thesis_lvs_sum + project_lvs_sum + excursion_lvs_sum,
+        2
+      )
 
     # Update der LVS-Summe
     from(s in Semesterentry, where: s.id == ^semesterentry.id)

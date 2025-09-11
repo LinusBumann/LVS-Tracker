@@ -111,19 +111,31 @@ defmodule LvsTool.Excursions do
   end
 
   @doc """
-  Calculates LVS for an excursion based on student count, daily max teaching units, and imputation factor.
+  Berechnet die LVS für eine Exkursion basierend auf der maximalen täglichen Unterrichtseinheit und dem Anrechnungsfaktor.
 
-  ## Examples
+  ## Beispiele
 
-      iex> calculate_excursion_lvs(20, 8, 0.3)
-      48.0
+      iex> calculate_excursion_lvs(1, 8, 0.3)
+      2.4
 
   """
-  def calculate_excursion_lvs(daily_max_teaching_units, imputationfactor) do
-    # Grundformel: Studierenden-Anzahl * Tägliche max. Lehreinheiten * Anrechnungsfaktor
-    base_lvs = daily_max_teaching_units * imputationfactor
+  def calculate_excursion_lvs(day_count, daily_teaching_units, imputationfactor)
+      when is_number(day_count) and is_number(daily_teaching_units) and
+             is_number(imputationfactor) do
+    semester_weeks = 15.0
 
-    # Auf eine Dezimalstelle runden
-    Float.round(base_lvs, 2)
+    cond do
+      day_count > 1 ->
+        total_teaching_units = day_count * daily_teaching_units
+
+        (imputationfactor * total_teaching_units / semester_weeks)
+        |> Float.round(2)
+
+      true ->
+        (imputationfactor * daily_teaching_units / (0.75 * semester_weeks))
+        |> Float.round(2)
+    end
   end
+
+  def calculate_excursion_lvs(_, _, _), do: 0.0
 end

@@ -42,18 +42,11 @@ defmodule LvsToolWeb.SemesterentryLive.ExcursionFormComponent do
           type="number"
           label="Maximale Lehreinheiten pro Tag"
           min="1"
-          max="12"
+          max="10"
           step="1"
           required
-        />
-        <.input
-          field={@form[:lvs]}
-          type="number"
-          step="0.1"
-          disabled
-          label="LVS (wird automatisch berechnet)"
-          required
-        />
+        /> <.input field={@form[:day_count]} type="number" label="Anzahl der Tage" min="1" required />
+        <.input field={@form[:lvs]} type="number" step="0.1" disabled label="LVS" required />
         <:actions>
           <.button phx-disable-with="Speichern...">Exkursion speichern</.button>
         </:actions>
@@ -144,10 +137,13 @@ defmodule LvsToolWeb.SemesterentryLive.ExcursionFormComponent do
     imputationfactor = 0.3
     params_with_factor = Map.put(excursion_entry_params, "imputationfactor", imputationfactor)
 
-    if params_with_factor["daily_max_teaching_units"] != "" do
-      daily_max_teaching_units = String.to_integer(params_with_factor["daily_max_teaching_units"])
+    if params_with_factor["daily_max_teaching_units"] != "" &&
+         params_with_factor["day_count"] != "" do
+      daily_teaching_units = String.to_integer(params_with_factor["daily_max_teaching_units"])
+      day_count = String.to_integer(params_with_factor["day_count"])
 
-      lvs = Excursions.calculate_excursion_lvs(daily_max_teaching_units, imputationfactor)
+      lvs =
+        Excursions.calculate_excursion_lvs(day_count, daily_teaching_units, imputationfactor)
 
       Map.put(params_with_factor, "lvs", lvs)
     else

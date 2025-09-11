@@ -8,7 +8,7 @@ defmodule LvsTool.Excursions.ExcursionEntry do
     field :student_count, :integer
     field :daily_max_teaching_units, :integer
     field :imputationfactor, :float, default: 0.3
-
+    field :day_count, :integer
     belongs_to :semesterentry, LvsTool.Semesterentrys.Semesterentry
 
     many_to_many :studygroups, LvsTool.Courses.Studygroup,
@@ -26,15 +26,19 @@ defmodule LvsTool.Excursions.ExcursionEntry do
       :lvs,
       :student_count,
       :daily_max_teaching_units,
-      :semesterentry_id
+      :semesterentry_id,
+      :day_count
     ])
     |> validate_required([
       :name,
       :lvs,
       :student_count,
       :daily_max_teaching_units,
-      :semesterentry_id
+      :semesterentry_id,
+      :day_count
     ])
+    |> validate_number(:daily_max_teaching_units, greater_than: 0, less_than_or_equal_to: 10)
+    |> validate_number(:day_count, greater_than: 0)
     |> put_assoc(:studygroups, parse_studygroups(attrs))
   end
 
