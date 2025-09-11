@@ -138,4 +138,15 @@ defmodule LvsTool.Excursions do
   end
 
   def calculate_excursion_lvs(_, _, _), do: 0.0
+
+  def max_lvs_for_excursions_exceeded?(semesterentry_id) do
+    all_excursions_lvs =
+      from(ee in ExcursionEntry, where: ee.semesterentry_id == ^semesterentry_id)
+      |> Repo.all()
+      |> Enum.reduce(0, fn ee, acc -> acc + ee.lvs end)
+
+    max_lvs = 2.0
+
+    all_excursions_lvs > max_lvs
+  end
 end

@@ -9,6 +9,8 @@ defmodule LvsTool.Semesterentrys do
   alias LvsTool.Semesterentrys.Semesterentry
   alias LvsTool.Theses
   alias LvsTool.Accounts
+  alias LvsTool.Excursions
+  alias LvsTool.Projects
 
   @doc """
   Returns the list of semesterentrys.
@@ -306,18 +308,24 @@ defmodule LvsTool.Semesterentrys do
       end
 
     project_lvs_sum =
-      from(pe in LvsTool.Projects.ProjectEntry,
+      from(pe in Projects.ProjectEntry,
         where: pe.semesterentry_id == ^semesterentry.id,
         select: coalesce(sum(pe.lvs), 0.0)
       )
       |> Repo.one()
 
     excursion_lvs_sum =
-      from(ee in LvsTool.Excursions.ExcursionEntry,
-        where: ee.semesterentry_id == ^semesterentry.id,
-        select: coalesce(sum(ee.lvs), 0.0)
-      )
-      |> Repo.one()
+      cond do
+        Excursions.max_lvs_for_excursions_exceeded?(semesterentry.id) ->
+          2.0
+
+        true ->
+          from(ee in Excursions.ExcursionEntry,
+            where: ee.semesterentry_id == ^semesterentry.id,
+            select: coalesce(sum(ee.lvs), 0.0)
+          )
+          |> Repo.one()
+      end
 
     # Gesamtsumme berechnen (Standard-Kurse + Theses + Projekte - Reduktionen) und auf 2 Nachkommastellen runden
     total_lvs =
