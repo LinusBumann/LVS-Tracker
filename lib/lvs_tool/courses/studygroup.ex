@@ -17,6 +17,10 @@ defmodule LvsTool.Courses.Studygroup do
       join_through: "project_entry_studygroups",
       on_replace: :delete
 
+    many_to_many :excursion_entries, LvsTool.Excursions.ExcursionEntry,
+      join_through: "excursion_entry_studygroups",
+      on_replace: :delete
+
     timestamps(type: :utc_datetime)
   end
 
