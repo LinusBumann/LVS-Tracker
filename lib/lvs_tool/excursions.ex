@@ -21,6 +21,11 @@ defmodule LvsTool.Excursions do
     Repo.all(ExcursionEntry)
   end
 
+  def list_excursion_entries_by_semesterentry(semesterentry_id) do
+    Repo.all(from e in ExcursionEntry, where: e.semesterentry_id == ^semesterentry_id)
+    |> Repo.preload([:studygroups])
+  end
+
   @doc """
   Gets a single excursion_entry.
 
@@ -35,7 +40,10 @@ defmodule LvsTool.Excursions do
       ** (Ecto.NoResultsError)
 
   """
-  def get_excursion_entry!(id), do: Repo.get!(ExcursionEntry, id)
+  def get_excursion_entry!(id) do
+    Repo.get!(ExcursionEntry, id)
+    |> Repo.preload([:studygroups])
+  end
 
   @doc """
   Creates a excursion_entry.
@@ -100,5 +108,22 @@ defmodule LvsTool.Excursions do
   """
   def change_excursion_entry(%ExcursionEntry{} = excursion_entry, attrs \\ %{}) do
     ExcursionEntry.changeset(excursion_entry, attrs)
+  end
+
+  @doc """
+  Calculates LVS for an excursion based on student count, daily max teaching units, and imputation factor.
+
+  ## Examples
+
+      iex> calculate_excursion_lvs(20, 8, 0.3)
+      48.0
+
+  """
+  def calculate_excursion_lvs(daily_max_teaching_units, imputationfactor) do
+    # Grundformel: Studierenden-Anzahl * Tägliche max. Lehreinheiten * Anrechnungsfaktor
+    base_lvs = daily_max_teaching_units * imputationfactor
+
+    # Auf eine Dezimalstelle runden
+    Float.round(base_lvs, 2)
   end
 end

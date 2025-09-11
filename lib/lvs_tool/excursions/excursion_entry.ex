@@ -52,6 +52,12 @@ defmodule LvsTool.Excursions.ExcursionEntry do
         end)
         |> Enum.reject(&is_nil/1)
         |> Enum.map(&LvsTool.Repo.get!(LvsTool.Courses.Studygroup, &1))
+
+      %{"studygroup_ids" => ids} when is_binary(ids) ->
+        [LvsTool.Repo.get!(LvsTool.Courses.Studygroup, String.to_integer(ids))]
+
+      _ ->
+        []
     end
   end
 end
