@@ -272,13 +272,19 @@ defmodule LvsTool.Semesterentrys do
     get_semesterentry!(semesterentry.id)
   end
 
-  def calculate_lvs_sum_for_all_semesterentries_by_user(user_id) do
+  def calculate_lvs_sum_for_all_semesterentries_by_user(user_id, user_role_id) do
     semesterentries = retrieve_semesterentries_for_teachers(user_id)
 
-    semesterentries
-    |> Enum.map(fn semesterentry -> semesterentry.lvs_sum end)
-    |> Enum.sum()
-    |> Float.round(2)
+    sum =
+      semesterentries
+      |> Enum.map(fn semesterentry -> semesterentry.lvs_sum end)
+      |> Enum.sum()
+
+    if user_role_id in [1, 2, 3, 4, 5] do
+      Float.round(sum, 2)
+    else
+      sum
+    end
   end
 
   def recalculate_lvs_sum(%Semesterentry{} = semesterentry) do

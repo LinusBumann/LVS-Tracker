@@ -59,7 +59,8 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
     |> assign(
       :all_semesterentries_lvs_sum,
       Semesterentrys.calculate_lvs_sum_for_all_semesterentries_by_user(
-        socket.assigns.current_user.id
+        socket.assigns.current_user.id,
+        socket.assigns.user_role.id
       )
     )
     |> assign(
@@ -96,7 +97,8 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
      |> assign(
        :all_semesterentries_lvs_sum,
        Semesterentrys.calculate_lvs_sum_for_all_semesterentries_by_user(
-         socket.assigns.current_user.id
+         socket.assigns.current_user.id,
+         socket.assigns.user_role.id
        )
      )
      |> assign(
@@ -118,7 +120,8 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
      |> assign(
        :all_semesterentries_lvs_sum,
        Semesterentrys.calculate_lvs_sum_for_all_semesterentries_by_user(
-         socket.assigns.current_user.id
+         socket.assigns.current_user.id,
+         socket.assigns.user_role.id
        )
      )
      |> assign(
