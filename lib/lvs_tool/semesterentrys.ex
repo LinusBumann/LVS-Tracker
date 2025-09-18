@@ -280,6 +280,8 @@ defmodule LvsTool.Semesterentrys do
       |> Enum.map(fn semesterentry -> semesterentry.lvs_sum end)
       |> Enum.sum()
 
+    # Roles 1-5 are regular roles, so we need to round the sum to 2 decimal places
+    # Other roles are not regular roles, so we don't need to round the sum
     if user_role_id in [1, 2, 3, 4, 5] do
       Float.round(sum, 2)
     else
