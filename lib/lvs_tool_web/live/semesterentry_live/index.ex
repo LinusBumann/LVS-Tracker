@@ -34,15 +34,6 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
-  defp apply_action(socket, :edit, %{"id" => id}) do
-    submission_periods = SubmissionPeriods.list_submission_periods()
-
-    socket
-    |> assign(:page_title, "Semestereintrag bearbeiten")
-    |> assign(:semesterentry, Semesterentrys.get_semesterentry!(id))
-    |> assign(:submission_periods, submission_periods)
-  end
-
   defp apply_action(socket, :new, _params) do
     submission_periods = SubmissionPeriods.list_submission_periods()
 
@@ -69,24 +60,6 @@ defmodule LvsToolWeb.SemesterentryLive.Index do
         socket.assigns.current_user
       )
     )
-  end
-
-  defp apply_action(socket, :forward, %{"id" => id}) do
-    socket
-    |> assign(:page_title, "An Präsidium weiterleiten")
-    |> assign(:semesterentry, Semesterentrys.get_semesterentry!(id))
-  end
-
-  defp apply_action(socket, :approve, %{"id" => id}) do
-    socket
-    |> assign(:page_title, "Semestereintrag genehmigen")
-    |> assign(:semesterentry, Semesterentrys.get_semesterentry!(id))
-  end
-
-  defp apply_action(socket, :reject, %{"id" => id}) do
-    socket
-    |> assign(:page_title, "Semestereintrag ablehnen")
-    |> assign(:semesterentry, Semesterentrys.get_semesterentry!(id))
   end
 
   @impl true

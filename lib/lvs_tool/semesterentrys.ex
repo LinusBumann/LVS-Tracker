@@ -58,21 +58,21 @@ defmodule LvsTool.Semesterentrys do
   @dekanat_role_id 6
   @presidium_role_id 7
   def list_visible_semesterentrys_for_role(role_id, user_id) do
-    case role_id do
+    cond do
       # Lehrende sehen nur ihre eigenen Einträge
-      role
-      when role in @teaching_role_ids ->
+      role_id in @teaching_role_ids ->
         retrieve_semesterentries_for_teachers(user_id)
 
-      # Dekanat sieht nur eingereichte Einträge (nicht "Offen")
-      @dekanat_role_id ->
+      # Dekanat sieht nur eingereichte Einträge
+      role_id == @dekanat_role_id ->
         retrieve_semesterentries_for_dekanat()
 
       # Präsidium sieht nur Einträge, die vom Dekanat weitergeleitet wurden
-      @presidium_role_id ->
+      role_id == @presidium_role_id ->
         retrieve_semesterentries_for_presidium()
 
-      _ ->
+      # Fallback für unbekannte Rollen
+      true ->
         []
     end
   end
