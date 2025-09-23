@@ -7,6 +7,7 @@
     <% id when id == 7 -> %>
       Weitergeleitete Semestereinträge
   <% end %>
+  
   <:actions :if={@user_role.id in [1, 2, 3, 4, 5]}>
     <.link patch={~p"/semesterentrys/new"} class="flex items-center">
       <.button>
@@ -26,6 +27,7 @@
   }
 >
   <:col :let={{_id, semesterentry}} label="Semester">{semesterentry.name}</:col>
+  
   <:col :let={{_id, semesterentry}} label="Status">
     <span class={
     "inline-block w-56 text-center px-2 py-1 rounded-md " <>
@@ -41,6 +43,7 @@
       {semesterentry.status}
     </span>
   </:col>
+  
   <:col :let={{_id, semesterentry}} label="LVS Summe">
     {Semesterentrys.get_lvs_for_semesterentry(semesterentry.id)} von {Semesterentrys.get_lvs_requirements_for_display(
       @current_user,
@@ -48,7 +51,7 @@
       semesterentry
     )}
   </:col>
-
+  
   <:col
     :let={{_id, semesterentry}}
     :if={RoleHelpers.is_role?(@user_role, :dekan_or_praesidium)}
@@ -56,7 +59,7 @@
   >
     {Accounts.get_user!(semesterentry.user_id).name}
   </:col>
-
+  
   <:action :let={{_id, semesterentry}} :if={RoleHelpers.is_role?(@user_role, :praesidium)}>
     <.button
       disabled={!StatusHelpers.is_praesidium_actionable?(semesterentry.status)}
@@ -74,7 +77,7 @@
       Genehmigen
     </.button>
   </:action>
-
+  
   <:action :let={{_id, semesterentry}} :if={RoleHelpers.is_role?(@user_role, :dekan)}>
     <.button
       disabled={!StatusHelpers.is_dekan_actionable?(semesterentry.status)}
@@ -92,7 +95,7 @@
       An Präsidium weiterleiten
     </.button>
   </:action>
-
+  
   <:action
     :let={{_id, semesterentry}}
     :if={RoleHelpers.is_role?(@user_role, :dekan_or_praesidium)}
@@ -126,7 +129,7 @@
       Ablehnen
     </.button>
   </:action>
-
+  
   <:action :let={{_id, semesterentry}} :if={RoleHelpers.is_role?(@user_role, :lehrperson)}>
     <.button
       phx-click={JS.navigate(~p"/semesterentrys/#{semesterentry}/standard-courses")}
@@ -143,7 +146,7 @@
       Bearbeiten
     </.button>
   </:action>
-
+  
   <:action :let={{id, semesterentry}} :if={RoleHelpers.is_role?(@user_role, :lehrperson)}>
     <.button
       phx-click={JS.push("delete", value: %{id: semesterentry.id}) |> hide("##{id}")}

@@ -18,7 +18,7 @@ defmodule LvsToolWeb.SemesterentryLive.FormComponent do
           <% end %>
         </:subtitle>
       </.header>
-
+      
       <.simple_form
         for={@form}
         id="semesterentry-form"
@@ -33,7 +33,6 @@ defmodule LvsToolWeb.SemesterentryLive.FormComponent do
           options={Enum.map(@submission_periods, &{&1.name, &1.name})}
           required
         />
-
         <:actions>
           <.button phx-disable-with="Speichern...">
             <%= if @action == :edit do %>

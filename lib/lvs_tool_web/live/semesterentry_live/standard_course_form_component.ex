@@ -136,7 +136,6 @@ defmodule LvsToolWeb.SemesterentryLive.StandardCourseFormComponent do
 
     case Courses.create_standard_course_entry(standard_course_entry_params) do
       {:ok, _standard_course_entry} ->
-        # LVS-Summe neu berechnen
         Semesterentrys.recalculate_lvs_sum(socket.assigns.semesterentry)
 
         {:noreply,
