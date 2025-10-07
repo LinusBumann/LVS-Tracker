@@ -237,23 +237,14 @@ defmodule LvsTool.Semesterentrys do
     |> Repo.update()
   end
 
-  @doc """
-  Updates the status of a semesterentry to 'An das Präsidium weitergeleitet'.
-  """
   def forward_to_presidium(%Semesterentry{} = semesterentry) do
     update_semesterentry(semesterentry, %{status: "An das Präsidium weitergeleitet"})
   end
 
-  @doc """
-  Updates the status of a semesterentry to 'Akzeptiert'.
-  """
   def approve_semesterentry(%Semesterentry{} = semesterentry) do
     update_semesterentry(semesterentry, %{status: "Akzeptiert"})
   end
 
-  @doc """
-  Updates the status of a semesterentry to 'Abgelehnt'.
-  """
   def reject_semesterentry(%Semesterentry{} = semesterentry) do
     update_semesterentry(semesterentry, %{status: "Abgelehnt"})
   end
@@ -289,24 +280,17 @@ defmodule LvsTool.Semesterentrys do
     end
   end
 
-  def recalculate_lvs_sum(%Semesterentry{} = semesterentry) do
-    standard_course_lvs_sum =
-      from(sce in LvsTool.Courses.StandardCourseEntry,
-        where: sce.semesterentry_id == ^semesterentry.id,
-        select: coalesce(sum(sce.lvs), 0.0)
-      )
-      |> Repo.one()
+  defp calculate_thesis_lvs_sum(semesterentry_id) do
+    thesis_count = Theses.get_thesis_count(semesterentry_id)
 
-    thesis_count = Theses.get_thesis_count(semesterentry.id)
-
-    thesis_lvs_sum =
+    lvs_sum =
       cond do
-        Theses.max_lvs_for_theses_exceeded?(semesterentry.id) ->
+        Theses.max_lvs_for_theses_exceeded?(semesterentry_id) ->
           3.0
 
         thesis_count >= 6 ->
           from(te in Theses.ThesisEntry,
-            where: te.semesterentry_id == ^semesterentry.id,
+            where: te.semesterentry_id == ^semesterentry_id,
             select: coalesce(sum(te.lvs), 0.0)
           )
           |> Repo.one()
@@ -315,25 +299,50 @@ defmodule LvsTool.Semesterentrys do
           0.0
       end
 
-    project_lvs_sum =
+    lvs_sum
+  end
+
+  defp calculate_project_lvs_sum(semesterentry_id) do
+    lvs_sum =
       from(pe in Projects.ProjectEntry,
-        where: pe.semesterentry_id == ^semesterentry.id,
+        where: pe.semesterentry_id == ^semesterentry_id,
         select: coalesce(sum(pe.lvs), 0.0)
       )
       |> Repo.one()
 
-    excursion_lvs_sum =
-      cond do
-        Excursions.max_lvs_for_excursions_exceeded?(semesterentry.id) ->
-          2.0
+    lvs_sum
+  end
 
-        true ->
-          from(ee in Excursions.ExcursionEntry,
-            where: ee.semesterentry_id == ^semesterentry.id,
-            select: coalesce(sum(ee.lvs), 0.0)
-          )
-          |> Repo.one()
-      end
+  defp calculate_excursion_lvs_sum(semesterentry_id) do
+    lvs_sum =
+      from(ee in Excursions.ExcursionEntry,
+        where: ee.semesterentry_id == ^semesterentry_id,
+        select: coalesce(sum(ee.lvs), 0.0)
+      )
+      |> Repo.one()
+
+    lvs_sum
+  end
+
+  defp calculate_standard_course_lvs_sum(semesterentry_id) do
+    lvs_sum =
+      from(sce in LvsTool.Courses.StandardCourseEntry,
+        where: sce.semesterentry_id == ^semesterentry_id,
+        select: coalesce(sum(sce.lvs), 0.0)
+      )
+      |> Repo.one()
+
+    lvs_sum
+  end
+
+  def recalculate_lvs_sum(%Semesterentry{} = semesterentry) do
+    standard_course_lvs_sum = calculate_standard_course_lvs_sum(semesterentry.id)
+
+    thesis_lvs_sum = calculate_thesis_lvs_sum(semesterentry.id)
+
+    project_lvs_sum = calculate_project_lvs_sum(semesterentry.id)
+
+    excursion_lvs_sum = calculate_excursion_lvs_sum(semesterentry.id)
 
     # Gesamtsumme berechnen (Standard-Kurse + Theses + Projekte - Reduktionen) und auf 2 Nachkommastellen runden
     total_lvs =
