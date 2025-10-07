@@ -344,7 +344,6 @@ defmodule LvsTool.Semesterentrys do
 
     excursion_lvs_sum = calculate_excursion_lvs_sum(semesterentry.id)
 
-    # Gesamtsumme berechnen (Standard-Kurse + Theses + Projekte - Reduktionen) und auf 2 Nachkommastellen runden
     total_lvs =
       Float.round(
         standard_course_lvs_sum + thesis_lvs_sum + project_lvs_sum + excursion_lvs_sum,
