@@ -334,12 +334,12 @@ defmodule LvsTool.Courses do
     |> Repo.preload([:standardcoursename, :standardcoursetypes, :studygroups])
   end
 
-  def calculate_lvs(sws, percent, standardcoursetype_ids) do
+  def calculate_lvs(sws, percent, standardcoursetype_id) do
     {sws_int, _} = Integer.parse(sws)
     {percent_int, _} = Integer.parse(percent)
-    {standardcoursetype_ids_int, _} = Integer.parse(standardcoursetype_ids)
+    {standardcoursetype_id_int, _} = Integer.parse(standardcoursetype_id)
 
-    case standardcoursetype_ids_int do
+    case standardcoursetype_id_int do
       6 ->
         sws_int * percent_int / 100 * 0.5
 

@@ -58,21 +58,21 @@ defmodule LvsTool.Semesterentrys do
   @dekanat_role_id 6
   @presidium_role_id 7
   def list_visible_semesterentrys_for_role(role_id, user_id) do
-    case role_id do
+    cond do
       # Lehrende sehen nur ihre eigenen Einträge
-      role
-      when role in @teaching_role_ids ->
+      role_id in @teaching_role_ids ->
         retrieve_semesterentries_for_teachers(user_id)
 
-      # Dekanat sieht nur eingereichte Einträge (nicht "Offen")
-      @dekanat_role_id ->
+      # Dekanat sieht nur eingereichte Einträge
+      role_id == @dekanat_role_id ->
         retrieve_semesterentries_for_dekanat()
 
       # Präsidium sieht nur Einträge, die vom Dekanat weitergeleitet wurden
-      @presidium_role_id ->
+      role_id == @presidium_role_id ->
         retrieve_semesterentries_for_presidium()
 
-      _ ->
+      # Fallback für unbekannte Rollen
+      true ->
         []
     end
   end
@@ -237,23 +237,14 @@ defmodule LvsTool.Semesterentrys do
     |> Repo.update()
   end
 
-  @doc """
-  Updates the status of a semesterentry to 'An das Präsidium weitergeleitet'.
-  """
   def forward_to_presidium(%Semesterentry{} = semesterentry) do
     update_semesterentry(semesterentry, %{status: "An das Präsidium weitergeleitet"})
   end
 
-  @doc """
-  Updates the status of a semesterentry to 'Akzeptiert'.
-  """
   def approve_semesterentry(%Semesterentry{} = semesterentry) do
     update_semesterentry(semesterentry, %{status: "Akzeptiert"})
   end
 
-  @doc """
-  Updates the status of a semesterentry to 'Abgelehnt'.
-  """
   def reject_semesterentry(%Semesterentry{} = semesterentry) do
     update_semesterentry(semesterentry, %{status: "Abgelehnt"})
   end
@@ -272,33 +263,34 @@ defmodule LvsTool.Semesterentrys do
     get_semesterentry!(semesterentry.id)
   end
 
-  def calculate_lvs_sum_for_all_semesterentries_by_user(user_id) do
+  def calculate_lvs_sum_for_all_semesterentries_by_user(user_id, user_role_id) do
     semesterentries = retrieve_semesterentries_for_teachers(user_id)
 
-    semesterentries
-    |> Enum.map(fn semesterentry -> semesterentry.lvs_sum end)
-    |> Enum.sum()
-    |> Float.round(2)
+    sum =
+      semesterentries
+      |> Enum.map(fn semesterentry -> semesterentry.lvs_sum end)
+      |> Enum.sum()
+
+    # Roles 1-5 are regular roles, so we need to round the sum to 2 decimal places
+    # Other roles are not regular roles, so we don't need to round the sum
+    if user_role_id in [1, 2, 3, 4, 5] do
+      Float.round(sum, 2)
+    else
+      sum
+    end
   end
 
-  def recalculate_lvs_sum(%Semesterentry{} = semesterentry) do
-    standard_course_lvs_sum =
-      from(sce in LvsTool.Courses.StandardCourseEntry,
-        where: sce.semesterentry_id == ^semesterentry.id,
-        select: coalesce(sum(sce.lvs), 0.0)
-      )
-      |> Repo.one()
+  defp calculate_thesis_lvs_sum(semesterentry_id) do
+    thesis_count = Theses.get_thesis_count(semesterentry_id)
 
-    thesis_count = Theses.get_thesis_count(semesterentry.id)
-
-    thesis_lvs_sum =
+    lvs_sum =
       cond do
-        Theses.max_lvs_for_theses_exceeded?(semesterentry.id) ->
+        Theses.max_lvs_for_theses_exceeded?(semesterentry_id) ->
           3.0
 
         thesis_count >= 6 ->
           from(te in Theses.ThesisEntry,
-            where: te.semesterentry_id == ^semesterentry.id,
+            where: te.semesterentry_id == ^semesterentry_id,
             select: coalesce(sum(te.lvs), 0.0)
           )
           |> Repo.one()
@@ -307,27 +299,51 @@ defmodule LvsTool.Semesterentrys do
           0.0
       end
 
-    project_lvs_sum =
+    lvs_sum
+  end
+
+  defp calculate_project_lvs_sum(semesterentry_id) do
+    lvs_sum =
       from(pe in Projects.ProjectEntry,
-        where: pe.semesterentry_id == ^semesterentry.id,
+        where: pe.semesterentry_id == ^semesterentry_id,
         select: coalesce(sum(pe.lvs), 0.0)
       )
       |> Repo.one()
 
-    excursion_lvs_sum =
-      cond do
-        Excursions.max_lvs_for_excursions_exceeded?(semesterentry.id) ->
-          2.0
+    lvs_sum
+  end
 
-        true ->
-          from(ee in Excursions.ExcursionEntry,
-            where: ee.semesterentry_id == ^semesterentry.id,
-            select: coalesce(sum(ee.lvs), 0.0)
-          )
-          |> Repo.one()
-      end
+  defp calculate_excursion_lvs_sum(semesterentry_id) do
+    lvs_sum =
+      from(ee in Excursions.ExcursionEntry,
+        where: ee.semesterentry_id == ^semesterentry_id,
+        select: coalesce(sum(ee.lvs), 0.0)
+      )
+      |> Repo.one()
 
-    # Gesamtsumme berechnen (Standard-Kurse + Theses + Projekte - Reduktionen) und auf 2 Nachkommastellen runden
+    lvs_sum
+  end
+
+  defp calculate_standard_course_lvs_sum(semesterentry_id) do
+    lvs_sum =
+      from(sce in LvsTool.Courses.StandardCourseEntry,
+        where: sce.semesterentry_id == ^semesterentry_id,
+        select: coalesce(sum(sce.lvs), 0.0)
+      )
+      |> Repo.one()
+
+    lvs_sum
+  end
+
+  def recalculate_lvs_sum(%Semesterentry{} = semesterentry) do
+    standard_course_lvs_sum = calculate_standard_course_lvs_sum(semesterentry.id)
+
+    thesis_lvs_sum = calculate_thesis_lvs_sum(semesterentry.id)
+
+    project_lvs_sum = calculate_project_lvs_sum(semesterentry.id)
+
+    excursion_lvs_sum = calculate_excursion_lvs_sum(semesterentry.id)
+
     total_lvs =
       Float.round(
         standard_course_lvs_sum + thesis_lvs_sum + project_lvs_sum + excursion_lvs_sum,
